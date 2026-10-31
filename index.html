@@ -184,4 +184,471 @@
       box-shadow: var(--shadow);
     }
     .info-section h2 { color: var(--primary); margin-bottom: 1rem; font-size: 1.7rem; }
-    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+    .info-box { background: var(--bg); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--accent); }
+    .info-box h3 { font-size: 1.1rem; color: var(--primary); margin-bottom: 0.5rem; }
+
+    /* Submission Form */
+    .form-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      margin-top: 3.5rem;
+      box-shadow: var(--shadow);
+    }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; margin-bottom: 1rem; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+    .btn-submit-form {
+      background: var(--accent);
+      color: white;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      padding: 0.85rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .btn-submit-form:hover { background: var(--accent-hover); }
+
+    footer {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      margin-top: 4rem;
+      font-size: 0.9rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    @media (max-width: 768px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .nav-container { flex-direction: column; gap: 1rem; }
+      nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+      nav a { margin-left: 0.5rem; margin-right: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <a href="#" class="logo">🌲 Estonia Activities</a>
+      <nav>
+        <a href="#directory">Directory</a>
+        <a href="#about">About</a>
+        <a href="#faq">Provider FAQ</a>
+        <a href="#submit" class="btn-submit">Submit Activity</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Estonia Activities Directory</h1>
+    <p>A comprehensive guide blending paid provider experiences with free, publicly accessible state nature reserves, national parks, and heritage destinations.</p>
+  </section>
+
+  <!-- Filter Controls -->
+  <section class="search-panel">
+    <div class="search-card">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search experiences (e.g., Bog, Canoe, Saaremaa, Sauna)..." onkeyup="filterDirectory()" />
+      <select id="regionFilter" class="filter-select" onchange="filterDirectory()">
+        <option value="">All Regions</option>
+        <option value="Tallinn">Tallinn & Environs</option>
+        <option value="Northern">Northern Estonia (Lahemaa, Kõrvemaa)</option>
+        <option value="Western">Western Coast & Islands (Saaremaa, Soomaa, Haapsalu, Pärnu)</option>
+        <option value="Tartu">Tartu & Southern Estonia (Otepää, Setomaa)</option>
+        <option value="Lake Peipus">Eastern Estonia (Lake Peipus)</option>
+      </select>
+      <select id="costFilter" class="filter-select" onchange="filterDirectory()">
+        <option value="">All Pricing Tiers</option>
+        <option value="Free">Free / Public Access</option>
+        <option value="Paid">Paid / Guided Experiences</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- Directory Cards -->
+  <main class="main-container" id="directory">
+    <h2 class="section-title">Explore Verified Activities</h2>
+    <div class="directory-grid" id="activitiesGrid">
+
+      <!-- Bog-Shoe Hiking -->
+      <div class="card" data-title="Bog-Shoe Hiking Experience" data-region="Northern" data-cost="Paid">
+        <div class="card-body">
+          <div class="badge-bar">
+            <span class="badge badge-paid">Paid</span>
+            <span class="badge badge-category">Outdoor / Guided</span>
+          </div>
+          <h3 class="card-title">Bog-Shoe Hiking Experience</h3>
+          <div class="card-region">📍 Kõrvemaa & Soomaa Peatlands</div>
+          <p class="card-desc">Guided year-round walks across soft bogs using specialized bog shoes while learning about flora, fauna, and local folklore.</p>
+          <div class="card-footer">
+            <span class="price-tag">€59 – €139</span>
+            <a href="https://www.getyourguide.com" target="_blank" rel="noopener" class="btn-link">View Tour</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Free Boardwalk Walks -->
+      <div class="card" data-title="RMK Hiking & Boardwalk Trails" data-region="Northern" data-cost="Free">
+        <div class="card-body">
+          <div class="badge-bar">
+            <span class="badge badge-free">Free</span>
+            <span class="badge badge-category">Nature / RMK</span>
+          </div>
+          <h3 class="card-title">State Forest Boardwalks & Hiking</h3>
+          <div class="card-region">📍 Lahemaa, Kõrvemaa & Nationwide</div>
+          <p class="card-desc">Hundreds of kilometers of marked RMK trails through bogs and coastal forests with free campfire pits and shelters.</p>
+          <div class="card-footer">
+            <span class="price-tag">Free</span>
+            <a href="https://www.loodusegakoos.ee" target="_blank" rel="noopener" class="btn-link">RMK Portal</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Soomaa Canoeing -->
+      <div class="card" data-title="Soomaa Wilderness Canoeing & Kayaking" data-region="Western" data-cost="Paid">
+        <div class="card-body">
+          <div class="badge-bar">
+            <span class="badge badge-paid">Paid</span>
+            <span class="badge badge-category">Water Sport</span>
+          </div>
+          <h3 class="card-title">Wilderness Canoeing & Kayaking</h3>
+          <div class="card-region">📍 Soomaa National Park</div>
+          <p class="card-desc">Relaxing river canoe trips and flooded forest tours during Estonia's world-famous "fifth season" high-water phenomenon.</p>
+          <div class="card-footer">
+            <span class="price-tag">€35 – €85</span>
+            <a href="https://visitestonia.com" target="_blank" rel="noopener" class="btn-link">Book Canoe</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seal Watching Safaris -->
+      <div class="card" data-title="Seal Watching Boat Safari" data-region="Northern" data-cost="Paid">
+        <div class="card-body">
+          <div class="badge-bar">
+            <span class="badge badge-paid">Paid</span>
+            <span class="badge badge-category">Wildlife / Boat</span>
+          </div>
+          <h3 class="card-title">Seal Watching Boat Safari</h3>
+          <div class="card-region">📍 Malusi Islands & Kolga Bay</div>
+          <p class="card-desc">Small-group boat tours to observe grey seals in their natural Baltic habitat using silent electric engines and acoustic lures.</p>
+          <div class="card-footer">
+            <span class="price-tag">€135 / person</span>
+            <a href="https://visitestonia.com" target="_blank" rel="noopener" class="btn-link">Reserve Boat</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Brown Bear Watching -->
+      <div class="card" data-title="Brown Bear Watching & Hide Overnight" data-region="Northern" data-cost="Paid">
+        <div class="card-body">
+          <div class="badge-bar">
+            <span class="badge badge-paid">Paid</span>
+            <span class="badge badge-category">Wildlife / Overnight</span>
+          </div>
+          <h3 class="card-title">Brown Bear Observation Hide</h3>
+          <div class="card-region">📍 Alutaguse National Park</div>
+          <p class="card-desc">Overnight hide experience deep in primeval taiga forest to observe brown bears, lynx, and wild boar safely.</p>
+          <div class="card-footer">
+            <span class="price-tag">€120 – €160</span>
+            <a href="https://visitestonia.com" target="_blank" rel="noopener" class="btn-link">Check Dates</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Matsalu Birdwatching -->
+      <div class="card" data-title="Matsalu Coastal Birdwatching" data-region="Western" data-cost="Free">
+        <div class="card-body">
+          <div class="badge-bar">
+            <span class="badge badge-free">Free</span>
+            <span class="badge badge-category">Wildlife / Self-guided</span>
+          </div>
+          <h3 class="card-title">Matsalu Coastal Birdwatching</h3>
+          <div class="card-region">📍 Matsalu National Park & Paljassaare</div>
+          <p class="card-desc">Access public viewing towers and coastal wetlands along premier Baltic migratory flight corridors in spring and autumn.</p>
+          <div class="card-footer">
+            <span class="price-tag">Free</span>
+            <a href="https://visitestonia.com" target="_blank" rel="noopener" class="btn-link">View Maps</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rummu Quarry Diving & Swimming -->
+      <div class="card" data-title="Rummu Quarry Diving & Wild Swimming" data-region="Northern" data-cost="Paid">
+        <div class="card-body">
+          <div class="badge-bar">
+            <span class="badge badge-paid">Paid</span>
+            <span class="badge badge-category">Water / Diving</span>
+          </div>
+          <h3 class="card-title">Rummu Submerged Quarry Diving</h3>
+          <div class="card-region">📍 Rummu, Northern Estonia</div>
+          <p class="card-desc">Dive or swim through crystal-clear waters above submerged former prison structures and underwater forests.</p>
+          <div class="card-footer">
+            <span class="price-tag">€15 – €75</span>
+            <a href="https://visitestonia.com" target="_blank" rel="noopener" class="btn-link">Explore Site</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Saaremaa Island -->
+      <div class="card" data-title="Saaremaa Island & Kuressaare Castle" data-region="Western" data-cost="Free">
+        <div class="card-body">
+          <div class="badge-bar">
+            <span class="badge badge-free">Free</span>
+            <span class="badge badge-category">Regional / Island</span>
+          </div>
+          <h3 class="card-title">Saaremaa Island & Castle</h3>
+          <div class="card-region">📍 Saaremaa</div>
+          <p class="card-desc">Explore coastal meteorite craters, preserved wooden windmills, juniper coastal plains, and Kuressaare Episcopal Castle.</p>
+          <div class="card-footer">
+            <span class="price-tag">Free / Low Cost</span>
+            <a href="https://visitsaaremaa.ee" target="_blank" rel="noopener" class="btn-link">Visitor Guide</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Haapsalu -->
+      <div class="card" data-title="Haapsalu Bishop's Castle & Promenade" data-region="Western" data-cost="Free">
+        <div class="card-body">
+          <div class="badge-bar">
+            <span class="badge badge-free">Free</span>
+            <span class="badge badge-category">Culture / Coastal</span>
+          </div>
+          <h3 class="card-title">Haapsalu Castle & Promenade</h3>
+          <div class="card-region">📍 Haapsalu</div>
+          <p class="card-desc">A peaceful seaside resort town renowned for its 13th-century fortress, wooden promenade, Tchaikovsky bench, and lace traditions.</p>
+          <div class="card-footer">
+            <span class="price-tag">Free Access</span>
+            <a href="https://visithaapsalu.com" target="_blank" rel="noopener" class="btn-link">Explore Town</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lake Peipus Onion Route -->
+      <div class="card" data-title="Lake Peipus & The Onion Route" data-region="Lake Peipus" data-cost="Free">
+        <div class="card-body">
+          <div class="badge-bar">
+            <span class="badge badge-free">Free</span>
+            <span class="badge badge-category">Cultural / Route</span>
+          </div>
+          <h3 class="card-title">Lake Peipus Onion Route</h3>
+          <div class="card-region">📍 Eastern Estonia</div>
+          <p class="card-desc">Explore the unique Old Believer fishing villages, traditional samovars, local onion farms, and winter ice-truck safaris.</p>
+          <div class="card-footer">
+            <span class="price-tag">Free Access</span>
+            <a href="https://visitpeipsi.com" target="_blank" rel="noopener" class="btn-link">Route Guide</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Otepää Winter Resort -->
+      <div class="card" data-title="Otepää Winter Sports & Ski Hub" data-region="Tartu" data-cost="Paid">
+        <div class="card-body">
+          <div class="badge-bar">
+            <span class="badge badge-paid">Paid</span>
+            <span class="badge badge-category">Winter / Sport</span>
+          </div>
+          <h3 class="card-title">Otepää Winter Sports Resort</h3>
+          <div class="card-region">📍 Otepää, Southern Estonia</div>
+          <p class="card-desc">Estonia's winter sports capital offering illuminated cross-country ski tracks, Tehvandi stadium, and snowshoe excursions.</p>
+          <div class="card-footer">
+            <span class="price-tag">Rental / Lift Fees</span>
+            <a href="https://visitestonia.com" target="_blank" rel="noopener" class="btn-link">Ski Center</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Estonian National Museum -->
+      <div class="card" data-title="Estonian National Museum (ERM)" data-region="Tartu" data-cost="Paid">
+        <div class="card-body">
+          <div class="badge-bar">
+            <span class="badge badge-paid">Paid</span>
+            <span class="badge badge-category">Cultural / Museum</span>
+          </div>
+          <h3 class="card-title">Estonian National Museum (ERM)</h3>
+          <div class="card-region">📍 Tartu</div>
+          <p class="card-desc">Architectural masterpiece spanning 6,000 m² exploring Estonian cultural evolution and Finno-Ugric peoples' history.</p>
+          <div class="card-footer">
+            <span class="price-tag">€15 – €20</span>
+            <a href="https://www.erm.ee" target="_blank" rel="noopener" class="btn-link">Official Portal</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- About Us Section -->
+    <section class="info-section" id="about">
+      <h2>About Estonia Activities</h2>
+      <p>At Estonia Activities, our mission is to empower travelers, outdoor enthusiasts, and locals to experience the full breadth of Estonia's natural and cultural heritage[cite: 2]. By curating commercial experiences alongside public outdoor infrastructure, we offer a transparent, unified window into Northern Europe's wildest landscapes[cite: 1, 2].</p>
+      
+      <div class="info-grid">
+        <div class="info-box">
+          <h3>Zero Middleman Markups</h3>
+          <p>We do not collect commissions, mark up prices, or hold customer funds[cite: 2]. Every link directs you straight to the official operator or public park authority[cite: 2].</p>
+        </div>
+        <div class="info-box">
+          <h3>Wild Nature Meets Modern Culture</h3>
+          <p>Over half of Estonia is forested and home to thousands of bogs and offshore islands[cite: 2], easily accessible alongside rich UNESCO historic sites[cite: 1, 2].</p>
+        </div>
+        <div class="info-box">
+          <h3>Verified Local Operators</h3>
+          <p>All commercial listings undergo verification checking business legitimacy, safety standards, and clear participant gear requirements[cite: 2].</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Provider FAQ Section -->
+    <section class="info-section" id="faq">
+      <h2>Provider FAQ</h2>
+      <div class="info-grid">
+        <div class="info-box">
+          <h3>What does listing cost?</h3>
+          <p>Listing basic provider experiences on Estonia Activities is completely free[cite: 2]. We take zero booking commission[cite: 2].</p>
+        </div>
+        <div class="info-box">
+          <h3>How does verification work?</h3>
+          <p>We check business registration, verify liability guidelines and physical activity ratings, and confirm official booking endpoints within 48–72 hours[cite: 2].</p>
+        </div>
+        <div class="info-box">
+          <h3>How are bookings processed?</h3>
+          <p>Guests click directly to your own booking portal, ticketing engine, or contact page[cite: 2]. You retain 100% of customer payments and direct guest communication[cite: 2].</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Provider Listing Form -->
+    <section class="form-card" id="submit">
+      <h2>Submit an Activity or Tour</h2>
+      <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Are you a local outdoor provider, guide, or tourism operator in Estonia? Add your listing to our public directory[cite: 2].</p>
+      <form onsubmit="handleFormSubmit(event)">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="providerName">Business / Provider Name *</label>
+            <input type="text" id="providerName" required placeholder="e.g. Baltic Bog Tours OÜ" />
+          </div>
+          <div class="form-group">
+            <label for="contactEmail">Contact Email *</label>
+            <input type="email" id="contactEmail" required placeholder="info@example.ee" />
+          </div>
+          <div class="form-group">
+            <label for="activityTitle">Activity Title *</label>
+            <input type="text" id="activityTitle" required placeholder="e.g. Sunrise Bog-Shoeing Safari" />
+          </div>
+          <div class="form-group">
+            <label for="activityRegion">Region / Location *</label>
+            <select id="activityRegion" required>
+              <option value="">Select Region</option>
+              <option value="Tallinn">Tallinn & Environs</option>
+              <option value="Northern">Northern Estonia (Lahemaa, Kõrvemaa)</option>
+              <option value="Western">Western Coast & Islands</option>
+              <option value="Tartu">Tartu & Southern Estonia</option>
+              <option value="Lake Peipus">Eastern Estonia (Lake Peipus)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="pricingTier">Pricing Type *</label>
+            <select id="pricingTier" required>
+              <option value="Paid">Paid Experience</option>
+              <option value="Free">Free / Public Trail</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="bookingUrl">Official Website / Booking Link *</label>
+            <input type="url" id="bookingUrl" required placeholder="https://yourwebsite.ee/tour" />
+          </div>
+          <div class="form-group full">
+            <label for="activityDesc">Activity Description *</label>
+            <textarea id="activityDesc" rows="4" required placeholder="Describe what participants will experience, equipment provided, and physical requirements..."></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn-submit-form">Submit Listing for Verification</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Estonia Activities Directory. Unifying paid recreation and free public nature trails[cite: 1, 2].</p>
+    <p style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.8;">Hosted on GitHub Pages · Made for travelers across Estonia</p>
+  </footer>
+
+  <!-- Vanilla Inline Logic -->
+  <script>
+    function filterDirectory() {
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const region = document.getElementById('regionFilter').value;
+      const cost = document.getElementById('costFilter').value;
+      const cards = document.querySelectorAll('#activitiesGrid .card');
+
+      cards.forEach(card => {
+        const title = card.getAttribute('data-title').toLowerCase();
+        const cardRegion = card.getAttribute('data-region');
+        const cardCost = card.getAttribute('data-cost');
+        const text = card.innerText.toLowerCase();
+
+        const matchesSearch = !search || title.includes(search) || text.includes(search);
+        const matchesRegion = !region || cardRegion === region;
+        const matchesCost = !cost || cardCost === cost;
+
+        if (matchesSearch && matchesRegion && matchesCost) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const title = document.getElementById('activityTitle').value;
+      const region = document.getElementById('activityRegion').value;
+      const cost = document.getElementById('pricingTier').value;
+      const url = document.getElementById('bookingUrl').value;
+      const desc = document.getElementById('activityDesc').value;
+
+      // Dynamically prepend new card to the directory
+      const grid = document.getElementById('activitiesGrid');
+      const newCard = document.createElement('div');
+      newCard.className = 'card';
+      newCard.setAttribute('data-title', title);
+      newCard.setAttribute('data-region', region);
+      newCard.setAttribute('data-cost', cost);
+
+      newCard.innerHTML = `
+        <div class="card-body">
+          <div class="badge-bar">
+            <span class="badge ${cost === 'Free' ? 'badge-free' : 'badge-paid'}">${cost}</span>
+            <span class="badge badge-category">Community Submission</span>
+          </div>
+          <h3 class="card-title">${title}</h3>
+          <div class="card-region">📍 ${region}</div>
+          <p class="card-desc">${desc}</p>
+          <div class="card-footer">
+            <span class="price-tag">${cost}</span>
+            <a href="${url}" target="_blank" rel="noopener" class="btn-link">View Listing</a>
+          </div>
+        </div>
+      `;
+
+      grid.prepend(newCard);
+      alert('Thank you! Your listing has been added to the page preview and submitted to the moderation queue.');
+      e.target.reset();
+      window.location.hash = '#directory';
+    }
+  </script>
+</body>
+</html>
