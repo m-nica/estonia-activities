@@ -19,6 +19,8 @@
       --paid-tag: #457b9d;
       --shadow: 0 6px 18px rgba(0,0,0,0.06);
       --radius: 12px;
+      --danger: #e63946;
+      --success: #2a9d8f;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -69,6 +71,23 @@
       border-radius: 8px;
     }
     .btn-submit:hover { background: var(--primary-light); }
+    .btn-admin {
+      background: #4a5568;
+      color: #fff !important;
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      position: relative;
+    }
+    .admin-badge {
+      background: var(--danger);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 0.1rem 0.4rem;
+      border-radius: 10px;
+      margin-left: 0.35rem;
+    }
 
     .hero {
       background: linear-gradient(rgba(27, 67, 50, 0.88), rgba(27, 67, 50, 0.92)),
@@ -244,6 +263,7 @@
     }
     .btn-link:hover { background: var(--primary-light); }
 
+    /* Informational & Form Sections */
     .info-section {
       background: var(--surface);
       border-radius: var(--radius);
@@ -287,6 +307,78 @@
     }
     .btn-submit-form:hover { background: var(--accent-hover); }
 
+    /* Admin Moderation Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 1.5rem;
+    }
+    .modal-content {
+      background: var(--surface);
+      border-radius: var(--radius);
+      max-width: 800px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .modal-header h2 { font-size: 1.4rem; color: var(--primary); }
+    .btn-close-modal {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+    .queue-item {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .queue-title { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
+    .queue-meta { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+    .queue-desc { font-size: 0.88rem; color: #334155; margin-bottom: 0.85rem; }
+    .queue-actions { display: flex; gap: 0.75rem; }
+    .btn-approve {
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 0.45rem 1rem;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    .btn-reject {
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 0.45rem 1rem;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
     footer {
       background: var(--primary);
       color: white;
@@ -317,13 +409,16 @@
         <a href="#about">About</a>
         <a href="#faq">FAQ</a>
         <a href="#submit" class="btn-submit">Submit Tour</a>
+        <a href="javascript:void(0)" onclick="openAdminModal()" class="btn-admin">
+          Moderation <span class="admin-badge" id="adminBadge">0</span>
+        </a>
       </nav>
     </div>
   </header>
 
   <section class="hero">
     <h1>Granular Estonia Expeditions & Tours</h1>
-    <p>Discover specific guided wilderness tours, kayak routes, bear-hide stays, and self-guided national park boardwalks with complete logistical details and zero aggregator markups.</p>
+    <p>Discover specific guided wilderness tours, kayak routes, bear-hide stays, and self-guided national park boardwalks with complete logistical details and zero aggregator markups[cite: 1, 2].</p>
   </section>
 
   <section class="search-panel">
@@ -358,7 +453,7 @@
       <div class="info-grid">
         <div class="info-box">
           <h3>Self-Guided Trails & Gear</h3>
-          <p>Free RMK boardwalks and forest trails require travelers to bring all specialized clothing, boots, and water. Campfire wood is provided free at designated state forest shelters[cite: 1].</p>
+          <p>Free RMK boardwalks and forest trails require travelers to bring all specialized clothing, boots, and water[cite: 1]. Campfire wood is provided free at designated state forest shelters[cite: 1].</p>
         </div>
         <div class="info-box">
           <h3>Official Permits & Licensing</h3>
@@ -373,20 +468,20 @@
 
     <section class="info-section" id="about">
       <h2>About Our Platform</h2>
-      <p>At Estonia Activities, our mission is to empower travelers, outdoor enthusiasts, and locals to experience the full breadth of Estonia's natural and cultural heritage[cite: 2]. By curating commercial experiences alongside public outdoor infrastructure, we offer a transparent, unified window into Northern Europe's wildest landscapes[cite: 1, 2].</p>
+      <p>At Estonia Activities, our mission is to empower travelers, outdoor enthusiasts, and locals to experience the full breadth of Estonia's natural and cultural heritage. By curating commercial experiences alongside public outdoor infrastructure, we offer a transparent, unified window into Northern Europe's wildest landscapes[cite: 1, 2].</p>
       
       <div class="info-grid">
         <div class="info-box">
           <h3>Direct Provider Links Only</h3>
-          <p>We do not hold booking fees, take commissions, or redirect to third-party aggregators[cite: 2]. Every card connects you straight to the local guide or park management service[cite: 2].</p>
+          <p>We do not hold booking fees, take commissions, or redirect to third-party aggregators. Every card connects you straight to the local guide or park management service.</p>
         </div>
         <div class="info-box">
           <h3>Pristine Peatlands & Forests</h3>
-          <p>Over 50% of Estonia is covered by wild forest and more than 2,000 islands, making wilderness trails readily accessible within 45 to 90 minutes of major centers[cite: 2].</p>
+          <p>Over 50% of Estonia is covered by wild forest and more than 2,000 islands, making wilderness trails readily accessible within 45 to 90 minutes of major centers.</p>
         </div>
         <div class="info-box">
-          <h3>Verified Safety & Quality</h3>
-          <p>All commercial tours in this directory are vetted for legitimate business registration, certified wildlife guides, and clear gear guidelines[cite: 2].</p>
+          <h3>Strict Verification Review</h3>
+          <p>All commercial tours in this directory are vetted for legitimate business registration, certified wildlife guides, and clear gear guidelines prior to publication[cite: 2].</p>
         </div>
       </div>
     </section>
@@ -400,7 +495,7 @@
         </div>
         <div class="info-box">
           <h3>How does tour verification work?</h3>
-          <p>We check company registration, review route safety plans, and verify that all direct booking endpoints lead straight to your native reservations system[cite: 2].</p>
+          <p>Submitted listings are held in our moderation queue[cite: 2]. We verify business registration, safety instructions, and official links within 48–72 hours before publishing[cite: 2].</p>
         </div>
         <div class="info-box">
           <h3>How are client inquiries handled?</h3>
@@ -410,8 +505,8 @@
     </section>
 
     <section class="form-card" id="submit">
-      <h2>Submit a Tour or Trail to the Directory</h2>
-      <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Are you a certified local guide, kayak outfitter, or nature center in Estonia? Submit your granular tour to our open directory[cite: 2].</p>
+      <h2>Submit a Tour or Trail for Verification</h2>
+      <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Are you a certified local guide or outdoor provider in Estonia? Submit your tour details below for manual approval by our moderation team[cite: 2].</p>
       <form onsubmit="handleFormSubmit(event)">
         <div class="form-grid">
           <div class="form-group">
@@ -467,6 +562,20 @@
     </section>
   </main>
 
+  <!-- Admin Review Modal -->
+  <div class="modal-overlay" id="adminModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Listing Approval Queue</h2>
+        <button class="btn-close-modal" onclick="closeAdminModal()">&times;</button>
+      </div>
+      <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+        New tour submissions are queued here. Approving a tour will publish it live to the public directory.
+      </p>
+      <div id="queueList"></div>
+    </div>
+  </div>
+
   <footer>
     <p>&copy; 2026 Estonia Activities Directory. Granular tour listings and official nature reserves[cite: 1, 2].</p>
     <p style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.8;">Direct Operator Links · Zero Aggregator Resellers · Hosted on GitHub Pages</p>
@@ -475,8 +584,8 @@
   <script>
     const fallbackImage = 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80';
 
-    const tours = [
-      // 1. Kõrvemaa Bog-Shoe Tour
+    // Baseline published excursions
+    const baseTours = [
       {
         provider: "Sportland Kõrvemaa Matka- ja Suusakeskus",
         title: "Kakerdaja Bog Sunrise Bog-Shoeing Expedition",
@@ -493,8 +602,6 @@
         url: "https://korvemaa.ee/en/",
         img: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=600&q=80"
       },
-
-      // 2. Soomaa 5th Season Canoeing
       {
         provider: "Soomaa.com Wilderness Tours",
         title: "Fifth Season Flooded Forest & River Canoe Safari",
@@ -511,8 +618,6 @@
         url: "https://soomaa.com/activities/",
         img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80"
       },
-
-      // 3. Seal Watching Malusi
       {
         provider: "Capture Estonia Expeditions",
         title: "Malusi Islands Grey Seal & Seabird Boat Safari",
@@ -529,8 +634,6 @@
         url: "https://www.capture-estonia.ee",
         img: "https://images.unsplash.com/photo-1589656966895-2f33e7653819?auto=format&fit=crop&w=600&q=80"
       },
-
-      // 4. Brown Bear Hide Overnight
       {
         provider: "Natourest Wildlife Safaris",
         title: "Alutaguse Taiga Brown Bear Hide Overnight Experience",
@@ -547,8 +650,6 @@
         url: "https://natourest.ee",
         img: "https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=600&q=80"
       },
-
-      // 5. Rummu Submerged Quarry Diving
       {
         provider: "Rummu Underwater Park",
         title: "Submerged Prison Quarry Scuba Dive & Snorkel Tour",
@@ -565,8 +666,6 @@
         url: "https://www.rummu.eu/en/activities/diving/",
         img: "https://images.unsplash.com/photo-1682687220063-4742bd7fd538?auto=format&fit=crop&w=600&q=80"
       },
-
-      // 6. Lake Peipus Karakat Ice Fishing (Fixed High-Resolution Active Photo)
       {
         provider: "Lake Peipus Winter Sled Tours",
         title: "Lake Peipus Karakat Monster-Sled Ice Fishing Expedition",
@@ -583,8 +682,6 @@
         url: "https://kalaluba.ee",
         img: "https://images.unsplash.com/photo-1516431883659-655d41c09bf9?auto=format&fit=crop&w=600&q=80"
       },
-
-      // 7. Paasiku Siberian Husky Sledding
       {
         provider: "Paasiku Dogs Manor & Kennel",
         title: "Winter Siberian Husky Forest Sledding Excursion",
@@ -601,8 +698,6 @@
         url: "https://paasiku.ee/en/",
         img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=600&q=80"
       },
-
-      // 8. Võrumaa UNESCO Smoke Sauna
       {
         provider: "Võrumaa Smoke Sauna Network",
         title: "Traditional South Estonian Smoke Sauna Ritual",
@@ -619,8 +714,6 @@
         url: "https://savvusann.ee/en/",
         img: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80"
       },
-
-      // 9. Matsalu Reed Bed Sea Kayaking
       {
         provider: "Matsalu Kayak Adventures",
         title: "Matsalu Bay Delta Reed Bed & Sea Eagle Kayak Trail",
@@ -637,8 +730,6 @@
         url: "https://kaitsealad.ee/en/protected-areas/matsalu-national-park",
         img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80"
       },
-
-      // 10. Viru Bog Self-Guided RMK Trail
       {
         provider: "RMK (State Forest Management Centre)",
         title: "Viru Bog Study Trail & Wooden Boardwalk",
@@ -655,8 +746,6 @@
         url: "https://www.loodusegakoos.ee/en",
         img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
       },
-
-      // 11. Männiku 4x4 Off-Road Safari
       {
         provider: "Männiku Safarikeskus",
         title: "Männiku Quarry Extreme 4x4 ATV & Off-Road Safari",
@@ -673,8 +762,6 @@
         url: "https://mannikusafarikeskus.ee",
         img: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80"
       },
-
-      // 12. Taevaskoja Sandstone Cliff Hike
       {
         provider: "RMK (State Forest Management Centre)",
         title: "Suur Taevaskoda & Ahja River Sandstone Trail",
@@ -691,8 +778,6 @@
         url: "https://www.loodusegakoos.ee/where-to-go",
         img: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=600&q=80"
       },
-
-      // 13. Tallinn Old Town Ghost & Legends Walk
       {
         provider: "Tallinna Vanalinn Ghost Tours",
         title: "Tallinn Medieval Old Town Legends & Lantern Walk",
@@ -709,8 +794,6 @@
         url: "https://www.visittallinn.ee/eng",
         img: "https://images.unsplash.com/photo-1513581166391-887a96ddeafd?auto=format&fit=crop&w=600&q=80"
       },
-
-      // 14. Tehvandi Olympic Ski Trails
       {
         provider: "Tehvandi Spordikeskus",
         title: "Tehvandi World Cup Illuminated Ski Trails & Stadium",
@@ -727,8 +810,6 @@
         url: "https://www.tehvandi.ee/en/",
         img: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&w=600&q=80"
       },
-
-      // 15. Flying Squirrel Night Safari
       {
         provider: "Estonian Wildlife Tours",
         title: "Alutaguse Boreal Flying Squirrel Twilight Tracking",
@@ -745,8 +826,6 @@
         url: "https://natourest.ee/portfolio/flying-squirrel-watching/",
         img: "https://images.unsplash.com/photo-1507666405895-422eee7d517f?auto=format&fit=crop&w=600&q=80"
       },
-
-      // 16. Pirita Adventure High-Ropes
       {
         provider: "Pirita Seikluspark",
         title: "Pirita Beach Pine Forest High-Ropes & Beach Zipline",
@@ -763,8 +842,6 @@
         url: "https://piritaseikluspark.ee/en/",
         img: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=600&q=80"
       },
-
-      // 17. Hiiumaa Lighthouses Drive
       {
         provider: "Hiiumaa Heritage Society",
         title: "Historic Hiiumaa Lighthouses Self-Drive Trail",
@@ -781,8 +858,6 @@
         url: "https://kaitsealad.ee/en",
         img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80"
       },
-
-      // 18. Saaremaa Kuressaare Castle
       {
         provider: "Saaremaa Muuseum",
         title: "Kuressaare Episcopal Castle & Fortress Exploration",
@@ -799,8 +874,6 @@
         url: "https://saaremaamuuseum.ee/en/kuressaare-episcopal-castle/",
         img: "https://images.unsplash.com/photo-1533158307587-828f0a76ef96?auto=format&fit=crop&w=600&q=80"
       },
-
-      // 19. Setomaa Onion & Leelo Trail
       {
         provider: "Setomaa Turism",
         title: "Setomaa Living Borderlands Culture & Culinary Trail",
@@ -817,8 +890,6 @@
         url: "https://www.visitsetomaa.ee/en",
         img: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=600&q=80"
       },
-
-      // 20. Haapsalu Bishop's Castle & Promenade
       {
         provider: "Sihtasutus Haapsalu ja Läänemaa Muuseumid",
         title: "Haapsalu 13th-Century Fortress & Seaside Promenade",
@@ -836,6 +907,46 @@
         img: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80"
       }
     ];
+
+    // LocalStorage keys
+    const APPROVED_STORAGE_KEY = 'estonia_approved_tours';
+    const QUEUE_STORAGE_KEY = 'estonia_pending_submissions';
+
+    function getApprovedTours() {
+      const stored = localStorage.getItem(APPROVED_STORAGE_KEY);
+      if (stored) {
+        try { return JSON.parse(stored); } catch(e) {}
+      }
+      return [...baseTours];
+    }
+
+    function saveApprovedTours(list) {
+      localStorage.setItem(APPROVED_STORAGE_KEY, JSON.stringify(list));
+    }
+
+    function getPendingQueue() {
+      const stored = localStorage.getItem(QUEUE_STORAGE_KEY);
+      if (stored) {
+        try { return JSON.parse(stored); } catch(e) {}
+      }
+      return [];
+    }
+
+    function savePendingQueue(list) {
+      localStorage.setItem(QUEUE_STORAGE_KEY, JSON.stringify(list));
+      updateBadge();
+    }
+
+    function updateBadge() {
+      const queue = getPendingQueue();
+      const badge = document.getElementById('adminBadge');
+      if (badge) {
+        badge.innerText = queue.length;
+        badge.style.display = queue.length > 0 ? 'inline-block' : 'none';
+      }
+    }
+
+    let activeTours = getApprovedTours();
 
     function renderCards(list) {
       const grid = document.getElementById('activitiesGrid');
@@ -894,7 +1005,7 @@
         `;
         grid.appendChild(card);
       });
-      document.getElementById('resultsCount').innerText = `Showing ${list.length} detailed excursion${list.length === 1 ? '' : 's'}`;
+      document.getElementById('resultsCount').innerText = `Showing ${list.length} verified excursion${list.length === 1 ? '' : 's'}`;
     }
 
     function filterDirectory() {
@@ -902,7 +1013,7 @@
       const region = document.getElementById('regionFilter').value;
       const cost = document.getElementById('costFilter').value;
 
-      const filtered = tours.filter(item => {
+      const filtered = activeTours.filter(item => {
         const textBlob = `${item.title} ${item.desc} ${item.provider} ${item.location} ${item.included} ${item.category}`.toLowerCase();
         const matchesSearch = !search || textBlob.includes(search);
         const matchesRegion = !region || item.region === region;
@@ -914,9 +1025,11 @@
       renderCards(filtered);
     }
 
+    // Submission Handler (Holds in moderation queue, DOES NOT auto-publish)
     function handleFormSubmit(e) {
       e.preventDefault();
       const provider = document.getElementById('providerName').value;
+      const email = document.getElementById('contactEmail').value;
       const title = document.getElementById('tourTitle').value;
       const region = document.getElementById('tourRegion').value;
       const duration = document.getElementById('tourDuration').value;
@@ -928,8 +1041,11 @@
 
       const isFree = cost.toLowerCase().includes('free');
 
-      const newEntry = {
+      const submission = {
+        id: 'SUB-' + Date.now(),
+        submittedAt: new Date().toLocaleString(),
         provider: provider,
+        email: email,
         title: title,
         region: region,
         location: region,
@@ -938,21 +1054,96 @@
         category: 'Community Tour',
         duration: duration,
         season: 'Flexible / Enquire',
-        meeting: 'Provided upon booking',
+        meeting: 'Confirmed upon booking',
         included: gear,
         desc: desc,
         url: url,
         img: userImg.trim() || fallbackImage
       };
 
-      tours.unshift(newEntry);
-      filterDirectory();
-      alert('Thank you! Your granular tour has been added to the directory.');
+      const queue = getPendingQueue();
+      queue.unshift(submission);
+      savePendingQueue(queue);
+
+      alert('Thank you! Your listing has been submitted to the moderation queue.\n\nTo ensure directory quality and link security, all tours undergo manual review before appearing live.');
       e.target.reset();
-      window.location.hash = '#directory';
     }
 
-    renderCards(tours);
+    // Moderation Modal Logic
+    function openAdminModal() {
+      renderQueue();
+      document.getElementById('adminModal').style.display = 'flex';
+    }
+
+    function closeAdminModal() {
+      document.getElementById('adminModal').style.display = 'none';
+    }
+
+    function renderQueue() {
+      const queueList = document.getElementById('queueList');
+      const queue = getPendingQueue();
+
+      if (queue.length === 0) {
+        queueList.innerHTML = '<p style="color: var(--text-muted); font-style: italic;">No pending submissions in queue. All listings are up to date!</p>';
+        return;
+      }
+
+      queueList.innerHTML = '';
+      queue.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'queue-item';
+        div.innerHTML = `
+          <div class="queue-title">${item.title}</div>
+          <div class="queue-meta">Provider: <strong>${item.provider}</strong> (${item.email}) · Region: ${item.region} · Submitted: ${item.submittedAt}</div>
+          <div class="queue-desc">${item.desc}</div>
+          <div class="queue-meta"><strong>Rate:</strong> ${item.cost} | <strong>Includes:</strong> ${item.included} | <strong>Link:</strong> <a href="${item.url}" target="_blank">${item.url}</a></div>
+          <div class="queue-actions">
+            <button class="btn-approve" onclick="approveSubmission(${index})">Approve & Publish Live</button>
+            <button class="btn-reject" onclick="rejectSubmission(${index})">Reject</button>
+          </div>
+        `;
+        queueList.appendChild(div);
+      });
+    }
+
+    function approveSubmission(index) {
+      const queue = getPendingQueue();
+      const approvedItem = queue.splice(index, 1)[0];
+      
+      // Clean temporary submission metadata
+      delete approvedItem.id;
+      delete approvedItem.submittedAt;
+      delete approvedItem.email;
+
+      activeTours.unshift(approvedItem);
+      saveApprovedTours(activeTours);
+      savePendingQueue(queue);
+
+      renderQueue();
+      filterDirectory();
+      alert(`"${approvedItem.title}" has been approved and published live to the directory!`);
+    }
+
+    function rejectSubmission(index) {
+      if (confirm('Are you sure you want to reject and remove this submission?')) {
+        const queue = getPendingQueue();
+        const removed = queue.splice(index, 1)[0];
+        savePendingQueue(queue);
+        renderQueue();
+      }
+    }
+
+    // Close modal if user clicks backdrop
+    window.onclick = function(event) {
+      const modal = document.getElementById('adminModal');
+      if (event.target === modal) {
+        closeAdminModal();
+      }
+    };
+
+    // Initialize
+    updateBadge();
+    renderCards(activeTours);
   </script>
 </body>
 </html>
