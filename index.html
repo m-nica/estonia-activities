@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Estonia Activities Directory | Outdoor, Water & Regional Escapes</title>
+  <title>Estonia Activities Directory | Direct Provider & Nature Reserve Portal</title>
   <style>
     :root {
       --primary: #1b4332;
@@ -15,8 +15,6 @@
       --text: #212529;
       --text-muted: #6c757d;
       --border: #e9ecef;
-      --free-tag: #2a9d8f;
-      --paid-tag: #457b9d;
       --shadow: 0 4px 14px rgba(0,0,0,0.06);
       --radius: 12px;
     }
@@ -72,14 +70,14 @@
 
     /* Hero */
     .hero {
-      background: linear-gradient(rgba(27, 67, 50, 0.85), rgba(27, 67, 50, 0.9)),
+      background: linear-gradient(rgba(27, 67, 50, 0.88), rgba(27, 67, 50, 0.92)),
                   url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1600&q=80') center/cover;
       color: white;
       text-align: center;
       padding: 4.5rem 1.5rem;
     }
     .hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.8rem; }
-    .hero p { font-size: 1.15rem; max-width: 760px; margin: 0 auto 1.8rem auto; opacity: 0.95; }
+    .hero p { font-size: 1.15rem; max-width: 820px; margin: 0 auto 1.8rem auto; opacity: 0.95; }
     
     /* Search & Filter Bar */
     .search-panel {
@@ -116,11 +114,20 @@
 
     /* Container & Directory */
     .main-container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+    .directory-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.5rem;
+    }
     .section-title {
       font-size: 1.8rem;
       color: var(--primary);
-      margin-bottom: 1.5rem;
       font-weight: 700;
+    }
+    .results-count {
+      color: var(--text-muted);
+      font-size: 0.95rem;
     }
     .directory-grid {
       display: grid;
@@ -139,9 +146,25 @@
     }
     .card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
     }
-    .card-body { padding: 1.4rem; display: flex; flex-direction: column; flex-grow: 1; }
+    .card-img-wrapper {
+      position: relative;
+      width: 100%;
+      height: 190px;
+      overflow: hidden;
+      background-color: #e9ecef;
+    }
+    .card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .card:hover .card-img {
+      transform: scale(1.05);
+    }
+    .card-body { padding: 1.25rem 1.4rem; display: flex; flex-direction: column; flex-grow: 1; }
     .badge-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
     .badge {
       font-size: 0.75rem;
@@ -153,9 +176,9 @@
     .badge-paid { background: #e2f0d9; color: var(--primary); }
     .badge-free { background: #d8f3dc; color: #1b4332; }
     .badge-category { background: #edf2f4; color: #495057; }
-    .card-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--primary); }
+    .card-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.35rem; color: var(--primary); }
     .card-region { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; }
-    .card-desc { font-size: 0.92rem; color: #495057; margin-bottom: 1.25rem; flex-grow: 1; }
+    .card-desc { font-size: 0.9rem; color: #495057; margin-bottom: 1.25rem; flex-grow: 1; }
     .card-footer {
       border-top: 1px solid var(--border);
       padding-top: 0.9rem;
@@ -172,10 +195,12 @@
       border-radius: 6px;
       font-size: 0.85rem;
       font-weight: 600;
+      display: inline-block;
+      text-align: center;
     }
     .btn-link:hover { background: var(--primary-light); }
 
-    /* Informational Sections */
+    /* Informational & Guidelines Sections */
     .info-section {
       background: var(--surface);
       border-radius: var(--radius);
@@ -246,8 +271,9 @@
       <a href="#" class="logo">🌲 Estonia Activities</a>
       <nav>
         <a href="#directory">Directory</a>
+        <a href="#guidelines">Guidelines</a>
         <a href="#about">About</a>
-        <a href="#faq">Provider FAQ</a>
+        <a href="#faq">FAQ</a>
         <a href="#submit" class="btn-submit">Submit Activity</a>
       </nav>
     </div>
@@ -256,20 +282,21 @@
   <!-- Hero Section -->
   <section class="hero">
     <h1>Estonia Activities Directory</h1>
-    <p>A comprehensive guide blending paid provider experiences with free, publicly accessible state nature reserves, national parks, and heritage destinations.</p>
+    <p>A comprehensive directory connecting travelers straight to local outdoor operators, wildlife hides, and free public state nature reserves across Estonia.</p>
   </section>
 
-  <!-- Filter Controls -->
+  <!-- Search & Filter Controls -->
   <section class="search-panel">
     <div class="search-card">
-      <input type="text" id="searchInput" class="search-input" placeholder="Search experiences (e.g., Bog, Canoe, Saaremaa, Sauna)..." onkeyup="filterDirectory()" />
+      <input type="text" id="searchInput" class="search-input" placeholder="Search 49+ activities, bogs, castles, hikes, towns..." onkeyup="filterDirectory()" />
       <select id="regionFilter" class="filter-select" onchange="filterDirectory()">
         <option value="">All Regions</option>
         <option value="Tallinn">Tallinn & Environs</option>
-        <option value="Northern">Northern Estonia (Lahemaa, Kõrvemaa)</option>
-        <option value="Western">Western Coast & Islands (Saaremaa, Soomaa, Haapsalu, Pärnu)</option>
-        <option value="Tartu">Tartu & Southern Estonia (Otepää, Setomaa)</option>
-        <option value="Lake Peipus">Eastern Estonia (Lake Peipus)</option>
+        <option value="Northern Estonia">Northern Estonia (Lahemaa, Kõrvemaa)</option>
+        <option value="Western Coast & Islands">Western Coast & Islands (Saaremaa, Soomaa, Haapsalu, Pärnu)</option>
+        <option value="Tartu & Southern Estonia">Tartu & Southern Estonia (Otepää, Setomaa)</option>
+        <option value="Eastern Estonia">Eastern Estonia (Lake Peipus)</option>
+        <option value="Nationwide">Nationwide</option>
       </select>
       <select id="costFilter" class="filter-select" onchange="filterDirectory()">
         <option value="">All Pricing Tiers</option>
@@ -281,232 +308,49 @@
 
   <!-- Directory Cards -->
   <main class="main-container" id="directory">
-    <h2 class="section-title">Explore Verified Activities</h2>
-    <div class="directory-grid" id="activitiesGrid">
-
-      <!-- Bog-Shoe Hiking -->
-      <div class="card" data-title="Bog-Shoe Hiking Experience" data-region="Northern" data-cost="Paid">
-        <div class="card-body">
-          <div class="badge-bar">
-            <span class="badge badge-paid">Paid</span>
-            <span class="badge badge-category">Outdoor / Guided</span>
-          </div>
-          <h3 class="card-title">Bog-Shoe Hiking Experience</h3>
-          <div class="card-region">📍 Kõrvemaa & Soomaa Peatlands</div>
-          <p class="card-desc">Guided year-round walks across soft bogs using specialized bog shoes while learning about flora, fauna, and local folklore.</p>
-          <div class="card-footer">
-            <span class="price-tag">€59 – €139</span>
-            <a href="https://www.getyourguide.com" target="_blank" rel="noopener" class="btn-link">View Tour</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Free Boardwalk Walks -->
-      <div class="card" data-title="RMK Hiking & Boardwalk Trails" data-region="Northern" data-cost="Free">
-        <div class="card-body">
-          <div class="badge-bar">
-            <span class="badge badge-free">Free</span>
-            <span class="badge badge-category">Nature / RMK</span>
-          </div>
-          <h3 class="card-title">State Forest Boardwalks & Hiking</h3>
-          <div class="card-region">📍 Lahemaa, Kõrvemaa & Nationwide</div>
-          <p class="card-desc">Hundreds of kilometers of marked RMK trails through bogs and coastal forests with free campfire pits and shelters.</p>
-          <div class="card-footer">
-            <span class="price-tag">Free</span>
-            <a href="https://www.loodusegakoos.ee" target="_blank" rel="noopener" class="btn-link">RMK Portal</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Soomaa Canoeing -->
-      <div class="card" data-title="Soomaa Wilderness Canoeing & Kayaking" data-region="Western" data-cost="Paid">
-        <div class="card-body">
-          <div class="badge-bar">
-            <span class="badge badge-paid">Paid</span>
-            <span class="badge badge-category">Water Sport</span>
-          </div>
-          <h3 class="card-title">Wilderness Canoeing & Kayaking</h3>
-          <div class="card-region">📍 Soomaa National Park</div>
-          <p class="card-desc">Relaxing river canoe trips and flooded forest tours during Estonia's world-famous "fifth season" high-water phenomenon.</p>
-          <div class="card-footer">
-            <span class="price-tag">€35 – €85</span>
-            <a href="https://visitestonia.com" target="_blank" rel="noopener" class="btn-link">Book Canoe</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Seal Watching Safaris -->
-      <div class="card" data-title="Seal Watching Boat Safari" data-region="Northern" data-cost="Paid">
-        <div class="card-body">
-          <div class="badge-bar">
-            <span class="badge badge-paid">Paid</span>
-            <span class="badge badge-category">Wildlife / Boat</span>
-          </div>
-          <h3 class="card-title">Seal Watching Boat Safari</h3>
-          <div class="card-region">📍 Malusi Islands & Kolga Bay</div>
-          <p class="card-desc">Small-group boat tours to observe grey seals in their natural Baltic habitat using silent electric engines and acoustic lures.</p>
-          <div class="card-footer">
-            <span class="price-tag">€135 / person</span>
-            <a href="https://visitestonia.com" target="_blank" rel="noopener" class="btn-link">Reserve Boat</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Brown Bear Watching -->
-      <div class="card" data-title="Brown Bear Watching & Hide Overnight" data-region="Northern" data-cost="Paid">
-        <div class="card-body">
-          <div class="badge-bar">
-            <span class="badge badge-paid">Paid</span>
-            <span class="badge badge-category">Wildlife / Overnight</span>
-          </div>
-          <h3 class="card-title">Brown Bear Observation Hide</h3>
-          <div class="card-region">📍 Alutaguse National Park</div>
-          <p class="card-desc">Overnight hide experience deep in primeval taiga forest to observe brown bears, lynx, and wild boar safely.</p>
-          <div class="card-footer">
-            <span class="price-tag">€120 – €160</span>
-            <a href="https://visitestonia.com" target="_blank" rel="noopener" class="btn-link">Check Dates</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Matsalu Birdwatching -->
-      <div class="card" data-title="Matsalu Coastal Birdwatching" data-region="Western" data-cost="Free">
-        <div class="card-body">
-          <div class="badge-bar">
-            <span class="badge badge-free">Free</span>
-            <span class="badge badge-category">Wildlife / Self-guided</span>
-          </div>
-          <h3 class="card-title">Matsalu Coastal Birdwatching</h3>
-          <div class="card-region">📍 Matsalu National Park & Paljassaare</div>
-          <p class="card-desc">Access public viewing towers and coastal wetlands along premier Baltic migratory flight corridors in spring and autumn.</p>
-          <div class="card-footer">
-            <span class="price-tag">Free</span>
-            <a href="https://visitestonia.com" target="_blank" rel="noopener" class="btn-link">View Maps</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Rummu Quarry Diving & Swimming -->
-      <div class="card" data-title="Rummu Quarry Diving & Wild Swimming" data-region="Northern" data-cost="Paid">
-        <div class="card-body">
-          <div class="badge-bar">
-            <span class="badge badge-paid">Paid</span>
-            <span class="badge badge-category">Water / Diving</span>
-          </div>
-          <h3 class="card-title">Rummu Submerged Quarry Diving</h3>
-          <div class="card-region">📍 Rummu, Northern Estonia</div>
-          <p class="card-desc">Dive or swim through crystal-clear waters above submerged former prison structures and underwater forests.</p>
-          <div class="card-footer">
-            <span class="price-tag">€15 – €75</span>
-            <a href="https://visitestonia.com" target="_blank" rel="noopener" class="btn-link">Explore Site</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Saaremaa Island -->
-      <div class="card" data-title="Saaremaa Island & Kuressaare Castle" data-region="Western" data-cost="Free">
-        <div class="card-body">
-          <div class="badge-bar">
-            <span class="badge badge-free">Free</span>
-            <span class="badge badge-category">Regional / Island</span>
-          </div>
-          <h3 class="card-title">Saaremaa Island & Castle</h3>
-          <div class="card-region">📍 Saaremaa</div>
-          <p class="card-desc">Explore coastal meteorite craters, preserved wooden windmills, juniper coastal plains, and Kuressaare Episcopal Castle.</p>
-          <div class="card-footer">
-            <span class="price-tag">Free / Low Cost</span>
-            <a href="https://visitsaaremaa.ee" target="_blank" rel="noopener" class="btn-link">Visitor Guide</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Haapsalu -->
-      <div class="card" data-title="Haapsalu Bishop's Castle & Promenade" data-region="Western" data-cost="Free">
-        <div class="card-body">
-          <div class="badge-bar">
-            <span class="badge badge-free">Free</span>
-            <span class="badge badge-category">Culture / Coastal</span>
-          </div>
-          <h3 class="card-title">Haapsalu Castle & Promenade</h3>
-          <div class="card-region">📍 Haapsalu</div>
-          <p class="card-desc">A peaceful seaside resort town renowned for its 13th-century fortress, wooden promenade, Tchaikovsky bench, and lace traditions.</p>
-          <div class="card-footer">
-            <span class="price-tag">Free Access</span>
-            <a href="https://visithaapsalu.com" target="_blank" rel="noopener" class="btn-link">Explore Town</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Lake Peipus Onion Route -->
-      <div class="card" data-title="Lake Peipus & The Onion Route" data-region="Lake Peipus" data-cost="Free">
-        <div class="card-body">
-          <div class="badge-bar">
-            <span class="badge badge-free">Free</span>
-            <span class="badge badge-category">Cultural / Route</span>
-          </div>
-          <h3 class="card-title">Lake Peipus Onion Route</h3>
-          <div class="card-region">📍 Eastern Estonia</div>
-          <p class="card-desc">Explore the unique Old Believer fishing villages, traditional samovars, local onion farms, and winter ice-truck safaris.</p>
-          <div class="card-footer">
-            <span class="price-tag">Free Access</span>
-            <a href="https://visitpeipsi.com" target="_blank" rel="noopener" class="btn-link">Route Guide</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Otepää Winter Resort -->
-      <div class="card" data-title="Otepää Winter Sports & Ski Hub" data-region="Tartu" data-cost="Paid">
-        <div class="card-body">
-          <div class="badge-bar">
-            <span class="badge badge-paid">Paid</span>
-            <span class="badge badge-category">Winter / Sport</span>
-          </div>
-          <h3 class="card-title">Otepää Winter Sports Resort</h3>
-          <div class="card-region">📍 Otepää, Southern Estonia</div>
-          <p class="card-desc">Estonia's winter sports capital offering illuminated cross-country ski tracks, Tehvandi stadium, and snowshoe excursions.</p>
-          <div class="card-footer">
-            <span class="price-tag">Rental / Lift Fees</span>
-            <a href="https://visitestonia.com" target="_blank" rel="noopener" class="btn-link">Ski Center</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Estonian National Museum -->
-      <div class="card" data-title="Estonian National Museum (ERM)" data-region="Tartu" data-cost="Paid">
-        <div class="card-body">
-          <div class="badge-bar">
-            <span class="badge badge-paid">Paid</span>
-            <span class="badge badge-category">Cultural / Museum</span>
-          </div>
-          <h3 class="card-title">Estonian National Museum (ERM)</h3>
-          <div class="card-region">📍 Tartu</div>
-          <p class="card-desc">Architectural masterpiece spanning 6,000 m² exploring Estonian cultural evolution and Finno-Ugric peoples' history.</p>
-          <div class="card-footer">
-            <span class="price-tag">€15 – €20</span>
-            <a href="https://www.erm.ee" target="_blank" rel="noopener" class="btn-link">Official Portal</a>
-          </div>
-        </div>
-      </div>
-
+    <div class="directory-header">
+      <h2 class="section-title">Directory Listings</h2>
+      <span class="results-count" id="resultsCount">Showing all listings</span>
     </div>
+
+    <div class="directory-grid" id="activitiesGrid"></div>
+
+    <!-- Travel & Platform Guidelines Section -->
+    <section class="info-section" id="guidelines">
+      <h2>Travel & Platform Guidelines</h2>
+      <div class="info-grid">
+        <div class="info-box">
+          <h3>Self-Guided Activities</h3>
+          <p>Free activities marked across the directory typically require travelers to supply their own specialized gear (e.g., bicycles, fishing tackle, or ice skates).</p>
+        </div>
+        <div class="info-box">
+          <h3>Permits & Regulations</h3>
+          <p>An official recreational fishing permit is legally required for most inland and coastal fishing, obtainable directly online via kalaluba.ee / Environmental Board.</p>
+        </div>
+        <div class="info-box">
+          <h3>Advance Booking</h3>
+          <p>Direct early reservations are strongly advised for guided wildlife watching (bears, seals, flying squirrels) and winter husky sledding excursions.</p>
+        </div>
+      </div>
+    </section>
 
     <!-- About Us Section -->
     <section class="info-section" id="about">
       <h2>About Estonia Activities</h2>
-      <p>At Estonia Activities, our mission is to empower travelers, outdoor enthusiasts, and locals to experience the full breadth of Estonia's natural and cultural heritage[cite: 2]. By curating commercial experiences alongside public outdoor infrastructure, we offer a transparent, unified window into Northern Europe's wildest landscapes[cite: 1, 2].</p>
+      <p>At Estonia Activities, our mission is to empower travelers, outdoor enthusiasts, and locals to experience the full breadth of Estonia's natural and cultural heritage. We bridge the gap between independent adventurers and local service providers, curating commercial adventures alongside public outdoor infrastructure with zero middleman markups.</p>
       
       <div class="info-grid">
         <div class="info-box">
-          <h3>Zero Middleman Markups</h3>
-          <p>We do not collect commissions, mark up prices, or hold customer funds[cite: 2]. Every link directs you straight to the official operator or public park authority[cite: 2].</p>
+          <h3>Direct Provider Links Only</h3>
+          <p>We purposefully eliminate third-party reseller markups. Every button directs you to the operator's actual booking system or official public park management portal.</p>
         </div>
         <div class="info-box">
-          <h3>Wild Nature Meets Modern Culture</h3>
-          <p>Over half of Estonia is forested and home to thousands of bogs and offshore islands[cite: 2], easily accessible alongside rich UNESCO historic sites[cite: 1, 2].</p>
+          <h3>Wild Nature & Heritage</h3>
+          <p>Over half of Estonia is forested, with more than 2,000 islands and vast protected bogs, providing unmatched access to quiet Nordic wilderness.</p>
         </div>
         <div class="info-box">
-          <h3>Verified Local Operators</h3>
-          <p>All commercial listings undergo verification checking business legitimacy, safety standards, and clear participant gear requirements[cite: 2].</p>
+          <h3>Verified Experiences</h3>
+          <p>Every commercial tour undergoes checks for business registration, safety standards, and clear participant gear requirements before inclusion.</p>
         </div>
       </div>
     </section>
@@ -516,16 +360,16 @@
       <h2>Provider FAQ</h2>
       <div class="info-grid">
         <div class="info-box">
-          <h3>What does listing cost?</h3>
-          <p>Listing basic provider experiences on Estonia Activities is completely free[cite: 2]. We take zero booking commission[cite: 2].</p>
+          <h3>What does listing an activity cost?</h3>
+          <p>Listing basic provider experiences on Estonia Activities is completely free. We do not charge setup fees or deduct platform commissions from your sales.</p>
         </div>
         <div class="info-box">
-          <h3>How does verification work?</h3>
-          <p>We check business registration, verify liability guidelines and physical activity ratings, and confirm official booking endpoints within 48–72 hours[cite: 2].</p>
+          <h3>How does the verification process work?</h3>
+          <p>We check business registration, verify participant safety guidelines, and confirm that external links point directly to secure booking channels within 2 to 3 days.</p>
         </div>
         <div class="info-box">
-          <h3>How are bookings processed?</h3>
-          <p>Guests click directly to your own booking portal, ticketing engine, or contact page[cite: 2]. You retain 100% of customer payments and direct guest communication[cite: 2].</p>
+          <h3>How are bookings handled?</h3>
+          <p>Travelers click directly through to your official booking platform or website, preserving your direct relationship with your guests.</p>
         </div>
       </div>
     </section>
@@ -533,7 +377,7 @@
     <!-- Provider Listing Form -->
     <section class="form-card" id="submit">
       <h2>Submit an Activity or Tour</h2>
-      <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Are you a local outdoor provider, guide, or tourism operator in Estonia? Add your listing to our public directory[cite: 2].</p>
+      <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Are you a local outdoor provider, guide, or tourism operator in Estonia? Add your direct official link to our directory.</p>
       <form onsubmit="handleFormSubmit(event)">
         <div class="form-grid">
           <div class="form-group">
@@ -552,11 +396,12 @@
             <label for="activityRegion">Region / Location *</label>
             <select id="activityRegion" required>
               <option value="">Select Region</option>
-              <option value="Tallinn">Tallinn & Environs</option>
-              <option value="Northern">Northern Estonia (Lahemaa, Kõrvemaa)</option>
-              <option value="Western">Western Coast & Islands</option>
-              <option value="Tartu">Tartu & Southern Estonia</option>
-              <option value="Lake Peipus">Eastern Estonia (Lake Peipus)</option>
+              <option value="Tallinn">Tallinn</option>
+              <option value="Northern Estonia">Northern Estonia</option>
+              <option value="Western Coast & Islands">Western Coast & Islands</option>
+              <option value="Tartu & Southern Estonia">Tartu & Southern Estonia</option>
+              <option value="Eastern Estonia">Eastern Estonia</option>
+              <option value="Nationwide">Nationwide</option>
             </select>
           </div>
           <div class="form-group">
@@ -567,8 +412,12 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="bookingUrl">Official Website / Booking Link *</label>
-            <input type="url" id="bookingUrl" required placeholder="https://yourwebsite.ee/tour" />
+            <label for="bookingUrl">Official Website / Direct Booking Link *</label>
+            <input type="url" id="bookingUrl" required placeholder="https://yourofficialsite.ee" />
+          </div>
+          <div class="form-group full">
+            <label for="imageUrl">Photo URL (Optional)</label>
+            <input type="url" id="imageUrl" placeholder="https://images.unsplash.com/..." />
           </div>
           <div class="form-group full">
             <label for="activityDesc">Activity Description *</label>
@@ -582,34 +431,659 @@
 
   <!-- Footer -->
   <footer>
-    <p>&copy; 2026 Estonia Activities Directory. Unifying paid recreation and free public nature trails[cite: 1, 2].</p>
-    <p style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.8;">Hosted on GitHub Pages · Made for travelers across Estonia</p>
+    <p>&copy; 2026 Estonia Activities Directory. Direct local provider links and state nature recreation.</p>
+    <p style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.8;">Zero aggregator markups · Hosted on GitHub Pages · Pure HTML & CSS</p>
   </footer>
 
-  <!-- Vanilla Inline Logic -->
+  <!-- Complete Inlined Direct Activity Dataset with Relevant Photos -->
   <script>
+    const activities = [
+      // Outdoor, Water & Active Recreation
+      { 
+        name: "Bog-Shoe Hiking", 
+        region: "Nationwide (Kõrvemaa, Soomaa, Alutaguse)", 
+        regionGroup: "Northern Estonia", 
+        cost: "Paid (€59–€139)", 
+        costGroup: "Paid", 
+        category: "Outdoor / Guided", 
+        desc: "Guided year-round walks across soft bogs using specialized bog shoes while learning about flora, fauna, and local peatland ecosystems.", 
+        ref: "Kõrvemaa Hike Centre", 
+        url: "https://korvemaa.ee/en/",
+        img: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=600&q=80" 
+      },
+      { 
+        name: "Hiking & Boardwalk Walks", 
+        region: "Lahemaa, Soomaa, Kõrvemaa, Alutaguse, nationwide", 
+        regionGroup: "Nationwide", 
+        cost: "Free", 
+        costGroup: "Free", 
+        category: "Hiking / Trails", 
+        desc: "Hundreds of kilometers of marked state trails through bogs, forests, and coastlines with free campfire sites and shelters. Estonia hosts over 262 hiking trails.", 
+        ref: "RMK Nature Portal", 
+        url: "https://www.loodusegakoos.ee/en",
+        img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Kayaking & Canoeing", 
+        region: "Soomaa National Park, rivers, lakes & Aegna Island", 
+        regionGroup: "Western Coast & Islands", 
+        cost: "Paid (varies) / Free", 
+        costGroup: "Paid", 
+        category: "Water Sport", 
+        desc: "Relaxing river canoe trips, multi-day tours to spot wildlife, and sea kayaking routes along coastal islands and flooded spring meadows.", 
+        ref: "Soomaa Water Trips", 
+        url: "https://soomaa.com/activities/",
+        img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Stand-Up Paddleboarding (SUP)", 
+        region: "Lakes & rivers nationwide", 
+        regionGroup: "Nationwide", 
+        cost: "Paid (rental)", 
+        costGroup: "Paid", 
+        category: "Water Sport", 
+        desc: "Rent SUP boards or join guided dawn paddle tours across calm inland lake waters and secluded bog pools.", 
+        ref: "Suppama Board Safaris", 
+        url: "https://suppama.com/en/",
+        img: "https://images.unsplash.com/photo-1508873696983-2df5293cb325?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Sailing & Watersports", 
+        region: "Tallinn Bay, Saaremaa, Hiiumaa, Männiku", 
+        regionGroup: "Tallinn", 
+        cost: "Paid", 
+        costGroup: "Paid", 
+        category: "Sailing / Sea", 
+        desc: "Skippered sailing charters and modern catamaran tours departing directly from Tallinn’s Seaplane Harbour across the Gulf of Finland.", 
+        ref: "Sailing.ee Official", 
+        url: "https://sailing.ee/en/",
+        img: "https://images.unsplash.com/photo-1500930287596-c1ecaa373bb2?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Diving (Quarry & Wreck)", 
+        region: "Rummu Quarry, Baltic Sea wrecks", 
+        regionGroup: "Northern Estonia", 
+        cost: "Paid", 
+        costGroup: "Paid", 
+        category: "Diving", 
+        desc: "Scuba dive and snorkel crystal-clear waters in the flooded limestone quarry to see submerged former prison ruins and sunken forests.", 
+        ref: "Rummu Official Diving", 
+        url: "https://www.rummu.eu/en/activities/diving/",
+        img: "https://images.unsplash.com/photo-1682687220063-4742bd7fd538?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "4x4 Safaris & Hover-crafting", 
+        region: "Männiku Safarikeskus (near Tallinn)", 
+        regionGroup: "Tallinn", 
+        cost: "Paid", 
+        costGroup: "Paid", 
+        category: "Motorsports / Adventure", 
+        desc: "Off-road ATV safaris, hover-crafting tours, archery, tactical courses, and quarry track driving adventures.", 
+        ref: "Männiku Safarikeskus", 
+        url: "https://mannikusafarikeskus.ee",
+        img: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Cycling, Mountain Biking & Fatbiking", 
+        region: "Nationwide (Tallinn, Tartu, islands, parks)", 
+        regionGroup: "Nationwide", 
+        cost: "Paid / Free", 
+        costGroup: "Free", 
+        category: "Cycling / Active", 
+        desc: "Independent or guided cycling tours along scenic coastal paths, national parks, and EuroVelo Baltic routes with city bike share networks.", 
+        ref: "City Bike Tallinn", 
+        url: "https://www.citybike.ee",
+        img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Fishing & Ice Fishing", 
+        region: "Lake Peipsi, Baltic Sea coast, inland lakes", 
+        regionGroup: "Eastern Estonia", 
+        cost: "Paid / Free", 
+        costGroup: "Free", 
+        category: "Fishing", 
+        desc: "Year-round fishing for perch, pike, and zander. Winter ice fishing on Lake Peipsi includes monster-truck 'karakat' ice transport.", 
+        ref: "Estonian Angling Permit Portal", 
+        url: "https://kalaluba.ee",
+        img: "https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Seal Watching Safaris", 
+        region: "Malusi Islands, Kolga Bay, Neeme", 
+        regionGroup: "Northern Estonia", 
+        cost: "Paid (€135/adult or group rate)", 
+        costGroup: "Paid", 
+        category: "Wildlife Safari", 
+        desc: "Small-group coastal boat safaris out of Neeme/Leppneeme to photograph grey seal colonies using quiet outboard engines and acoustic lures.", 
+        ref: "Capture Estonia Expeditions", 
+        url: "https://www.capture-estonia.ee",
+        img: "https://images.unsplash.com/photo-1589656966895-2f33e7653819?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Wildlife & Bear Watching", 
+        region: "Alutaguse National Park, Karula National Park", 
+        regionGroup: "Northern Estonia", 
+        cost: "Paid (multi-day) / Free", 
+        costGroup: "Paid", 
+        category: "Wildlife", 
+        desc: "Overnight observation hides nestled in primeval taiga forest to safely spot brown bears, raccoon dogs, elk, and nocturnal forest fauna.", 
+        ref: "Natourest Bear Hides", 
+        url: "https://natourest.ee",
+        img: "https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Birdwatching", 
+        region: "Paljassaare, Matsalu National Park, Soomaa", 
+        regionGroup: "Western Coast & Islands", 
+        cost: "Free", 
+        costGroup: "Free", 
+        category: "Wildlife / Birding", 
+        desc: "Public observation towers situated directly on prime Baltic coastal migration routes in Matsalu and the Paljassaare peninsula.", 
+        ref: "Estonian Ornithological Society", 
+        url: "https://www.eoy.ee/en",
+        img: "https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Flying Squirrel Night Tours", 
+        region: "Northeastern Estonia (Alutaguse)", 
+        regionGroup: "Northern Estonia", 
+        cost: "Paid", 
+        costGroup: "Paid", 
+        category: "Wildlife / Nocturnal", 
+        desc: "Specialist guided nocturnal tracking tours to spot the endangered Siberian flying squirrel in its rare protected boreal habitat.", 
+        ref: "Estonian Wildlife Tours", 
+        url: "https://natourest.ee/portfolio/flying-squirrel-watching/",
+        img: "https://images.unsplash.com/photo-1507666405895-422eee7d517f?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Husky Dog Sledding", 
+        region: "Kõrvemaa / Paasiku (near Tallinn)", 
+        regionGroup: "Northern Estonia", 
+        cost: "Paid (€169–€179)", 
+        costGroup: "Paid", 
+        category: "Winter Adventure", 
+        desc: "Winter dog mushing and kennel visit experiences through snowy forest trails led by teams of energetic Siberian huskies.", 
+        ref: "Paasiku Dogsled Centre", 
+        url: "https://paasiku.ee/en/",
+        img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Snowshoeing & Kicksledding", 
+        region: "Kõrvemaa, Taevaskoja, Otepää", 
+        regionGroup: "Tartu & Southern Estonia", 
+        cost: "Paid / Free", 
+        costGroup: "Paid", 
+        category: "Winter Adventure", 
+        desc: "Guided kicksled tours across frozen river bends, snowy pine forests, and Taevaskoja sandstone cliffs.", 
+        ref: "Loodusturism Nature Tours", 
+        url: "https://www.loodusturism.ee/en",
+        img: "https://images.unsplash.com/photo-1483921020237-2ff51e8e4b22?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Cross-Country Skiing & Winter Sports", 
+        region: "Otepää, Kõrvemaa, Tartu", 
+        regionGroup: "Tartu & Southern Estonia", 
+        cost: "Paid / Free", 
+        costGroup: "Paid", 
+        category: "Winter Sports", 
+        desc: "World Cup grade cross-country tracks, illuminated ski trails, biathlon grounds, and equipment hire at Tehvandi Sports Centre.", 
+        ref: "Tehvandi Sports Centre", 
+        url: "https://www.tehvandi.ee/en/",
+        img: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Floating & Smoke Saunas", 
+        region: "Lakes & rivers nationwide", 
+        regionGroup: "Nationwide", 
+        cost: "Paid", 
+        costGroup: "Paid", 
+        category: "Wellness / Sauna", 
+        desc: "UNESCO-inscribed traditional South Estonian smoke saunas and floating lake saunas offering hot whisks and bracing cold plunges.", 
+        ref: "Võrumaa Smoke Saunas", 
+        url: "https://savvusann.ee/en/",
+        img: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Adventure Parks & Obstacles", 
+        region: "Pirita (Tallinn)", 
+        regionGroup: "Tallinn", 
+        cost: "Paid", 
+        costGroup: "Paid", 
+        category: "Active Adventure", 
+        desc: "High-ropes tree trails, speed ziplines, kids' adventure courses, and sea-view picnic grounds nestled in the coastal pine forest.", 
+        ref: "Pirita Adventure Park", 
+        url: "https://piritaseikluspark.ee/en/",
+        img: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Swimming & Wild Swimming", 
+        region: "Rummu Quarry, Jägala Waterfall, Baltic beaches", 
+        regionGroup: "Northern Estonia", 
+        cost: "Free", 
+        costGroup: "Free", 
+        category: "Wild Swimming", 
+        desc: "Wild swimming in turquoise quarry waters at Rummu or public sandy shores along Pirita, Stroomi, and Lahemaa beaches.", 
+        ref: "Rummu Quarry Beach", 
+        url: "https://www.rummu.eu/en/",
+        img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Forest BBQ & Foraging", 
+        region: "State forests (RMK) nationwide", 
+        regionGroup: "Nationwide", 
+        cost: "Free", 
+        costGroup: "Free", 
+        category: "Nature / Foraging", 
+        desc: "Designated state forest campfire sites, supplied firewood, and prime locations for seasonal chanterelle and wild cranberry picking.", 
+        ref: "RMK Campfire Sites", 
+        url: "https://www.loodusegakoos.ee/where-to-go",
+        img: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Horseback Riding", 
+        region: "Rural nature reserves nationwide", 
+        regionGroup: "Nationwide", 
+        cost: "Paid", 
+        costGroup: "Paid", 
+        category: "Equestrian", 
+        desc: "Guided horseback treks on native Estonian horses through open coastal pastures, juniper meadows, and sandy beach trails.", 
+        ref: "Tihuse Horse Farm Saaremaa", 
+        url: "https://tihuse.ee/en/",
+        img: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80"
+      },
+
+      // Regional Destinations & Cultural Attractions
+      { 
+        name: "Tallinn Old Town", 
+        region: "Tallinn", 
+        regionGroup: "Tallinn", 
+        cost: "Free / Public", 
+        costGroup: "Free", 
+        category: "Heritage / Landmark", 
+        desc: "UNESCO World Heritage medieval lower and upper town featuring 13th-century town walls, cobblestone alleys, and Raekoja Plats.", 
+        ref: "Tallinn Tourism Office", 
+        url: "https://www.visittallinn.ee/eng",
+        img: "https://images.unsplash.com/photo-1513581166391-887a96ddeafd?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Kiek in de Kök", 
+        region: "Tallinn", 
+        regionGroup: "Tallinn", 
+        cost: "Paid", 
+        costGroup: "Paid", 
+        category: "Museum / Fortification", 
+        desc: "Massive 15th-century artillery tower, underground bastion tunnels museum, and preserved defensive rampart walks.", 
+        ref: "Kiek in de Kök Fortifications", 
+        url: "https://linnamuuseum.ee/en/kiek-in-de-kok/",
+        img: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Lennusadam Seaplane Harbour", 
+        region: "Tallinn", 
+        regionGroup: "Tallinn", 
+        cost: "Paid", 
+        costGroup: "Paid", 
+        category: "Maritime Museum", 
+        desc: "State-of-the-art maritime museum housed in historic concrete seaplane hangars, showcasing the 1936 Lembit submarine and Suur Tõll icebreaker.", 
+        ref: "Estonian Maritime Museum", 
+        url: "https://meremuuseum.ee/lennusadam/en/",
+        img: "https://images.unsplash.com/photo-1569263979104-865ab7cd8d17?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Vabamu Museum", 
+        region: "Tallinn", 
+        regionGroup: "Tallinn", 
+        cost: "Paid", 
+        costGroup: "Paid", 
+        category: "History Museum", 
+        desc: "The Museum of Occupations and Freedom detailing Estonia's modern 20th-century history, resistance, and digital renaissance.", 
+        ref: "Vabamu Museum Portal", 
+        url: "https://vabamu.ee/en",
+        img: "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Kumu Art Museum", 
+        region: "Tallinn", 
+        regionGroup: "Tallinn", 
+        cost: "Paid", 
+        costGroup: "Paid", 
+        category: "Art Museum", 
+        desc: "The main building of the Art Museum of Estonia, built into a Kadriorg limestone cliff showcasing classical to contemporary artwork.", 
+        ref: "Kumu Art Museum", 
+        url: "https://kumu.ekm.ee/en/",
+        img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Kadriorg Palace & Park", 
+        region: "Tallinn", 
+        regionGroup: "Tallinn", 
+        cost: "Paid / Free Gardens", 
+        costGroup: "Free", 
+        category: "Palace & Gardens", 
+        desc: "Petrine Baroque palace commissioned by Peter the Great in 1718, home to manicured flower gardens, fountains, and European foreign art.", 
+        ref: "Kadriorg Art Museum", 
+        url: "https://kadriorumuuseum.ekm.ee/en/",
+        img: "https://images.unsplash.com/photo-1541971875076-8f970d573be6?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Telliskivi Creative City", 
+        region: "Tallinn", 
+        regionGroup: "Tallinn", 
+        cost: "Free Access", 
+        costGroup: "Free", 
+        category: "Culture & Dining", 
+        desc: "Vibrant creative industrial quarter featuring independent Estonian design boutiques, Fotografiska gallery, cafes, and flea markets.", 
+        ref: "Telliskivi Creative City", 
+        url: "https://telliskivi.cc/en/",
+        img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Tallinn TV Tower", 
+        region: "Tallinn", 
+        regionGroup: "Tallinn", 
+        cost: "Paid", 
+        costGroup: "Paid", 
+        category: "Observation Tower", 
+        desc: "314-meter tower featuring a 170m-high observation deck with glass floor panels, outdoor edge walk, and interactive history exhibits.", 
+        ref: "Tallinn TV Tower Official", 
+        url: "https://www.teletorn.ee/en/",
+        img: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Lahemaa National Park", 
+        region: "Northern Estonia", 
+        regionGroup: "Northern Estonia", 
+        cost: "Free", 
+        costGroup: "Free", 
+        category: "National Park", 
+        desc: "Estonia's oldest and largest national park spanning rocky coastlines, Viru bog boardwalks, and historical manor estates.", 
+        ref: "Kaitsealad / Lahemaa NP", 
+        url: "https://kaitsealad.ee/en/protected-areas/lahemaa-national-park",
+        img: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Kõrvemaa National Park & Reserve", 
+        region: "Northern Estonia", 
+        regionGroup: "Northern Estonia", 
+        cost: "Free", 
+        costGroup: "Free", 
+        category: "National Park", 
+        desc: "Pristine 'Estonian Switzerland' landscape of glacial eskers, forested kettle lakes, and vast raised bogs with extensive hiking trails.", 
+        ref: "Kõrvemaa Hike Center", 
+        url: "https://korvemaa.ee/en/",
+        img: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Vihula Manor & Village", 
+        region: "Northern Estonia", 
+        regionGroup: "Northern Estonia", 
+        cost: "Free / Paid", 
+        costGroup: "Free", 
+        category: "Manor & Village", 
+        desc: "Historic 16th-century country estate situated on the Mustoja River in Lahemaa, complete with a windmill, spa, and eco-farm.", 
+        ref: "Vihula Manor Country Club", 
+        url: "https://www.vihulamanor.com",
+        img: "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Käsmu Coastal Village", 
+        region: "Northern Estonia", 
+        regionGroup: "Northern Estonia", 
+        cost: "Free", 
+        costGroup: "Free", 
+        category: "Coastal Heritage", 
+        desc: "Famous 'Captain’s Village' on the Lahemaa peninsula, known for white wooden sea captain cottages and private maritime museum.", 
+        ref: "Käsmu Maritime Museum", 
+        url: "https://www.kasmu.ee/en",
+        img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Lake Peipus & Onion Route", 
+        region: "Eastern Estonia", 
+        regionGroup: "Eastern Estonia", 
+        cost: "Free Access", 
+        costGroup: "Free", 
+        category: "Cultural Corridor", 
+        desc: "Heritage route uniting three cultures along the fifth largest lake in Europe: Russian Old Believers, Estonian peasants, and Baltic German manors.", 
+        ref: "The Onion Route Official", 
+        url: "https://www.sibulatee.ee/en/",
+        img: "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Rummu Quarry", 
+        region: "Northern Estonia", 
+        regionGroup: "Northern Estonia", 
+        cost: "Paid / Free", 
+        costGroup: "Paid", 
+        category: "Scenic Landmark", 
+        desc: "Flooded former limestone quarry and prison ruins with ash-mountain hiking trails, wakeboarding, and SUP rentals.", 
+        ref: "Rummu Underwater Park", 
+        url: "https://www.rummu.eu/en/",
+        img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Jägala Waterfall", 
+        region: "Northern Estonia", 
+        regionGroup: "Northern Estonia", 
+        cost: "Free", 
+        costGroup: "Free", 
+        category: "Natural Wonder", 
+        desc: "Estonia's highest natural waterfall (8 meters high, over 50 meters wide), scenic year-round and forming giant ice walls in winter.", 
+        ref: "RMK Jägala Information", 
+        url: "https://loodusegakoos.ee/where-to-go/other-protected-areas/jagala-waterfall",
+        img: "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Tartu Old Town & Square", 
+        region: "Tartu & Southern Estonia", 
+        regionGroup: "Tartu & Southern Estonia", 
+        cost: "Free", 
+        costGroup: "Free", 
+        category: "City & Heritage", 
+        desc: "Historic university quarter with classicist Town Hall, the Kissing Students Fountain, and lively riverbank cafes along the Emajõgi.", 
+        ref: "Visit Tartu Official", 
+        url: "https://visittartu.com",
+        img: "https://images.unsplash.com/photo-1541971875076-8f970d573be6?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Estonian National Museum (ERM)", 
+        region: "Tartu & Southern Estonia", 
+        regionGroup: "Tartu & Southern Estonia", 
+        cost: "Paid", 
+        costGroup: "Paid", 
+        category: "National Museum", 
+        desc: "Architectural masterpiece built on a former Soviet runway in Tartu, dedicated to Finno-Ugric cultural heritage and everyday Estonian life.", 
+        ref: "Eesti Rahva Muuseum (ERM)", 
+        url: "https://www.erm.ee/en",
+        img: "https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "AHHAA Science Centre", 
+        region: "Tartu & Southern Estonia", 
+        regionGroup: "Tartu & Southern Estonia", 
+        cost: "Paid", 
+        costGroup: "Paid", 
+        category: "Science / Family", 
+        desc: "The largest interactive science centre in the Baltic region, featuring hands-on physics and technology halls and a spherical planetarium.", 
+        ref: "AHHAA Science Centre", 
+        url: "https://ahhaa.ee/en",
+        img: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "UT Botanical Garden", 
+        region: "Tartu & Southern Estonia", 
+        regionGroup: "Tartu & Southern Estonia", 
+        cost: "Free / Paid", 
+        costGroup: "Free", 
+        category: "Botanical Garden", 
+        desc: "Founded in 1803 on the old city fortifications of Tartu, housing over 10,000 plant species in historical greenhouses and park grounds.", 
+        ref: "University of Tartu Botanical Garden", 
+        url: "https://natmuseum.ut.ee/en/botanical-garden",
+        img: "https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Toomemägi Hill & Ruins", 
+        region: "Tartu & Southern Estonia", 
+        regionGroup: "Tartu & Southern Estonia", 
+        cost: "Free", 
+        costGroup: "Free", 
+        category: "Park & Ruins", 
+        desc: "Romantic parkland hill overlooking Tartu, containing the impressive red-brick ruins of the 13th-century Tartu Dome Church.", 
+        ref: "University of Tartu Museum", 
+        url: "https://muuseum.ut.ee/en",
+        img: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Tartu Toy Museum", 
+        region: "Tartu & Southern Estonia", 
+        regionGroup: "Tartu & Southern Estonia", 
+        cost: "Paid", 
+        costGroup: "Paid", 
+        category: "Toy Museum", 
+        desc: "Charming museum housed in Tartu's oldest wooden residential building, showing toys from 19th-century folk dolls to Estonian animation puppets.", 
+        ref: "Tartu Toy Museum Official", 
+        url: "https://www.mm.ee/en",
+        img: "https://images.unsplash.com/photo-1558877385-81a1c7e67d72?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Setomaa Cultural Region", 
+        region: "Tartu & Southern Estonia", 
+        regionGroup: "Tartu & Southern Estonia", 
+        cost: "Free", 
+        costGroup: "Free", 
+        category: "Cultural Heritage", 
+        desc: "Unique borderland cultural home of the Seto people, world-renowned for traditional polyphonic Leelo singing and local culinary heritage.", 
+        ref: "Visit Setomaa Official", 
+        url: "https://www.visitsetomaa.ee/en",
+        img: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Karula National Park", 
+        region: "Tartu & Southern Estonia", 
+        regionGroup: "Tartu & Southern Estonia", 
+        cost: "Free", 
+        costGroup: "Free", 
+        category: "National Park", 
+        desc: "Estonia's smallest national park, characterized by rolling wooded dome hills (kuplid), remote bog lakes, and peaceful silence.", 
+        ref: "Kaitsealad / Karula NP", 
+        url: "https://kaitsealad.ee/en/protected-areas/karula-national-park",
+        img: "https://images.unsplash.com/photo-1511497584788-87676104235f?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Otepää Winter Resort Hub", 
+        region: "Tartu & Southern Estonia", 
+        regionGroup: "Tartu & Southern Estonia", 
+        cost: "Free / Paid", 
+        costGroup: "Paid", 
+        category: "Winter Resort", 
+        desc: "Estonia's official winter capital featuring Kuutsemäe downhill ski slopes, snow tubing parks, and Tehvandi ski jumping stadium.", 
+        ref: "Otepää Municipality Portal", 
+        url: "https://www.otepaa.ee/en",
+        img: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Saaremaa Island & Kuressaare Castle", 
+        region: "Western Coast & Islands", 
+        regionGroup: "Western Coast & Islands", 
+        cost: "Free / Paid Castle", 
+        costGroup: "Free", 
+        category: "Island & Heritage", 
+        desc: "The only fully intact medieval stone fortress in the Baltics, surrounded by a water-filled moat, windmills, and juniper coastline.", 
+        ref: "Saaremaa Episcopal Castle", 
+        url: "https://saaremaamuuseum.ee/en/kuressaare-episcopal-castle/",
+        img: "https://images.unsplash.com/photo-1533158307587-828f0a76ef96?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Soomaa National Park", 
+        region: "Western Coast & Islands", 
+        regionGroup: "Western Coast & Islands", 
+        cost: "Free", 
+        costGroup: "Free", 
+        category: "National Park", 
+        desc: "Protected wetland world of immense peat bogs and flooded meadows; explore boardwalks, Riisa bog trail, and canoe routes.", 
+        ref: "Kaitsealad / Soomaa NP", 
+        url: "https://kaitsealad.ee/en/protected-areas/soomaa-national-park",
+        img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Haapsalu Bishop's Castle & Promenade", 
+        region: "Western Coast & Islands", 
+        regionGroup: "Western Coast & Islands", 
+        cost: "Free / Paid Castle", 
+        costGroup: "Free", 
+        category: "Resort & Castle", 
+        desc: "13th-century bishop's castle ruins known for the White Lady legend, alongside a wooden seaside promenade and carved Kursaal.", 
+        ref: "Haapsalu Castle Museum", 
+        url: "https://salm.ee/en/haapsalu-castle/",
+        img: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80"
+      },
+      { 
+        name: "Pärnu Summer Capital", 
+        region: "Western Coast & Islands", 
+        regionGroup: "Western Coast & Islands", 
+        cost: "Free", 
+        costGroup: "Free", 
+        category: "Summer Capital", 
+        desc: "Historic resort city with wide shallow sandy beaches, coastal park walkways, art nouveau mud baths, and summer outdoor festivals.", 
+        ref: "Visit Pärnu Official", 
+        url: "https://visitparnu.com/en/",
+        img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80"
+      }
+    ];
+
+    function renderCards(list) {
+      const grid = document.getElementById('activitiesGrid');
+      grid.innerHTML = '';
+      list.forEach(item => {
+        const isFree = item.costGroup === 'Free';
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.setAttribute('data-title', item.name);
+        card.setAttribute('data-region', item.regionGroup);
+        card.setAttribute('data-cost', item.costGroup);
+
+        card.innerHTML = `
+          <div class="card-img-wrapper">
+            <img class="card-img" src="${item.img}" alt="${item.name}" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <div class="badge-bar">
+              <span class="badge ${isFree ? 'badge-free' : 'badge-paid'}">${isFree ? 'Free' : 'Paid'}</span>
+              <span class="badge badge-category">${item.category}</span>
+            </div>
+            <h3 class="card-title">${item.name}</h3>
+            <div class="card-region">📍 ${item.region}</div>
+            <p class="card-desc">${item.desc}</p>
+            <div class="card-footer">
+              <span class="price-tag">${item.cost}</span>
+              <a href="${item.url}" target="_blank" rel="noopener" class="btn-link">${item.ref} ↗</a>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+      document.getElementById('resultsCount').innerText = `Showing ${list.length} direct listing${list.length === 1 ? '' : 's'}`;
+    }
+
     function filterDirectory() {
       const search = document.getElementById('searchInput').value.toLowerCase();
       const region = document.getElementById('regionFilter').value;
       const cost = document.getElementById('costFilter').value;
-      const cards = document.querySelectorAll('#activitiesGrid .card');
 
-      cards.forEach(card => {
-        const title = card.getAttribute('data-title').toLowerCase();
-        const cardRegion = card.getAttribute('data-region');
-        const cardCost = card.getAttribute('data-cost');
-        const text = card.innerText.toLowerCase();
+      const filtered = activities.filter(item => {
+        const matchesSearch = !search || 
+          item.name.toLowerCase().includes(search) || 
+          item.desc.toLowerCase().includes(search) || 
+          item.region.toLowerCase().includes(search) ||
+          item.category.toLowerCase().includes(search);
+        
+        const matchesRegion = !region || item.regionGroup === region || (region === 'Nationwide' && item.regionGroup === 'Nationwide');
+        const matchesCost = !cost || item.costGroup === cost;
 
-        const matchesSearch = !search || title.includes(search) || text.includes(search);
-        const matchesRegion = !region || cardRegion === region;
-        const matchesCost = !cost || cardCost === cost;
-
-        if (matchesSearch && matchesRegion && matchesCost) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
+        return matchesSearch && matchesRegion && matchesCost;
       });
+
+      renderCards(filtered);
     }
 
     function handleFormSubmit(e) {
@@ -618,37 +1092,12 @@
       const region = document.getElementById('activityRegion').value;
       const cost = document.getElementById('pricingTier').value;
       const url = document.getElementById('bookingUrl').value;
+      const userImg = document.getElementById('imageUrl').value;
       const desc = document.getElementById('activityDesc').value;
 
-      // Dynamically prepend new card to the directory
-      const grid = document.getElementById('activitiesGrid');
-      const newCard = document.createElement('div');
-      newCard.className = 'card';
-      newCard.setAttribute('data-title', title);
-      newCard.setAttribute('data-region', region);
-      newCard.setAttribute('data-cost', cost);
-
-      newCard.innerHTML = `
-        <div class="card-body">
-          <div class="badge-bar">
-            <span class="badge ${cost === 'Free' ? 'badge-free' : 'badge-paid'}">${cost}</span>
-            <span class="badge badge-category">Community Submission</span>
-          </div>
-          <h3 class="card-title">${title}</h3>
-          <div class="card-region">📍 ${region}</div>
-          <p class="card-desc">${desc}</p>
-          <div class="card-footer">
-            <span class="price-tag">${cost}</span>
-            <a href="${url}" target="_blank" rel="noopener" class="btn-link">View Listing</a>
-          </div>
-        </div>
-      `;
-
-      grid.prepend(newCard);
-      alert('Thank you! Your listing has been added to the page preview and submitted to the moderation queue.');
-      e.target.reset();
-      window.location.hash = '#directory';
-    }
-  </script>
-</body>
-</html>
+      const newEntry = {
+        name: title,
+        region: region,
+        regionGroup: region,
+        cost: cost === 'Free' ? 'Free' : 'Paid Experience',
+        costGroup: cost,
