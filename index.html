@@ -244,7 +244,6 @@
     }
     .btn-link:hover { background: var(--primary-light); }
 
-    /* Modals & Info Sections */
     .info-section {
       background: var(--surface);
       border-radius: var(--radius);
@@ -359,35 +358,35 @@
       <div class="info-grid">
         <div class="info-box">
           <h3>Self-Guided Trails & Gear</h3>
-          <p>Free RMK boardwalks and forest trails require travelers to bring all specialized clothing, boots, and water. Campfire wood is provided free at designated state forest shelters.</p>
+          <p>Free RMK boardwalks and forest trails require travelers to bring all specialized clothing, boots, and water. Campfire wood is provided free at designated state forest shelters[cite: 1].</p>
         </div>
         <div class="info-box">
           <h3>Official Permits & Licensing</h3>
-          <p>Recreational fishing on Lake Peipus and Baltic waters legally requires an online state license via kalaluba.ee. Drone usage over national parks requires prior Environmental Board clearance.</p>
+          <p>Recreational fishing on Lake Peipus and Baltic waters legally requires an online state license via kalaluba.ee[cite: 1]. Drone usage over national parks requires prior Environmental Board clearance.</p>
         </div>
         <div class="info-box">
           <h3>Expedition Reservations</h3>
-          <p>Early direct reservations (at least 2–4 weeks in advance) are necessary for brown bear hides, winter husky sled teams, and Malusi seal safaris due to strict ecological quota limits.</p>
+          <p>Early direct reservations (at least 2–4 weeks in advance) are necessary for brown bear hides, winter husky sled teams, and Malusi seal safaris due to strict ecological quota limits[cite: 1].</p>
         </div>
       </div>
     </section>
 
     <section class="info-section" id="about">
       <h2>About Our Platform</h2>
-      <p>At Estonia Activities, our mission is to empower travelers, outdoor enthusiasts, and locals to experience the full breadth of Estonia's natural and cultural heritage. By curating commercial experiences alongside public outdoor infrastructure, we offer a transparent, unified window into Northern Europe's wildest landscapes.</p>
+      <p>At Estonia Activities, our mission is to empower travelers, outdoor enthusiasts, and locals to experience the full breadth of Estonia's natural and cultural heritage[cite: 2]. By curating commercial experiences alongside public outdoor infrastructure, we offer a transparent, unified window into Northern Europe's wildest landscapes[cite: 1, 2].</p>
       
       <div class="info-grid">
         <div class="info-box">
           <h3>Direct Provider Links Only</h3>
-          <p>We do not hold booking fees, take commissions, or redirect to third-party aggregators. Every card connects you straight to the local guide or park management service.</p>
+          <p>We do not hold booking fees, take commissions, or redirect to third-party aggregators[cite: 2]. Every card connects you straight to the local guide or park management service[cite: 2].</p>
         </div>
         <div class="info-box">
           <h3>Pristine Peatlands & Forests</h3>
-          <p>Over 50% of Estonia is covered by wild forest and more than 2,000 islands, making wilderness trails readily accessible within 45 to 90 minutes of major centers.</p>
+          <p>Over 50% of Estonia is covered by wild forest and more than 2,000 islands, making wilderness trails readily accessible within 45 to 90 minutes of major centers[cite: 2].</p>
         </div>
         <div class="info-box">
           <h3>Verified Safety & Quality</h3>
-          <p>All commercial tours in this directory are vetted for legitimate business registration, certified wildlife guides, and clear gear guidelines.</p>
+          <p>All commercial tours in this directory are vetted for legitimate business registration, certified wildlife guides, and clear gear guidelines[cite: 2].</p>
         </div>
       </div>
     </section>
@@ -397,22 +396,22 @@
       <div class="info-grid">
         <div class="info-box">
           <h3>What does listing a tour cost?</h3>
-          <p>Listing tours on Estonia Activities is completely free. We do not charge setup fees or deduct commissions from your bookings.</p>
+          <p>Listing tours on Estonia Activities is completely free[cite: 2]. We do not charge setup fees or deduct commissions from your bookings[cite: 2].</p>
         </div>
         <div class="info-box">
           <h3>How does tour verification work?</h3>
-          <p>We check company registration, review route safety plans, and verify that all direct booking endpoints lead straight to your native reservations system.</p>
+          <p>We check company registration, review route safety plans, and verify that all direct booking endpoints lead straight to your native reservations system[cite: 2].</p>
         </div>
         <div class="info-box">
           <h3>How are client inquiries handled?</h3>
-          <p>Customers click directly to your website, phone, or booking calendar. You maintain 100% of payment transactions and direct customer communication.</p>
+          <p>Customers click directly to your website, phone, or booking calendar[cite: 2]. You maintain 100% of payment transactions and direct customer communication[cite: 2].</p>
         </div>
       </div>
     </section>
 
     <section class="form-card" id="submit">
       <h2>Submit a Tour or Trail to the Directory</h2>
-      <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Are you a certified local guide, kayak outfitter, or nature center in Estonia? Submit your granular tour to our open directory.</p>
+      <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Are you a certified local guide, kayak outfitter, or nature center in Estonia? Submit your granular tour to our open directory[cite: 2].</p>
       <form onsubmit="handleFormSubmit(event)">
         <div class="form-grid">
           <div class="form-group">
@@ -469,11 +468,13 @@
   </main>
 
   <footer>
-    <p>&copy; 2026 Estonia Activities Directory. Granular tour listings and official nature reserves.</p>
+    <p>&copy; 2026 Estonia Activities Directory. Granular tour listings and official nature reserves[cite: 1, 2].</p>
     <p style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.8;">Direct Operator Links · Zero Aggregator Resellers · Hosted on GitHub Pages</p>
   </footer>
 
   <script>
+    const fallbackImage = 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80';
+
     const tours = [
       // 1. Kõrvemaa Bog-Shoe Tour
       {
@@ -565,7 +566,7 @@
         img: "https://images.unsplash.com/photo-1682687220063-4742bd7fd538?auto=format&fit=crop&w=600&q=80"
       },
 
-      // 6. Lake Peipus Karakat Ice Fishing
+      // 6. Lake Peipus Karakat Ice Fishing (Fixed High-Resolution Active Photo)
       {
         provider: "Lake Peipus Winter Sled Tours",
         title: "Lake Peipus Karakat Monster-Sled Ice Fishing Expedition",
@@ -580,7 +581,7 @@
         included: "Transport on custom balloon-tire 'karakat' truck, ice auger, rods, jigging lures, hot tea",
         desc: "Ride custom hand-built giant amphibious vehicles onto the frozen expanse of Europe's fifth-largest lake. Drill through 40cm of ice 5–10km offshore with local Old Believer fishermen to jig for perch and whitefish.",
         url: "https://kalaluba.ee",
-        img: "https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=600&q=80"
+        img: "https://images.unsplash.com/photo-1516431883659-655d41c09bf9?auto=format&fit=crop&w=600&q=80"
       },
 
       // 7. Paasiku Siberian Husky Sledding
@@ -849,7 +850,11 @@
 
         card.innerHTML = `
           <div class="card-img-wrapper">
-            <img class="card-img" src="${item.img}" alt="${item.title}" loading="lazy" />
+            <img class="card-img" 
+                 src="${item.img}" 
+                 alt="${item.title}" 
+                 loading="lazy" 
+                 onerror="this.onerror=null;this.src='${fallbackImage}';" />
             <span class="card-provider-pill">${item.provider}</span>
           </div>
           <div class="card-body">
@@ -937,7 +942,7 @@
         included: gear,
         desc: desc,
         url: url,
-        img: userImg.trim() || 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80'
+        img: userImg.trim() || fallbackImage
       };
 
       tours.unshift(newEntry);
