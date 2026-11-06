@@ -116,6 +116,7 @@
     .search-input {
       flex: 2;
       min-width: 240px;
+      max-width: 100%;
       padding: 0.75rem 1rem;
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -124,6 +125,7 @@
     .filter-select {
       flex: 1;
       min-width: 170px;
+      max-width: 100%;
       padding: 0.75rem 1rem;
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -136,6 +138,8 @@
       display: flex;
       justify-content: space-between;
       align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.25rem 1rem;
       margin-bottom: 1.5rem;
     }
     .section-title {
@@ -149,10 +153,11 @@
     }
     .directory-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr));
       gap: 2rem;
     }
     .card {
+      min-width: 0;
       background: var(--surface);
       border-radius: var(--radius);
       border: 1px solid var(--border);
@@ -173,6 +178,16 @@
       overflow: hidden;
       background-color: #e2e8f0;
     }
+    .image-fallback {
+      display: none;
+      position: absolute;
+      inset: 0;
+      place-items: center;
+      color: #475569;
+      background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+      font-weight: 700;
+    }
+    .image-unavailable .image-fallback { display: grid; }
     .card-img {
       width: 100%;
       height: 100%;
@@ -194,7 +209,7 @@
       border-radius: 6px;
       backdrop-filter: blur(4px);
     }
-    .card-body { padding: 1.35rem; display: flex; flex-direction: column; flex-grow: 1; }
+    .card-body { min-width: 0; padding: 1.35rem; display: flex; flex-direction: column; flex-grow: 1; }
     .badge-bar { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
     .badge {
       font-size: 0.75rem;
@@ -214,7 +229,7 @@
     
     .specs-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 0.5rem;
       background: #f8fafc;
       border: 1px solid var(--border);
@@ -223,7 +238,7 @@
       margin-bottom: 1rem;
       font-size: 0.82rem;
     }
-    .spec-item { display: flex; flex-direction: column; }
+    .spec-item { min-width: 0; display: flex; flex-direction: column; }
     .spec-label { font-weight: 700; color: #64748b; font-size: 0.72rem; text-transform: uppercase; }
     .spec-val { color: #1e293b; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
@@ -272,7 +287,7 @@
       box-shadow: var(--shadow);
     }
     .info-section h2 { color: var(--primary); margin-bottom: 1rem; font-size: 1.7rem; font-weight: 800; }
-    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
     .info-box { background: var(--bg); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--accent); }
     .info-box h3 { font-size: 1.1rem; color: var(--primary); margin-bottom: 0.5rem; font-weight: 700; }
 
@@ -283,7 +298,7 @@
       margin-top: 3.5rem;
       box-shadow: var(--shadow);
     }
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
     .form-group { display: flex; flex-direction: column; margin-bottom: 1rem; }
     .form-group.full { grid-column: 1 / -1; }
     .form-group label { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.4rem; }
@@ -293,6 +308,9 @@
       border-radius: 6px;
       font-size: 0.95rem;
       font-family: inherit;
+      min-width: 0;
+      max-width: 100%;
+      width: 100%;
     }
     .btn-submit-form {
       background: var(--accent);
@@ -355,8 +373,8 @@
       margin-bottom: 1.25rem;
     }
     .queue-title { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
-    .queue-meta { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
-    .queue-desc { font-size: 0.88rem; color: #334155; margin-bottom: 0.85rem; }
+    .queue-meta { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; overflow-wrap: anywhere; }
+    .queue-desc { font-size: 0.88rem; color: #334155; margin-bottom: 0.85rem; overflow-wrap: anywhere; }
     .queue-actions { display: flex; gap: 0.75rem; }
     .btn-approve {
       background: var(--success);
@@ -395,6 +413,21 @@
       nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
       nav a { margin-left: 0.5rem; margin-right: 0.5rem; }
       .directory-grid { grid-template-columns: 1fr; }
+      .search-input, .filter-select { min-width: 0; flex-basis: 100%; }
+    }
+    @media (max-width: 480px) {
+      .hero { padding: 3rem 1rem; }
+      .hero h1 { font-size: clamp(1.7rem, 8vw, 2.3rem); }
+      .search-panel { padding: 0 1rem; }
+      .search-card { padding: 1rem; }
+      .main-container { padding: 0 1rem 3rem; }
+      .info-section, .form-card { padding: 1.25rem; }
+      .info-grid { grid-template-columns: minmax(0, 1fr); }
+      .directory-header { flex-direction: column; align-items: flex-start; }
+      .section-title { font-size: 1.5rem; }
+      .card-footer { flex-wrap: wrap; gap: 0.75rem; }
+      .modal-overlay { padding: 0.75rem; }
+      .modal-content { padding: 1.25rem; }
     }
   </style>
 </head>
@@ -418,7 +451,7 @@
 
   <section class="hero">
     <h1>Estonia Expeditions & Tours</h1>
-    <p>Discover specific guided wilderness tours, kayak routes, bear-hide stays, and self-guided national park boardwalks with complete logistical details and zero aggregator markups.</p>
+    <p>Explore guided wilderness tours, kayak routes, bear-hide stays, and self-guided national park boardwalks. Confirm current details directly with each provider before setting out.</p>
   </section>
 
   <section class="search-panel">
@@ -442,7 +475,7 @@
 
   <main class="main-container" id="directory">
     <div class="directory-header">
-      <h2 class="section-title">Verified Tours & Field Excursions</h2>
+      <h2 class="section-title">Tours & Field Excursions</h2>
       <span class="results-count" id="resultsCount">Showing all excursions</span>
     </div>
 
@@ -480,8 +513,8 @@
           <p>Over 50% of Estonia is covered by wild forest and more than 2,000 islands, making wilderness trails readily accessible within 45 to 90 minutes of major centers.</p>
         </div>
         <div class="info-box">
-          <h3>Strict Verification Review</h3>
-          <p>All commercial tours in this directory are vetted for legitimate business registration, certified wildlife guides, and clear gear guidelines prior to publication.</p>
+          <h3>Check Listing Details</h3>
+          <p>Listings are provided for discovery and are not independently verified by this static directory. Confirm availability, safety requirements, and other details with the provider before booking.</p>
         </div>
       </div>
     </section>
@@ -494,8 +527,8 @@
           <p>Listing tours on Estonia Activities is completely free. We do not charge setup fees or deduct commissions from your bookings.</p>
         </div>
         <div class="info-box">
-          <h3>How does tour verification work?</h3>
-          <p>Submitted listings are held in our moderation queue. We verify business registration, safety instructions, and official links within 48–72 hours before publishing.</p>
+          <h3>Where are submissions stored?</h3>
+          <p>This static site stores submitted and approved listings only in this browser. They are not sent to the site maintainers or shared with other visitors, and approval here does not publish a listing to the website.</p>
         </div>
         <div class="info-box">
           <h3>How are client inquiries handled?</h3>
@@ -505,8 +538,8 @@
     </section>
 
     <section class="form-card" id="submit">
-      <h2>Submit a Tour or Trail for Verification</h2>
-      <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Are you a certified local guide or outdoor provider in Estonia? Submit your tour details below for manual approval by our moderation team.</p>
+      <h2>Suggest a Tour or Trail</h2>
+      <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Share a tour or trail for review in this browser's local moderation queue. This page does not independently verify listing details.</p>
       <form onsubmit="handleFormSubmit(event)">
         <div class="form-grid">
           <div class="form-group">
@@ -557,7 +590,7 @@
             <textarea id="tourDesc" rows="4" required placeholder="Describe the specific route, wildlife sightings, physical requirements, and highlights..."></textarea>
           </div>
         </div>
-        <button type="submit" class="btn-submit-form">Submit Tour for Verification</button>
+        <button type="submit" class="btn-submit-form">Submit for Review</button>
       </form>
     </section>
   </main>
@@ -570,7 +603,7 @@
         <button class="btn-close-modal" onclick="closeAdminModal()">&times;</button>
       </div>
       <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.25rem;">
-        New tour submissions are queued here. Approving a tour will publish it live to the public directory.
+        Submissions and approvals are stored only in this browser. Approving a tour adds it to this browser's directory; it does not publish it to the website or share it with other visitors.
       </p>
       <div id="queueList"></div>
     </div>
@@ -582,8 +615,6 @@
   </footer>
 
   <script>
-    const fallbackImage = 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80';
-
     // Baseline published excursions
     const baseTours = [
       {
@@ -960,12 +991,13 @@
         card.setAttribute('data-cost', item.costGroup);
 
         card.innerHTML = `
-          <div class="card-img-wrapper">
-            <img class="card-img" 
-                 src="${item.img}" 
-                 alt="${item.title}" 
-                 loading="lazy" 
-                 onerror="this.onerror=null;this.src='${fallbackImage}';" />
+          <div class="card-img-wrapper${item.img ? '' : ' image-unavailable'}">
+            ${item.img ? `<img class="card-img"
+                 src="${item.img}"
+                 alt="${item.title}"
+                 loading="lazy"
+                 onerror="this.hidden=true;this.parentElement.classList.add('image-unavailable');" />` : ''}
+            <span class="image-fallback">Photo unavailable</span>
             <span class="card-provider-pill">${item.provider}</span>
           </div>
           <div class="card-body">
@@ -999,13 +1031,13 @@
                 <span class="price-sub">Rate</span>
                 <span class="price-tag">${item.cost}</span>
               </div>
-              <a href="${item.url}" target="_blank" rel="noopener" class="btn-link">Official Booking ↗</a>
+              <a href="${item.url}" class="btn-link">Official Booking ↗</a>
             </div>
           </div>
         `;
         grid.appendChild(card);
       });
-      document.getElementById('resultsCount').innerText = `Showing ${list.length} verified excursion${list.length === 1 ? '' : 's'}`;
+      document.getElementById('resultsCount').innerText = `Showing ${list.length} excursion${list.length === 1 ? '' : 's'}`;
     }
 
     function filterDirectory() {
@@ -1058,14 +1090,14 @@
         included: gear,
         desc: desc,
         url: url,
-        img: userImg.trim() || fallbackImage
+        img: userImg.trim()
       };
 
       const queue = getPendingQueue();
       queue.unshift(submission);
       savePendingQueue(queue);
 
-      alert('Thank you! Your listing has been submitted to the moderation queue.\n\nTo ensure directory quality and link security, all tours undergo manual review before appearing live.');
+      alert('Thank you! Your listing has been added to the review queue in this browser only. It will not be sent to the site or shared with other visitors.');
       e.target.reset();
     }
 
@@ -1098,7 +1130,7 @@
           <div class="queue-desc">${item.desc}</div>
           <div class="queue-meta"><strong>Rate:</strong> ${item.cost} | <strong>Includes:</strong> ${item.included} | <strong>Link:</strong> <a href="${item.url}" target="_blank">${item.url}</a></div>
           <div class="queue-actions">
-            <button class="btn-approve" onclick="approveSubmission(${index})">Approve & Publish Live</button>
+            <button class="btn-approve" onclick="approveSubmission(${index})">Approve in This Browser</button>
             <button class="btn-reject" onclick="rejectSubmission(${index})">Reject</button>
           </div>
         `;
@@ -1121,7 +1153,7 @@
 
       renderQueue();
       filterDirectory();
-      alert(`"${approvedItem.title}" has been approved and published live to the directory!`);
+      alert(`"${approvedItem.title}" has been approved and added to this browser's directory. It has not been published to the website.`);
     }
 
     function rejectSubmission(index) {
