@@ -1,363 +1,1288 @@
+
+Gemini
+
+New chat
+Library
+Images
+Scheduled
+Customize
+
+More
+New notebook
+Volt
+Radio
+Mistaken Identity Correction
+Removing Granular from Title
+GitHub Repository Access Limitations
+Legal Document Compliance Review
+Website Cloning Assistance And Alternatives
+Text Analysis Request
+Haapsalu Hub Webpage Redesign
+Accessing Gemini Chat History
+Finding Past Gemini Chats
+Add Birthday to Calendar
+Adding Birthday to Calendar
+Playing K-Joo Music
+Overview of Connectors
+Defining All-Size Trips
+Mistaken Identity Clarification
+Music Playback Assistance
+Weight of an Oath
+Clarifying the Request to Play
+Finding KGO Radio Station
+Playing KGOY Radio
+Play KGOY
+Light Show Options Clarification
+
+Activity
+Uuemõisa, Lääne County, Estonia
+From your device
+Conversation with Gemini
+remove granular from the title
+
+Here is the updated line for your hero section title:
+
+HTML
+    <h1>Estonia Expeditions & Tours</h1>
+(Replacing line 253: <h1>Granular Estonia Expeditions & Tours</h1>)
+
+change the file accordingly
+
+Your HTML file is ready:
+
+HTML icon
+index
+ HTML 
+The <h1> heading in index.html has been updated to remove "Granular":
+
+HTML
+<h1>Estonia Expeditions & Tours</h1>
+make the moderation button only visible by me in gitgub
+
+Because GitHub Pages serves purely static client-side files without a backend server to authenticate sessions, public visitors can see any UI elements rendered by default.
+
+To ensure the Moderation button is hidden from standard visitors and only accessible by you, the updated file incorporates a discrete client-side access control.
+
+Your updated HTML file:
+
+HTML icon
+index
+ HTML 
+What Changed
+Hidden by Default:
+
+CSS
+.btn-admin {
+  ...
+  display: none; /* Hidden by default from all visitors */
+}
+Owner-Only Activation Methods:
+
+URL Parameter: Open your published GitHub Pages site with ?admin=true (e.g., [https://yourusername.github.io/repo/?admin=true](https://yourusername.github.io/repo/?admin=true)). The script registers your browser, unlocks admin mode in localStorage, cleans the query string from your address bar, and displays the Moderation button.
+
+Secret Keyboard Shortcut: Press Ctrl + Shift + A (or Cmd + Shift + A on macOS) anywhere on the page to toggle owner mode on or off instantly.
+
+Passkey Fallback: Direct modal invocation prompts for the passkey (admin123 or secret) if opened without prior authorization.
+
+
+
+
+
+Gemini is AI and can make mistakes, including about people. Your privacy & GeminiOpens in a new window
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estonia Activities Directory | Tours & Expeditions</title>
+  <style>
+    :root {
+      --primary: #1b4332;
+      --primary-light: #2d6a4f;
+      --accent: #d4a373;
+      --accent-hover: #bc8a5f;
+      --bg: #f8f9fa;
+      --surface: #ffffff;
+      --text: #212529;
+      --text-muted: #6c757d;
+      --border: #e2e8f0;
+      --free-tag: #2a9d8f;
+      --paid-tag: #457b9d;
+      --shadow: 0 6px 18px rgba(0,0,0,0.06);
+      --radius: 12px;
+      --danger: #e63946;
+      --success: #2a9d8f;
+    }
 
-<title>Experience Estonia | Go Beyond Tallinn</title>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
 
-<meta name="description" content="Discover authentic Estonia through fishing trips, horseback riding, island adventures, bog hikes, wildlife tours, and traditional sauna experiences. Go Beyond Tallinn.">
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      margin-left: 1.25rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--primary-light); }
+    .btn-submit {
+      background: var(--primary);
+      color: #fff !important;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+    }
+    .btn-submit:hover { background: var(--primary-light); }
+    .btn-admin {
+      background: #4a5568;
+      color: #fff !important;
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      position: relative;
+      display: none; /* Hidden by default until authenticated/unlocked */
+    }
+    .admin-badge {
+      background: var(--danger);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 0.1rem 0.4rem;
+      border-radius: 10px;
+      margin-left: 0.35rem;
+    }
 
-<meta name="keywords" content="Estonia tours, Estonia activities, fishing Estonia, horseback riding Estonia, bog hiking Estonia, Saaremaa tours, Soomaa canoeing, Estonia travel">
+    .hero {
+      background: linear-gradient(rgba(27, 67, 50, 0.88), rgba(27, 67, 50, 0.92)),
+                  url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1600&q=80') center/cover;
+      color: white;
+      text-align: center;
+      padding: 4.5rem 1.5rem;
+    }
+    .hero h1 { font-size: 2.6rem; font-weight: 800; margin-bottom: 0.8rem; }
+    .hero p { font-size: 1.15rem; max-width: 840px; margin: 0 auto 1.8rem auto; opacity: 0.95; }
+    
+    .search-panel {
+      max-width: 1280px;
+      margin: -2.2rem auto 2.5rem;
+      padding: 0 1.5rem;
+    }
+    .search-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .search-input {
+      flex: 2;
+      min-width: 240px;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+    .filter-select {
+      flex: 1;
+      min-width: 170px;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background: #fff;
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    .main-container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+    .directory-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.5rem;
+    }
+    .section-title {
+      font-size: 1.8rem;
+      color: var(--primary);
+      font-weight: 800;
+    }
+    .results-count {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+    .directory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 2rem;
+    }
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+    }
+    .card-img-wrapper {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+      background-color: #e2e8f0;
+    }
+    .card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .card:hover .card-img {
+      transform: scale(1.05);
+    }
+    .card-provider-pill {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: rgba(27, 67, 50, 0.9);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      backdrop-filter: blur(4px);
+    }
+    .card-body { padding: 1.35rem; display: flex; flex-direction: column; flex-grow: 1; }
+    .badge-bar { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+    .badge {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .badge-paid { background: #e2f0d9; color: var(--primary); }
+    .badge-free { background: #d8f3dc; color: #1b4332; }
+    .badge-category { background: #edf2f7; color: #4a5568; }
+    .badge-season { background: #fff3bf; color: #854d0e; }
+    
+    .card-title { font-size: 1.25rem; font-weight: 800; margin-bottom: 0.35rem; color: var(--primary); line-height: 1.3; }
+    .card-location { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.85rem; font-weight: 500; }
+    
+    .specs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 0.85rem;
+      margin-bottom: 1rem;
+      font-size: 0.82rem;
+    }
+    .spec-item { display: flex; flex-direction: column; }
+    .spec-label { font-weight: 700; color: #64748b; font-size: 0.72rem; text-transform: uppercase; }
+    .spec-val { color: #1e293b; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    .card-desc { font-size: 0.9rem; color: #334155; margin-bottom: 1rem; flex-grow: 1; line-height: 1.5; }
+    
+    .includes-box {
+      font-size: 0.82rem;
+      color: #0f5132;
+      background: #e8f5e9;
+      border-left: 3px solid #2d6a4f;
+      padding: 0.4rem 0.6rem;
+      border-radius: 4px;
+      margin-bottom: 1.1rem;
+    }
 
-body {
-    font-family: Inter, sans-serif;
-    line-height: 1.6;
-    color: #222;
-    background: #fff;
-}
+    .card-footer {
+      border-top: 1px solid var(--border);
+      padding-top: 0.9rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .price-box { display: flex; flex-direction: column; }
+    .price-sub { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
+    .price-tag { font-weight: 800; font-size: 1.05rem; color: var(--text); }
+    .btn-link {
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: inline-block;
+      text-align: center;
+      transition: background 0.2s;
+    }
+    .btn-link:hover { background: var(--primary-light); }
 
-header {
-    background:
-        linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)),
-        url('https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1600&q=80');
-    height: 100vh;
-    background-size: cover;
-    background-position: center;
-    color: white;
+    /* Informational & Form Sections */
+    .info-section {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      margin-top: 3.5rem;
+      box-shadow: var(--shadow);
+    }
+    .info-section h2 { color: var(--primary); margin-bottom: 1rem; font-size: 1.7rem; font-weight: 800; }
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+    .info-box { background: var(--bg); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--accent); }
+    .info-box h3 { font-size: 1.1rem; color: var(--primary); margin-bottom: 0.5rem; font-weight: 700; }
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
+    .form-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      margin-top: 3.5rem;
+      box-shadow: var(--shadow);
+    }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; margin-bottom: 1rem; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+    .btn-submit-form {
+      background: var(--accent);
+      color: white;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      padding: 0.85rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .btn-submit-form:hover { background: var(--accent-hover); }
 
-.hero {
-    max-width: 800px;
-    padding: 20px;
-}
+    /* Admin Moderation Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 1.5rem;
+    }
+    .modal-content {
+      background: var(--surface);
+      border-radius: var(--radius);
+      max-width: 800px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .modal-header h2 { font-size: 1.4rem; color: var(--primary); }
+    .btn-close-modal {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+    .queue-item {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .queue-title { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
+    .queue-meta { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+    .queue-desc { font-size: 0.88rem; color: #334155; margin-bottom: 0.85rem; }
+    .queue-actions { display: flex; gap: 0.75rem; }
+    .btn-approve {
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 0.45rem 1rem;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    .btn-reject {
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 0.45rem 1rem;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
 
-.hero h1 {
-    font-size: 4rem;
-    margin-bottom: 10px;
-}
+    footer {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      margin-top: 4rem;
+      font-size: 0.9rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
 
-.hero h2 {
-    font-size: 1.6rem;
-    margin-bottom: 20px;
-    font-weight: 400;
-}
-
-.hero p {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
-}
-
-.btn {
-    display: inline-block;
-    background: #00754a;
-    color: white;
-    padding: 15px 30px;
-    text-decoration: none;
-    border-radius: 30px;
-    font-weight: 600;
-}
-
-nav {
-    position: sticky;
-    top: 0;
-    background: white;
-    padding: 15px;
-    box-shadow: 0 2px 10px rgba(0,0,0,.1);
-    z-index: 100;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    flex-wrap: wrap;
-}
-
-nav a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 600;
-}
-
-section {
-    padding: 80px 10%;
-}
-
-.section-title {
-    text-align: center;
-    margin-bottom: 50px;
-}
-
-.section-title h2 {
-    font-size: 2.5rem;
-    color: #0a4e3b;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
-    gap: 30px;
-}
-
-.card {
-    background: white;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,.08);
-    transition: .3s;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.card-content {
-    padding: 25px;
-}
-
-.card h3 {
-    margin-bottom: 10px;
-    color: #0a4e3b;
-}
-
-.activities {
-    background: #f5f8f6;
-}
-
-.activity-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-    gap: 25px;
-}
-
-.activity {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-}
-
-.activity h4 {
-    margin-bottom: 10px;
-}
-
-footer {
-    background: #0a4e3b;
-    color: white;
-    text-align: center;
-    padding: 40px;
-}
-
-footer p {
-    margin: 10px 0;
-}
-
-@media (max-width:768px){
-
-.hero h1{
-font-size:2.8rem;
-}
-
-.hero h2{
-font-size:1.2rem;
-}
-
-}
-</style>
+    @media (max-width: 768px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .nav-container { flex-direction: column; gap: 1rem; }
+      nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+      nav a { margin-left: 0.5rem; margin-right: 0.5rem; }
+      .directory-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
-
 <body>
 
-<header>
-<div class="hero">
-<h1>Experience Estonia</h1>
+  <header>
+    <div class="nav-container">
+      <a href="#" class="logo">🌲 Estonia Activities</a>
+      <nav>
+        <a href="#directory">Tours & Trails</a>
+        <a href="#guidelines">Guidelines</a>
+        <a href="#about">About</a>
+        <a href="#faq">FAQ</a>
+        <a href="#submit" class="btn-submit">Submit Tour</a>
+        <a href="javascript:void(0)" onclick="openAdminModal()" class="btn-admin" id="adminBtn">
+          Moderation <span class="admin-badge" id="adminBadge">0</span>
+        </a>
+      </nav>
+    </div>
+  </header>
 
-<h2>Go Beyond Tallinn</h2>
+  <section class="hero">
+    <h1>Estonia Expeditions & Tours</h1>
+    <p>Discover specific guided wilderness tours, kayak routes, bear-hide stays, and self-guided national park boardwalks with complete logistical details and zero aggregator markups.</p>
+  </section>
 
-<p>
-Discover authentic adventures, island escapes, wild nature,
-and local traditions across Estonia.
-</p>
+  <section class="search-panel">
+    <div class="search-card">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search by tour name, provider, gear, trail or region..." onkeyup="filterDirectory()" />
+      <select id="regionFilter" class="filter-select" onchange="filterDirectory()">
+        <option value="">All Regions</option>
+        <option value="Tallinn & Harju">Tallinn & Environs</option>
+        <option value="Northern Estonia">Northern Estonia (Lahemaa, Alutaguse)</option>
+        <option value="Western Coast & Islands">Western Coast & Islands (Soomaa, Saaremaa, Hiiumaa)</option>
+        <option value="Tartu & Southern Estonia">Tartu & Southern Estonia (Otepää, Võrumaa, Setomaa)</option>
+        <option value="Eastern Estonia">Eastern Estonia (Lake Peipus)</option>
+      </select>
+      <select id="costFilter" class="filter-select" onchange="filterDirectory()">
+        <option value="">All Tour Types</option>
+        <option value="Free">Free Self-Guided Trails</option>
+        <option value="Paid">Guided Tours & Rentals</option>
+      </select>
+    </div>
+  </section>
 
-<a href="#regions" class="btn">Explore Experiences</a>
-</div>
-</header>
+  <main class="main-container" id="directory">
+    <div class="directory-header">
+      <h2 class="section-title">Verified Tours & Field Excursions</h2>
+      <span class="results-count" id="resultsCount">Showing all excursions</span>
+    </div>
 
-<nav>
-<ul>
-<li><a href="#regions">Destinations</a></li>
-<li><a href="#activities">Activities</a></li>
-<li><a href="#about">About</a></li>
-</ul>
-</nav>
+    <div class="directory-grid" id="activitiesGrid"></div>
 
-<section id="regions">
-<div class="section-title">
-<h2>Discover Estonia by Region</h2>
-</div>
+    <section class="info-section" id="guidelines">
+      <h2>Field & Expedition Guidelines</h2>
+      <div class="info-grid">
+        <div class="info-box">
+          <h3>Self-Guided Trails & Gear</h3>
+          <p>Free RMK boardwalks and forest trails require travelers to bring all specialized clothing, boots, and water. Campfire wood is provided free at designated state forest shelters.</p>
+        </div>
+        <div class="info-box">
+          <h3>Official Permits & Licensing</h3>
+          <p>Recreational fishing on Lake Peipus and Baltic waters legally requires an online state license via kalaluba.ee. Drone usage over national parks requires prior Environmental Board clearance.</p>
+        </div>
+        <div class="info-box">
+          <h3>Expedition Reservations</h3>
+          <p>Early direct reservations (at least 2–4 weeks in advance) are necessary for brown bear hides, winter husky sled teams, and Malusi seal safaris due to strict ecological quota limits.</p>
+        </div>
+      </div>
+    </section>
 
-<div class="grid">
+    <section class="info-section" id="about">
+      <h2>About Our Platform</h2>
+      <p>At Estonia Activities, our mission is to empower travelers, outdoor enthusiasts, and locals to experience the full breadth of Estonia's natural and cultural heritage. By curating commercial experiences alongside public outdoor infrastructure, we offer a transparent, unified window into Northern Europe's wildest landscapes.</p>
+      
+      <div class="info-grid">
+        <div class="info-box">
+          <h3>Direct Provider Links Only</h3>
+          <p>We do not hold booking fees, take commissions, or redirect to third-party aggregators. Every card connects you straight to the local guide or park management service.</p>
+        </div>
+        <div class="info-box">
+          <h3>Pristine Peatlands & Forests</h3>
+          <p>Over 50% of Estonia is covered by wild forest and more than 2,000 islands, making wilderness trails readily accessible within 45 to 90 minutes of major centers.</p>
+        </div>
+        <div class="info-box">
+          <h3>Strict Verification Review</h3>
+          <p>All commercial tours in this directory are vetted for legitimate business registration, certified wildlife guides, and clear gear guidelines prior to publication.</p>
+        </div>
+      </div>
+    </section>
 
-<div class="card">
-<div class="card-content">
-<h3>Tallinn & Coast</h3>
-<p>
-Medieval streets, Baltic sailing, kayaking,
-food tours and cultural experiences.
-</p>
-</div>
-</div>
+    <section class="info-section" id="faq">
+      <h2>Provider FAQ</h2>
+      <div class="info-grid">
+        <div class="info-box">
+          <h3>What does listing a tour cost?</h3>
+          <p>Listing tours on Estonia Activities is completely free. We do not charge setup fees or deduct commissions from your bookings.</p>
+        </div>
+        <div class="info-box">
+          <h3>How does tour verification work?</h3>
+          <p>Submitted listings are held in our moderation queue. We verify business registration, safety instructions, and official links within 48–72 hours before publishing.</p>
+        </div>
+        <div class="info-box">
+          <h3>How are client inquiries handled?</h3>
+          <p>Customers click directly to your website, phone, or booking calendar. You maintain 100% of payment transactions and direct customer communication.</p>
+        </div>
+      </div>
+    </section>
 
-<div class="card">
-<div class="card-content">
-<h3>Lahemaa National Park</h3>
-<p>
-Forests, waterfalls, wildlife,
-hiking trails and horseback riding.
-</p>
-</div>
-</div>
+    <section class="form-card" id="submit">
+      <h2>Submit a Tour or Trail for Verification</h2>
+      <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Are you a certified local guide or outdoor provider in Estonia? Submit your tour details below for manual approval by our moderation team.</p>
+      <form onsubmit="handleFormSubmit(event)">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="providerName">Operating Provider / Organisation *</label>
+            <input type="text" id="providerName" required placeholder="e.g. Soomaa Water Trips OÜ" />
+          </div>
+          <div class="form-group">
+            <label for="contactEmail">Contact Email *</label>
+            <input type="email" id="contactEmail" required placeholder="info@example.ee" />
+          </div>
+          <div class="form-group">
+            <label for="tourTitle">Tour / Trail Title *</label>
+            <input type="text" id="tourTitle" required placeholder="e.g. Spring Flooded Forest Canoe Safari" />
+          </div>
+          <div class="form-group">
+            <label for="tourRegion">Region / Destination *</label>
+            <select id="tourRegion" required>
+              <option value="">Select Region</option>
+              <option value="Tallinn & Harju">Tallinn & Harju County</option>
+              <option value="Northern Estonia">Northern Estonia (Lahemaa, Alutaguse)</option>
+              <option value="Western Coast & Islands">Western Coast & Islands</option>
+              <option value="Tartu & Southern Estonia">Tartu & Southern Estonia</option>
+              <option value="Eastern Estonia">Eastern Estonia</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="tourDuration">Duration & Meeting Point *</label>
+            <input type="text" id="tourDuration" required placeholder="e.g. 3.5 hrs | Kõrvemaa Hike Centre" />
+          </div>
+          <div class="form-group">
+            <label for="pricingTier">Pricing Type & Cost *</label>
+            <input type="text" id="pricingTier" required placeholder="e.g. Paid (€45/person) or Free" />
+          </div>
+          <div class="form-group">
+            <label for="bookingUrl">Direct Official Booking / Trail URL *</label>
+            <input type="url" id="bookingUrl" required placeholder="https://yourofficialsite.ee/tour" />
+          </div>
+          <div class="form-group">
+            <label for="imageUrl">Photo URL (Optional)</label>
+            <input type="url" id="imageUrl" placeholder="https://images.unsplash.com/..." />
+          </div>
+          <div class="form-group full">
+            <label for="gearIncluded">Gear & What's Included *</label>
+            <input type="text" id="gearIncluded" required placeholder="e.g. Bog shoes, hot tea, safety briefing, guide" />
+          </div>
+          <div class="form-group full">
+            <label for="tourDesc">Detailed Tour Description *</label>
+            <textarea id="tourDesc" rows="4" required placeholder="Describe the specific route, wildlife sightings, physical requirements, and highlights..."></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn-submit-form">Submit Tour for Verification</button>
+      </form>
+    </section>
+  </main>
 
-<div class="card">
-<div class="card-content">
-<h3>Soomaa National Park</h3>
-<p>
-Home of Estonia's famous Fifth Season and
-extraordinary canoe adventures.
-</p>
-</div>
-</div>
+  <!-- Admin Review Modal -->
+  <div class="modal-overlay" id="adminModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Listing Approval Queue</h2>
+        <button class="btn-close-modal" onclick="closeAdminModal()">&times;</button>
+      </div>
+      <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+        New tour submissions are queued here. Approving a tour will publish it live to the public directory.
+      </p>
+      <div id="queueList"></div>
+    </div>
+  </div>
 
-<div class="card">
-<div class="card-content">
-<h3>Saaremaa Island</h3>
-<p>
-Fishing, sailing, coastal villages,
-windmills and Baltic island life.
-</p>
-</div>
-</div>
+  <footer>
+    <p>&copy; 2026 Estonia Activities Directory. Tour listings and official nature reserves.</p>
+    <p style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.8;">Direct Operator Links · Zero Aggregator Resellers · Hosted on GitHub Pages</p>
+  </footer>
 
-<div class="card">
-<div class="card-content">
-<h3>Hiiumaa</h3>
-<p>
-Lighthouses, cycling routes,
-wild beaches and peaceful escapes.
-</p>
-</div>
-</div>
+  <script>
+    const fallbackImage = 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80';
 
-<div class="card">
-<div class="card-content">
-<h3>South Estonia</h3>
-<p>
-Smoke saunas, forests,
-canoeing and authentic rural traditions.
-</p>
-</div>
-</div>
+    // Baseline published excursions
+    const baseTours = [
+      {
+        provider: "Sportland Kõrvemaa Matka- ja Suusakeskus",
+        title: "Kakerdaja Bog Sunrise Bog-Shoeing Expedition",
+        region: "Northern Estonia",
+        location: "Kakerdaja Bog, Kõrvemaa",
+        cost: "€65 / person",
+        costGroup: "Paid",
+        category: "Bog Hiking",
+        duration: "3.5 Hours (approx. 6 km)",
+        season: "All Year (Sunrise/Day)",
+        meeting: "Orava car park, Kakerdaja bog trailhead",
+        included: "Specialized bog shoes, walking poles, tea & local berry pie, certified bog ecologist guide",
+        desc: "Glide over soft peat moss and navigate between dark bog pools (laukad) without sinking. Learn peat moss hydrology, inspect insectivorous sundew plants, and swim in mineral-rich bog waters during warmer months.",
+        url: "https://korvemaa.ee/en/",
+        img: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        provider: "Soomaa.com Wilderness Tours",
+        title: "Fifth Season Flooded Forest & River Canoe Safari",
+        region: "Western Coast & Islands",
+        location: "Soomaa National Park",
+        cost: "€45 / person",
+        costGroup: "Paid",
+        category: "Canoeing & Kayaking",
+        duration: "3 to 4 Hours",
+        season: "Spring (March–April) & Autumn",
+        meeting: "Karuskose Farmstead, Soomaa NP",
+        included: "Canadian fiberglass canoe, paddles, CE life vests, waterproof dry barrels, safety briefing",
+        desc: "Paddle directly through flooded birch and alder forests, submerged roads, and meadows during Soomaa's UNESCO-inscribed fifth season. Drift silently alongside beaver lodges and ancient dugout boat carving sites.",
+        url: "https://soomaa.com/activities/",
+        img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        provider: "Capture Estonia Expeditions",
+        title: "Malusi Islands Grey Seal & Seabird Boat Safari",
+        region: "Northern Estonia",
+        location: "Malusi Islands Nature Reserve, Kolga Bay",
+        cost: "€135 / adult",
+        costGroup: "Paid",
+        category: "Marine Wildlife",
+        duration: "3.5 Hours (Speedboat)",
+        season: "June to October",
+        meeting: "Kaberneeme Marina (35 min east of Tallinn)",
+        included: "RIB offshore motorboat cruise, skipper, thermal flotation suits, underwater hydrophone",
+        desc: "Cruise out to remote granite islets where up to 400 Baltic grey seals haul out. The tour uses classical music broadcast into the sea to lure curious seals close to the boat, with acoustic hydrophone listening.",
+        url: "https://www.capture-estonia.ee",
+        img: "https://images.unsplash.com/photo-1589656966895-2f33e7653819?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        provider: "Natourest Wildlife Safaris",
+        title: "Alutaguse Taiga Brown Bear Hide Overnight Experience",
+        region: "Northern Estonia",
+        location: "Alutaguse National Park primeval forest",
+        cost: "€130 / night per person",
+        costGroup: "Paid",
+        category: "Wildlife Observation",
+        duration: "14 Hours (17:00 – 08:00 overnight)",
+        season: "April to October",
+        meeting: "Tudu Forest Meeting Point, Lääne-Viru",
+        included: "Overnight bunk in insulated hide, viewing chairs, photo ports, dry toilet, naturalist briefing",
+        desc: "Spend a quiet night inside an observation hide deep in Alutaguse's primeval forest. Excellent probability of viewing wild brown bears, raccoon dogs, roe deer, and occasionally wolves or lynx in total safety.",
+        url: "https://natourest.ee",
+        img: "https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        provider: "Rummu Underwater Park",
+        title: "Submerged Prison Quarry Scuba Dive & Snorkel Tour",
+        region: "Northern Estonia",
+        location: "Rummu Quarry, Harju County",
+        cost: "€65 – €95 / diver",
+        costGroup: "Paid",
+        category: "Scuba Diving",
+        duration: "2.5 Hours",
+        season: "May to October",
+        meeting: "Rummu Diving Centre dock",
+        included: "Air tanks, weights, dive guide briefing (full kit rental available on site)",
+        desc: "Dive the crystal-clear flooded limestone quarry to examine submerged Soviet prison security walls, razor wire fencing, pumping stations, and submerged underwater tree forests. Certification required for deep areas.",
+        url: "https://www.rummu.eu/en/activities/diving/",
+        img: "https://images.unsplash.com/photo-1682687220063-4742bd7fd538?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        provider: "Lake Peipus Winter Sled Tours",
+        title: "Lake Peipus Karakat Monster-Sled Ice Fishing Expedition",
+        region: "Eastern Estonia",
+        location: "Kallaste & Kolkja, Lake Peipus",
+        cost: "€65 / person",
+        costGroup: "Paid",
+        category: "Ice Fishing",
+        duration: "5 Hours",
+        season: "January to March (Subject to Ice)",
+        meeting: "Kallaste Harbour pier",
+        included: "Transport on custom balloon-tire 'karakat' truck, ice auger, rods, jigging lures, hot tea",
+        desc: "Ride custom hand-built giant amphibious vehicles onto the frozen expanse of Europe's fifth-largest lake. Drill through 40cm of ice 5–10km offshore with local Old Believer fishermen to jig for perch and whitefish.",
+        url: "https://kalaluba.ee",
+        img: "https://images.unsplash.com/photo-1516431883659-655d41c09bf9?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        provider: "Paasiku Dogs Manor & Kennel",
+        title: "Winter Siberian Husky Forest Sledding Excursion",
+        region: "Tallinn & Harju",
+        location: "Paasiku Village, Harjumaa (30 min from Tallinn)",
+        cost: "€169 / adult",
+        costGroup: "Paid",
+        category: "Winter Adventure",
+        duration: "2 Hours (Sled run + kennel tour)",
+        season: "December to March (Snow-dependent)",
+        meeting: "Paasiku Manor courtyard",
+        included: "Husky mushing instruction, sled ride driven by 6-dog team, kennel visit, hot herbal tea",
+        desc: "Take the reins of a husky sled or ride as passenger through snow-covered spruce forests. Learn about the working genetics and training of 30+ purebred Siberian Huskies, followed by tea in a heated manor room.",
+        url: "https://paasiku.ee/en/",
+        img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        provider: "Võrumaa Smoke Sauna Network",
+        title: "Traditional South Estonian Smoke Sauna Ritual",
+        region: "Tartu & Southern Estonia",
+        location: "Haanja & Rõuge, Võru County",
+        cost: "€120 – €180 / private group",
+        costGroup: "Paid",
+        category: "Wellness & Heritage",
+        duration: "4 to 5 Hours",
+        season: "Year-Round",
+        meeting: "Mooska Farmstead, Haanja",
+        included: "8-hour wood-heated smoke sauna, birch and nettle whisks, cold pond plunge, herbal teas",
+        desc: "Experience ancient UNESCO Intangible Cultural Heritage. The chimney-less log sauna is heated for hours with birch logs, creating a sterile aromatic atmosphere with gentle steam (leil), followed by ice-hole dips.",
+        url: "https://savvusann.ee/en/",
+        img: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        provider: "Matsalu Kayak Adventures",
+        title: "Matsalu Bay Delta Reed Bed & Sea Eagle Kayak Trail",
+        region: "Western Coast & Islands",
+        location: "Matsalu National Park, Penijõe Delta",
+        cost: "€50 / paddler",
+        costGroup: "Paid",
+        category: "Sea Kayaking",
+        duration: "4 Hours (approx. 12 km)",
+        season: "May to October",
+        meeting: "Penijõe harbor slipway",
+        included: "Single/tandem sea kayaks, spray decks, lightweight paddles, buoyancy aids, certified guide",
+        desc: "Paddle through winding channels cut into Europe's largest continuous reed bed. Outstanding opportunities to observe white-tailed eagles, migrating cranes, mute swans, and bitterns from silent sea kayaks.",
+        url: "https://kaitsealad.ee/en/protected-areas/matsalu-national-park",
+        img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        provider: "RMK (State Forest Management Centre)",
+        title: "Viru Bog Study Trail & Wooden Boardwalk",
+        region: "Northern Estonia",
+        location: "Lahemaa National Park, Harju County",
+        cost: "Free (Public Access)",
+        costGroup: "Free",
+        category: "Self-Guided Trail",
+        duration: "1.5 to 2 Hours (3.5 km loop)",
+        season: "Open 24/7 All Year",
+        meeting: "Loksa road parking area / Viru raba trailhead",
+        included: "Accessible wooden boardwalks, multi-story observation lookout tower, educational panels",
+        desc: "Estonia's most iconic boardwalk walk. The first kilometer is wheelchair and stroller accessible, leading to an observation tower with panoramic vistas over bog pools, peat mounds, and stunted pine trees.",
+        url: "https://www.loodusegakoos.ee/en",
+        img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        provider: "Männiku Safarikeskus",
+        title: "Männiku Quarry Extreme 4x4 ATV & Off-Road Safari",
+        region: "Tallinn & Harju",
+        location: "Männiku sand quarry (15 min south of Tallinn)",
+        cost: "€75 – €120 / vehicle",
+        costGroup: "Paid",
+        category: "Motorsports",
+        duration: "1.5 to 2 Hours",
+        season: "Year-Round",
+        meeting: "Männiku Safarikeskus HQ, Trapi tee",
+        included: "ATV / 4x4 buggy, fuel, helmet, protective goggles, muddy trail briefing, guide leader",
+        desc: "Navigate steep sandy inclines, forest gullies, and water-filled trenches in the former military quarry training grounds. Suitable for beginner and advanced drivers alike.",
+        url: "https://mannikusafarikeskus.ee",
+        img: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        provider: "RMK (State Forest Management Centre)",
+        title: "Suur Taevaskoda & Ahja River Sandstone Trail",
+        region: "Tartu & Southern Estonia",
+        location: "Ahja River Primeval Valley, Põlva County",
+        cost: "Free (Public Access)",
+        costGroup: "Free",
+        category: "Self-Guided Trail",
+        duration: "2 Hours (approx. 4.5 km)",
+        season: "Open 24/7 All Year",
+        meeting: "Taevaskoja RMK Visitor Centre car park",
+        included: "Maintained stairs, boardwalks, campfire sites with free split logs, historical folklore signs",
+        desc: "Trail runs along the amber waters of the Ahja River, framed by towering 24-meter Devonian sandstone cliffs (Suur and Väike Taevaskoda), cave springs, and ancient sacred pagan gathering grounds.",
+        url: "https://www.loodusegakoos.ee/where-to-go",
+        img: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        provider: "Tallinna Vanalinn Ghost Tours",
+        title: "Tallinn Medieval Old Town Legends & Lantern Walk",
+        region: "Tallinn & Harju",
+        location: "Old Town, Tallinn",
+        cost: "€18 / adult",
+        costGroup: "Paid",
+        category: "Historical Walking",
+        duration: "1.5 Hours",
+        season: "Year-Round (Evenings)",
+        meeting: "Town Hall Square (Raekoja plats) fountain",
+        included: "Costumed medieval storyteller guide, handheld hurricane kerosene lanterns",
+        desc: "Explore cobblestone alleys by real lantern light after dusk. Uncover grim medieval executions, the phantom nun of the Maiden's Tower, and the legendary pact with the devil at Rataskaevu 16.",
+        url: "https://www.visittallinn.ee/eng",
+        img: "https://images.unsplash.com/photo-1513581166391-887a96ddeafd?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        provider: "Tehvandi Spordikeskus",
+        title: "Tehvandi World Cup Illuminated Ski Trails & Stadium",
+        region: "Tartu & Southern Estonia",
+        location: "Otepää, Valga County",
+        cost: "Free Track Access / Gear Hire €15",
+        costGroup: "Paid",
+        category: "Cross-Country Skiing",
+        duration: "Flexible (1.5 km – 10 km circuits)",
+        season: "December to late March",
+        meeting: "Tehvandi Stadium service pavilion",
+        included: "Illuminated trails until 21:00, track grooming, wax testing benches (rentals in pavilion)",
+        desc: "Ski on FIS World Cup certified competition tracks through rolling South Estonian drumlins. State-of-the-art snowmaking guarantees track coverage even during milder winter conditions.",
+        url: "https://www.tehvandi.ee/en/",
+        img: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        provider: "Estonian Wildlife Tours",
+        title: "Alutaguse Boreal Flying Squirrel Twilight Tracking",
+        region: "Northern Estonia",
+        location: "Alutaguse Taiga Forest",
+        cost: "€95 / person",
+        costGroup: "Paid",
+        category: "Specialist Wildlife",
+        duration: "3.5 Hours (Late evening / sunset)",
+        season: "May to July (Peak activity)",
+        meeting: "Iisaku Nature Centre, Ida-Virumaa",
+        included: "Wildlife biologist guide, red-light tracking torches, spotting scope, transport from meeting point",
+        desc: "A rare opportunity to observe the elusive and strictly protected Siberian flying squirrel (Pteromys volans). Listen for territorial calls and watch adults glide between old-growth aspen canopies at twilight.",
+        url: "https://natourest.ee/portfolio/flying-squirrel-watching/",
+        img: "https://images.unsplash.com/photo-1507666405895-422eee7d517f?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        provider: "Pirita Seikluspark",
+        title: "Pirita Beach Pine Forest High-Ropes & Beach Zipline",
+        region: "Tallinn & Harju",
+        location: "Pirita Beach, Tallinn",
+        cost: "€26 / adult",
+        costGroup: "Paid",
+        category: "Ropes & Ziplines",
+        duration: "2.5 to 3 Hours (6 trails)",
+        season: "April to October",
+        meeting: "Pirita Adventure Park ticket office, Merivälja tee 5",
+        included: "Petzl full climbing harness, smart dual-carabiner safety system, safety briefing, locker use",
+        desc: "Climb through 6 different difficulty courses set in seaside pine trees, culminating in a 150-meter long beach zipline overlooking the Gulf of Finland and Tallinn Old Town skyline.",
+        url: "https://piritaseikluspark.ee/en/",
+        img: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        provider: "Hiiumaa Heritage Society",
+        title: "Historic Hiiumaa Lighthouses Self-Drive Trail",
+        region: "Western Coast & Islands",
+        location: "Hiiumaa Island (Kõpu, Ristna, Tahkuna)",
+        cost: "€5 entrance per lighthouse / Trail free",
+        costGroup: "Free",
+        category: "Self-Drive Heritage",
+        duration: "Full Day (approx. 90 km drive)",
+        season: "Lighthouses open May–Sept; Grounds 24/7",
+        meeting: "Kõpu Lighthouse parking area",
+        included: "Scenic coastal route, access to Kõpu (built 1531, one of world's oldest operating lighthouses)",
+        desc: "Climb steep narrow stone stairs inside Kõpu lighthouse, visit the cast-iron Eiffel-style Ristna lighthouse, and see Tahkuna lighthouse at the northernmost point of Hiiumaa facing open Baltic seas.",
+        url: "https://kaitsealad.ee/en",
+        img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        provider: "Saaremaa Muuseum",
+        title: "Kuressaare Episcopal Castle & Fortress Exploration",
+        region: "Western Coast & Islands",
+        location: "Kuressaare, Saaremaa",
+        cost: "€12 / adult",
+        costGroup: "Paid",
+        category: "Fortress & History",
+        duration: "2.5 Hours",
+        season: "Open Year-Round",
+        meeting: "Kuressaare Castle main drawbridge gate",
+        included: "Full castle admission, convent building halls, defense towers, moat rampart walks",
+        desc: "The only fully preserved medieval convent-style stone fortress in the Baltic states. Explore the Bishop's chamber, subterranean dungeons, torture displays, and scenic ramparts looking over Kuressaare Bay.",
+        url: "https://saaremaamuuseum.ee/en/kuressaare-episcopal-castle/",
+        img: "https://images.unsplash.com/photo-1533158307587-828f0a76ef96?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        provider: "Setomaa Turism",
+        title: "Setomaa Living Borderlands Culture & Culinary Trail",
+        region: "Tartu & Southern Estonia",
+        location: "Setomaa (Värska, Saatse, Obinitsa)",
+        cost: "Free Route Access (Museums ~€6)",
+        costGroup: "Free",
+        category: "Cultural Trail",
+        duration: "Half to Full Day",
+        season: "Year-Round",
+        meeting: "Värska Farm Museum, Pikk tn 56",
+        included: "Self-drive map, traditional Seto farmstead architecture, craft workshops, local tsäimaja cuisine",
+        desc: "Immerse yourself in unique Seto borderland traditions. Visit Orthodox village chapels (tsässons), hear UNESCO-recognized polyphonic Leelo choral songs, and sample fresh smoked fish and hand-baked pies.",
+        url: "https://www.visitsetomaa.ee/en",
+        img: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        provider: "Sihtasutus Haapsalu ja Läänemaa Muuseumid",
+        title: "Haapsalu 13th-Century Fortress & Seaside Promenade",
+        region: "Western Coast & Islands",
+        location: "Haapsalu Old Town",
+        cost: "Courtyard Free / Museum €12",
+        costGroup: "Free",
+        category: "Castles & Resorts",
+        duration: "2 to 3 Hours",
+        season: "Courtyard open daily; Museum year-round",
+        meeting: "Lossiplats 3, Haapsalu",
+        included: "Castle inner courtyard, ruined cathedral with White Lady window, historical moat park",
+        desc: "Walk through the sprawling medieval bishop's castle ruins, famous for the August full-moon ghost apparition. Continue along the shore promenade to see the wooden Kursaal and Tchaikovsky's memorial stone bench.",
+        url: "https://salm.ee/en/haapsalu-castle/",
+        img: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80"
+      }
+    ];
 
-</div>
-</section>
+    // LocalStorage keys
+    const APPROVED_STORAGE_KEY = 'estonia_approved_tours';
+    const QUEUE_STORAGE_KEY = 'estonia_pending_submissions';
+    const ADMIN_KEY_STORAGE = 'estonia_admin_unlocked';
 
-<section id="activities" class="activities">
+    // Check if admin is authorized (via URL param e.g. ?admin=true or previously unlocked in localStorage)
+    function checkAdminAccess() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('admin') === 'true' || urlParams.get('admin') === 'secret') {
+        localStorage.setItem(ADMIN_KEY_STORAGE, 'true');
+        // Clean up url without refreshing
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
 
-<div class="section-title">
-<h2>Popular Experiences</h2>
-</div>
+      const isAuthorized = localStorage.getItem(ADMIN_KEY_STORAGE) === 'true';
+      const adminBtn = document.getElementById('adminBtn');
+      if (adminBtn) {
+        adminBtn.style.display = isAuthorized ? 'inline-block' : 'none';
+      }
+      return isAuthorized;
+    }
 
-<div class="activity-grid">
+    function getApprovedTours() {
+      const stored = localStorage.getItem(APPROVED_STORAGE_KEY);
+      if (stored) {
+        try { return JSON.parse(stored); } catch(e) {}
+      }
+      return [...baseTours];
+    }
 
-<div class="activity">
-<h4>🎣 Fishing Adventures</h4>
-<p>Sea trout, pike, perch and ice fishing experiences.</p>
-</div>
+    function saveApprovedTours(list) {
+      localStorage.setItem(APPROVED_STORAGE_KEY, JSON.stringify(list));
+    }
 
-<div class="activity">
-<h4>🐎 Horseback Riding</h4>
-<p>Ride through forests, islands and scenic countryside.</p>
-</div>
+    function getPendingQueue() {
+      const stored = localStorage.getItem(QUEUE_STORAGE_KEY);
+      if (stored) {
+        try { return JSON.parse(stored); } catch(e) {}
+      }
+      return [];
+    }
 
-<div class="activity">
-<h4>🛶 Canoeing & Kayaking</h4>
-<p>Explore rivers, bogs and the Baltic coastline.</p>
-</div>
+    function savePendingQueue(list) {
+      localStorage.setItem(QUEUE_STORAGE_KEY, JSON.stringify(list));
+      updateBadge();
+    }
 
-<div class="activity">
-<h4>🌲 Guided Hiking</h4>
-<p>National parks, bog landscapes and coastal trails.</p>
-</div>
+    function updateBadge() {
+      const queue = getPendingQueue();
+      const badge = document.getElementById('adminBadge');
+      if (badge) {
+        badge.innerText = queue.length;
+        badge.style.display = queue.length > 0 ? 'inline-block' : 'none';
+      }
+    }
 
-<div class="activity">
-<h4>🦅 Wildlife Watching</h4>
-<p>Birds, beavers, seals and untouched wilderness.</p>
-</div>
+    let activeTours = getApprovedTours();
 
-<div class="activity">
-<h4>🔥 Smoke Sauna</h4>
-<p>Experience Estonia's UNESCO-recognised sauna tradition.</p>
-</div>
+    function renderCards(list) {
+      const grid = document.getElementById('activitiesGrid');
+      grid.innerHTML = '';
+      list.forEach(item => {
+        const isFree = item.costGroup === 'Free';
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.setAttribute('data-title', item.title);
+        card.setAttribute('data-region', item.region);
+        card.setAttribute('data-cost', item.costGroup);
 
-<div class="activity">
-<h4>🏝 Island Escapes</h4>
-<p>Discover Saaremaa, Muhu and Hiiumaa.</p>
-</div>
+        card.innerHTML = `
+          <div class="card-img-wrapper">
+            <img class="card-img" 
+                 src="${item.img}" 
+                 alt="${item.title}" 
+                 loading="lazy" 
+                 onerror="this.onerror=null;this.src='${fallbackImage}';" />
+            <span class="card-provider-pill">${item.provider}</span>
+          </div>
+          <div class="card-body">
+            <div class="badge-bar">
+              <span class="badge ${isFree ? 'badge-free' : 'badge-paid'}">${isFree ? 'Free Trail' : 'Guided / Paid'}</span>
+              <span class="badge badge-category">${item.category}</span>
+              <span class="badge badge-season">🗓️ ${item.season}</span>
+            </div>
+            <h3 class="card-title">${item.title}</h3>
+            <div class="card-location">📍 ${item.location}</div>
 
-<div class="activity">
-<h4>🍴 Food & Culture</h4>
-<p>Traditional cuisine, local farms and cultural tours.</p>
-</div>
+            <div class="specs-grid">
+              <div class="spec-item">
+                <span class="spec-label">Duration</span>
+                <span class="spec-val">${item.duration}</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Meeting Point</span>
+                <span class="spec-val" title="${item.meeting}">${item.meeting}</span>
+              </div>
+            </div>
 
-</div>
+            <p class="card-desc">${item.desc}</p>
+            
+            <div class="includes-box">
+              <strong>Includes:</strong> ${item.included}
+            </div>
 
-</section>
+            <div class="card-footer">
+              <div class="price-box">
+                <span class="price-sub">Rate</span>
+                <span class="price-tag">${item.cost}</span>
+              </div>
+              <a href="${item.url}" target="_blank" rel="noopener" class="btn-link">Official Booking ↗</a>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+      document.getElementById('resultsCount').innerText = `Showing ${list.length} verified excursion${list.length === 1 ? '' : 's'}`;
+    }
 
-<section id="about">
+    function filterDirectory() {
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const region = document.getElementById('regionFilter').value;
+      const cost = document.getElementById('costFilter').value;
 
-<div class="section-title">
-<h2>Why Experience Estonia?</h2>
-</div>
+      const filtered = activeTours.filter(item => {
+        const textBlob = `${item.title} ${item.desc} ${item.provider} ${item.location} ${item.included} ${item.category}`.toLowerCase();
+        const matchesSearch = !search || textBlob.includes(search);
+        const matchesRegion = !region || item.region === region;
+        const matchesCost = !cost || item.costGroup === cost;
 
-<p style="max-width:900px;margin:auto;text-align:center;font-size:1.1rem;">
-Most visitors know Tallinn. Few discover Estonia's flooded forests,
-remote islands, traditional smoke saunas, world-class fishing waters,
-and hidden nature experiences.
+        return matchesSearch && matchesRegion && matchesCost;
+      });
 
-Experience Estonia connects travelers with authentic adventures
-that reveal the real Estonia beyond the capital.
-</p>
+      renderCards(filtered);
+    }
 
-</section>
+    // Submission Handler (Holds in moderation queue, DOES NOT auto-publish)
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const provider = document.getElementById('providerName').value;
+      const email = document.getElementById('contactEmail').value;
+      const title = document.getElementById('tourTitle').value;
+      const region = document.getElementById('tourRegion').value;
+      const duration = document.getElementById('tourDuration').value;
+      const cost = document.getElementById('pricingTier').value;
+      const url = document.getElementById('bookingUrl').value;
+      const userImg = document.getElementById('imageUrl').value;
+      const gear = document.getElementById('gearIncluded').value;
+      const desc = document.getElementById('tourDesc').value;
 
-<footer>
+      const isFree = cost.toLowerCase().includes('free');
 
-<h3>Experience Estonia</h3>
-<p><strong>Go Beyond Tallinn</strong></p>
+      const submission = {
+        id: 'SUB-' + Date.now(),
+        submittedAt: new Date().toLocaleString(),
+        provider: provider,
+        email: email,
+        title: title,
+        region: region,
+        location: region,
+        cost: cost,
+        costGroup: isFree ? 'Free' : 'Paid',
+        category: 'Community Tour',
+        duration: duration,
+        season: 'Flexible / Enquire',
+        meeting: 'Confirmed upon booking',
+        included: gear,
+        desc: desc,
+        url: url,
+        img: userImg.trim() || fallbackImage
+      };
 
-<p>
-Explore authentic experiences across Estonia's forests,
-coastlines, islands and cultural heartlands.
-</p>
+      const queue = getPendingQueue();
+      queue.unshift(submission);
+      savePendingQueue(queue);
 
-<p>© 2026 Experience Estonia</p>
+      alert('Thank you! Your listing has been submitted to the moderation queue.\n\nTo ensure directory quality and link security, all tours undergo manual review before appearing live.');
+      e.target.reset();
+    }
 
-</footer>
+    // Moderation Modal Logic
+    function openAdminModal() {
+      if (!checkAdminAccess()) {
+        const pass = prompt('Enter admin passkey to access moderation:');
+        if (pass === 'admin123' || pass === 'secret') {
+          localStorage.setItem(ADMIN_KEY_STORAGE, 'true');
+          checkAdminAccess();
+        } else {
+          alert('Access denied.');
+          return;
+        }
+      }
+      renderQueue();
+      document.getElementById('adminModal').style.display = 'flex';
+    }
 
+    function closeAdminModal() {
+      document.getElementById('adminModal').style.display = 'none';
+    }
+
+    function renderQueue() {
+      const queueList = document.getElementById('queueList');
+      const queue = getPendingQueue();
+
+      if (queue.length === 0) {
+        queueList.innerHTML = '<p style="color: var(--text-muted); font-style: italic;">No pending submissions in queue. All listings are up to date!</p>';
+        return;
+      }
+
+      queueList.innerHTML = '';
+      queue.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'queue-item';
+        div.innerHTML = `
+          <div class="queue-title">${item.title}</div>
+          <div class="queue-meta">Provider: <strong>${item.provider}</strong> (${item.email}) · Region: ${item.region} · Submitted: ${item.submittedAt}</div>
+          <div class="queue-desc">${item.desc}</div>
+          <div class="queue-meta"><strong>Rate:</strong> ${item.cost} | <strong>Includes:</strong> ${item.included} | <strong>Link:</strong> <a href="${item.url}" target="_blank">${item.url}</a></div>
+          <div class="queue-actions">
+            <button class="btn-approve" onclick="approveSubmission(${index})">Approve & Publish Live</button>
+            <button class="btn-reject" onclick="rejectSubmission(${index})">Reject</button>
+          </div>
+        `;
+        queueList.appendChild(div);
+      });
+    }
+
+    function approveSubmission(index) {
+      const queue = getPendingQueue();
+      const approvedItem = queue.splice(index, 1)[0];
+      
+      // Clean temporary submission metadata
+      delete approvedItem.id;
+      delete approvedItem.submittedAt;
+      delete approvedItem.email;
+
+      activeTours.unshift(approvedItem);
+      saveApprovedTours(activeTours);
+      savePendingQueue(queue);
+
+      renderQueue();
+      filterDirectory();
+      alert(`"${approvedItem.title}" has been approved and published live to the directory!`);
+    }
+
+    function rejectSubmission(index) {
+      if (confirm('Are you sure you want to reject and remove this submission?')) {
+        const queue = getPendingQueue();
+        const removed = queue.splice(index, 1)[0];
+        savePendingQueue(queue);
+        renderQueue();
+      }
+    }
+
+    // Secret keyboard shortcut (Ctrl + Shift + A or Cmd + Shift + A) to toggle moderation button
+    window.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+        const isAuth = localStorage.getItem(ADMIN_KEY_STORAGE) === 'true';
+        if (isAuth) {
+          localStorage.removeItem(ADMIN_KEY_STORAGE);
+          alert('Admin mode disabled. Moderation button hidden.');
+        } else {
+          localStorage.setItem(ADMIN_KEY_STORAGE, 'true');
+          alert('Admin mode enabled! Moderation button is now visible.');
+        }
+        checkAdminAccess();
+      }
+    });
+
+    // Close modal if user clicks backdrop
+    window.onclick = function(event) {
+      const modal = document.getElementById('adminModal');
+      if (event.target === modal) {
+        closeAdminModal();
+      }
+    };
+
+    // Initialize
+    checkAdminAccess();
+    updateBadge();
+    renderCards(activeTours);
+  </script>
 </body>
 </html>
+index.html
+Displaying index.html.
