@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Estonia Activities Directory | Tours & Expeditions</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <style>
     :root {
       --primary: #1b4332;
       --primary-light: #2d6a4f;
       --accent: #d4a373;
-      --accent-hover: #bc8a5f;
       --bg: #f8f9fa;
       --surface: #ffffff;
       --text: #212529;
@@ -19,8 +19,6 @@
       --paid-tag: #457b9d;
       --shadow: 0 6px 18px rgba(0,0,0,0.06);
       --radius: 12px;
-      --danger: #e63946;
-      --success: #2a9d8f;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -71,24 +69,6 @@
       border-radius: 8px;
     }
     .btn-submit:hover { background: var(--primary-light); }
-    .btn-admin {
-      background: #4a5568;
-      color: #fff !important;
-      padding: 0.45rem 0.85rem;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      position: relative;
-    }
-    .admin-badge {
-      background: var(--danger);
-      color: white;
-      font-size: 0.7rem;
-      font-weight: 800;
-      padding: 0.1rem 0.4rem;
-      border-radius: 10px;
-      margin-left: 0.35rem;
-    }
-
     .hero {
       background: linear-gradient(rgba(27, 67, 50, 0.88), rgba(27, 67, 50, 0.92)),
                   url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1600&q=80') center/cover;
@@ -156,6 +136,24 @@
       grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr));
       gap: 2rem;
     }
+    .map-section { margin: 0 0 2rem; }
+    .map-section h3 { color: var(--primary); font-size: 1.3rem; margin-bottom: 0.35rem; }
+    .map-note { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.9rem; }
+    #activityMap {
+      width: 100%;
+      height: clamp(320px, 55vh, 560px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #e8eef0;
+      z-index: 0;
+    }
+    .map-fallback { padding: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+    .map-fallback[hidden] { display: none; }
+    .map-fallback ul { margin: 0.5rem 0 0 1.25rem; }
+    .map-popup-title { color: var(--primary); font-weight: 800; margin-bottom: 0.35rem; }
+    .map-popup-list { padding-left: 1.1rem; }
+    .map-popup-list li { margin: 0.2rem 0; }
     .card {
       min-width: 0;
       background: var(--surface);
@@ -229,7 +227,7 @@
     
     .specs-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 120px), 1fr));
       gap: 0.5rem;
       background: #f8fafc;
       border: 1px solid var(--border);
@@ -278,7 +276,7 @@
     }
     .btn-link:hover { background: var(--primary-light); }
 
-    /* Informational & Form Sections */
+    /* Informational sections */
     .info-section {
       background: var(--surface);
       border-radius: var(--radius);
@@ -291,112 +289,6 @@
     .info-box { background: var(--bg); padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--accent); }
     .info-box h3 { font-size: 1.1rem; color: var(--primary); margin-bottom: 0.5rem; font-weight: 700; }
 
-    .form-card {
-      background: var(--surface);
-      border-radius: var(--radius);
-      padding: 2.5rem;
-      margin-top: 3.5rem;
-      box-shadow: var(--shadow);
-    }
-    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-    .form-group { display: flex; flex-direction: column; margin-bottom: 1rem; }
-    .form-group.full { grid-column: 1 / -1; }
-    .form-group label { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.4rem; }
-    .form-group input, .form-group select, .form-group textarea {
-      padding: 0.75rem;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-size: 0.95rem;
-      font-family: inherit;
-      min-width: 0;
-      max-width: 100%;
-      width: 100%;
-    }
-    .btn-submit-form {
-      background: var(--accent);
-      color: white;
-      font-size: 1rem;
-      font-weight: 700;
-      border: none;
-      padding: 0.85rem 1.5rem;
-      border-radius: 8px;
-      cursor: pointer;
-      width: 100%;
-    }
-    .btn-submit-form:hover { background: var(--accent-hover); }
-
-    /* Admin Moderation Modal */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.6);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      padding: 1.5rem;
-    }
-    .modal-content {
-      background: var(--surface);
-      border-radius: var(--radius);
-      max-width: 800px;
-      width: 100%;
-      max-height: 85vh;
-      overflow-y: auto;
-      padding: 2rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-    }
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 1rem;
-      margin-bottom: 1.5rem;
-    }
-    .modal-header h2 { font-size: 1.4rem; color: var(--primary); }
-    .btn-close-modal {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--text-muted);
-    }
-    .queue-item {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.25rem;
-      margin-bottom: 1.25rem;
-    }
-    .queue-title { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
-    .queue-meta { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; overflow-wrap: anywhere; }
-    .queue-desc { font-size: 0.88rem; color: #334155; margin-bottom: 0.85rem; overflow-wrap: anywhere; }
-    .queue-actions { display: flex; gap: 0.75rem; }
-    .btn-approve {
-      background: var(--success);
-      color: white;
-      border: none;
-      padding: 0.45rem 1rem;
-      border-radius: 6px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 0.85rem;
-    }
-    .btn-reject {
-      background: var(--danger);
-      color: white;
-      border: none;
-      padding: 0.45rem 1rem;
-      border-radius: 6px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 0.85rem;
-    }
-
     footer {
       background: var(--primary);
       color: white;
@@ -408,7 +300,6 @@
     footer a { color: var(--accent); text-decoration: none; }
 
     @media (max-width: 768px) {
-      .form-grid { grid-template-columns: 1fr; }
       .nav-container { flex-direction: column; gap: 1rem; }
       nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
       nav a { margin-left: 0.5rem; margin-right: 0.5rem; }
@@ -421,13 +312,11 @@
       .search-panel { padding: 0 1rem; }
       .search-card { padding: 1rem; }
       .main-container { padding: 0 1rem 3rem; }
-      .info-section, .form-card { padding: 1.25rem; }
+      .info-section { padding: 1.25rem; }
       .info-grid { grid-template-columns: minmax(0, 1fr); }
       .directory-header { flex-direction: column; align-items: flex-start; }
       .section-title { font-size: 1.5rem; }
       .card-footer { flex-wrap: wrap; gap: 0.75rem; }
-      .modal-overlay { padding: 0.75rem; }
-      .modal-content { padding: 1.25rem; }
     }
   </style>
 </head>
@@ -438,20 +327,19 @@
       <a href="#" class="logo">🌲 Estonia Activities</a>
       <nav>
         <a href="#directory">Tours & Trails</a>
+        <a href="#activityMapSection">Map</a>
         <a href="#guidelines">Guidelines</a>
         <a href="#about">About</a>
         <a href="#faq">FAQ</a>
-        <a href="#submit" class="btn-submit">Submit Tour</a>
-        <a href="javascript:void(0)" onclick="openAdminModal()" class="btn-admin">
-          Moderation <span class="admin-badge" id="adminBadge">0</span>
-        </a>
+        <a href="#contact">Contact Us</a>
+        <a href="#submit" class="btn-submit">Suggest a Tour</a>
       </nav>
     </div>
   </header>
 
   <section class="hero">
     <h1>Estonia Expeditions & Tours</h1>
-    <p>Explore guided wilderness tours, kayak routes, bear-hide stays, and self-guided national park boardwalks. Confirm current details directly with each provider before setting out.</p>
+    <p>Explore guided tours, outdoor activities, museums and public nature destinations. Details, dates and availability can change, so confirm directly with each provider before setting out.</p>
   </section>
 
   <section class="search-panel">
@@ -464,6 +352,7 @@
         <option value="Western Coast & Islands">Western Coast & Islands (Soomaa, Saaremaa, Hiiumaa)</option>
         <option value="Tartu & Southern Estonia">Tartu & Southern Estonia (Otepää, Võrumaa, Setomaa)</option>
         <option value="Eastern Estonia">Eastern Estonia (Lake Peipus)</option>
+        <option value="Various locations">Various locations / Estonia-wide</option>
       </select>
       <select id="costFilter" class="filter-select" onchange="filterDirectory()">
         <option value="">All Tour Types</option>
@@ -479,42 +368,52 @@
       <span class="results-count" id="resultsCount">Showing all excursions</span>
     </div>
 
+    <section class="map-section" id="activityMapSection" aria-labelledby="mapHeading">
+      <h3 id="mapHeading">Activities Map</h3>
+      <p class="map-note">Pins show only locations matched to named places or addresses. Park and city pins are approximate area markers; some tours move between locations or don’t publish a precise meeting point. Select a pin to find the listed activities.</p>
+      <div id="activityMap" role="application" aria-label="Map of selected activity locations in Estonia"></div>
+      <div id="mapFallback" class="map-fallback" hidden>
+        <strong>Map view is unavailable. Browse the mapped locations:</strong>
+        <ul id="mapFallbackList"></ul>
+      </div>
+    </section>
+
     <div class="directory-grid" id="activitiesGrid"></div>
 
     <section class="info-section" id="guidelines">
       <h2>Field & Expedition Guidelines</h2>
       <div class="info-grid">
         <div class="info-box">
-          <h3>Self-Guided Trails & Gear</h3>
-          <p>Free RMK boardwalks and forest trails require travelers to bring all specialized clothing, boots, and water. Campfire wood is provided free at designated state forest shelters.</p>
+          <h3>Confirm Current Details</h3>
+          <p>Prices, schedules, seasonal openings and trip conditions may change. Check the linked provider page before booking or travelling.</p>
         </div>
         <div class="info-box">
-          <h3>Official Permits & Licensing</h3>
-          <p>Recreational fishing on Lake Peipus and Baltic waters legally requires an online state license via kalaluba.ee. Drone usage over national parks requires prior Environmental Board clearance.</p>
+          <h3>Public Nature Catalogues</h3>
+          <p>Some entries link to broad official catalogues rather than a single route or bookable activity. Those catalogues are not exhaustively reproduced here.</p>
         </div>
         <div class="info-box">
-          <h3>Expedition Reservations</h3>
-          <p>Early direct reservations (at least 2–4 weeks in advance) are necessary for brown bear hides, winter husky sled teams, and Malusi seal safaris due to strict ecological quota limits.</p>
+          <h3>Plan Safely</h3>
+          <p>Review the provider’s safety guidance and any applicable local rules for your chosen activity and location.</p>
         </div>
       </div>
     </section>
 
     <section class="info-section" id="about">
       <h2>About Our Platform</h2>
-      <p>At Estonia Activities, our mission is to empower travelers, outdoor enthusiasts, and locals to experience the full breadth of Estonia's natural and cultural heritage. By curating commercial experiences alongside public outdoor infrastructure, we offer a transparent, unified window into Northern Europe's wildest landscapes.</p>
+      <p>This static directory brings together selected activity listings and official public-nature catalogues. It is not affiliated with the providers and does not guarantee that an offer, rate or schedule is current.</p>
       
       <div class="info-grid">
         <div class="info-box">
-          <h3>Direct Provider Links Only</h3>
-          <p>We do not hold booking fees, take commissions, or redirect to third-party aggregators. Every card connects you straight to the local guide or park management service.</p>
+          <h3>Official Sources</h3>
+          <p>Listings were checked against linked provider or public-agency pages where accessible. Some providers’ sites were unavailable or did not publish an activity catalogue, so those offers are not represented as confirmed.</p>
         </div>
         <div class="info-box">
-          <h3>Pristine Peatlands & Forests</h3>
-          <p>Over 50% of Estonia is covered by wild forest and more than 2,000 islands, making wilderness trails readily accessible within 45 to 90 minutes of major centers.</p>
+          <h3>Catalogue Scope</h3>
+          <p>Commercial offers can be seasonal or customized, while public nature inventories can be very large. The directory is a selection, not a complete list of every activity in Estonia.</p>
         </div>
         <div class="info-box">
-          <h3>Check Listing Details</h3>
-          <p>Listings are provided for discovery and are not independently verified by this static directory. Confirm availability, safety requirements, and other details with the provider before booking.</p>
+          <h3>Submissions</h3>
+          <p>The Google Form is handled by its owner. Submissions do not update this webpage automatically and are not stored or moderated by the directory.</p>
         </div>
       </div>
     </section>
@@ -523,469 +422,196 @@
       <h2>Provider FAQ</h2>
       <div class="info-grid">
         <div class="info-box">
-          <h3>What does listing a tour cost?</h3>
-          <p>Listing tours on Estonia Activities is completely free. We do not charge setup fees or deduct commissions from your bookings.</p>
+          <h3>Are the listings guaranteed current?</h3>
+          <p>No. Check the linked official source for current details, dates, rates and availability before making plans.</p>
         </div>
         <div class="info-box">
-          <h3>Where are submissions stored?</h3>
-          <p>This static site stores submitted and approved listings only in this browser. They are not sent to the site maintainers or shared with other visitors, and approval here does not publish a listing to the website.</p>
+          <h3>How do I suggest a tour?</h3>
+          <p>Use the Google Form in “Suggest a Tour or Trail.” Its owner receives submissions; this page does not publish them automatically.</p>
         </div>
         <div class="info-box">
-          <h3>How are client inquiries handled?</h3>
-          <p>Customers click directly to your website, phone, or booking calendar. You maintain 100% of payment transactions and direct customer communication.</p>
+          <h3>Does this list every activity in Estonia?</h3>
+          <p>No. Some linked catalogs are broad, seasonal or inaccessible, and this directory may omit activities. Follow the official catalog links to explore more.</p>
         </div>
       </div>
     </section>
 
-    <section class="form-card" id="submit">
+    <section class="info-section" id="submit">
       <h2>Suggest a Tour or Trail</h2>
-      <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Share a tour or trail for review in this browser's local moderation queue. This page does not independently verify listing details.</p>
-      <form onsubmit="handleFormSubmit(event)">
-        <div class="form-grid">
-          <div class="form-group">
-            <label for="providerName">Operating Provider / Organisation *</label>
-            <input type="text" id="providerName" required placeholder="e.g. Soomaa Water Trips OÜ" />
-          </div>
-          <div class="form-group">
-            <label for="contactEmail">Contact Email *</label>
-            <input type="email" id="contactEmail" required placeholder="info@example.ee" />
-          </div>
-          <div class="form-group">
-            <label for="tourTitle">Tour / Trail Title *</label>
-            <input type="text" id="tourTitle" required placeholder="e.g. Spring Flooded Forest Canoe Safari" />
-          </div>
-          <div class="form-group">
-            <label for="tourRegion">Region / Destination *</label>
-            <select id="tourRegion" required>
-              <option value="">Select Region</option>
-              <option value="Tallinn & Harju">Tallinn & Harju County</option>
-              <option value="Northern Estonia">Northern Estonia (Lahemaa, Alutaguse)</option>
-              <option value="Western Coast & Islands">Western Coast & Islands</option>
-              <option value="Tartu & Southern Estonia">Tartu & Southern Estonia</option>
-              <option value="Eastern Estonia">Eastern Estonia</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="tourDuration">Duration & Meeting Point *</label>
-            <input type="text" id="tourDuration" required placeholder="e.g. 3.5 hrs | Kõrvemaa Hike Centre" />
-          </div>
-          <div class="form-group">
-            <label for="pricingTier">Pricing Type & Cost *</label>
-            <input type="text" id="pricingTier" required placeholder="e.g. Paid (€45/person) or Free" />
-          </div>
-          <div class="form-group">
-            <label for="bookingUrl">Direct Official Booking / Trail URL *</label>
-            <input type="url" id="bookingUrl" required placeholder="https://yourofficialsite.ee/tour" />
-          </div>
-          <div class="form-group">
-            <label for="imageUrl">Photo URL (Optional)</label>
-            <input type="url" id="imageUrl" placeholder="https://images.unsplash.com/..." />
-          </div>
-          <div class="form-group full">
-            <label for="gearIncluded">Gear & What's Included *</label>
-            <input type="text" id="gearIncluded" required placeholder="e.g. Bog shoes, hot tea, safety briefing, guide" />
-          </div>
-          <div class="form-group full">
-            <label for="tourDesc">Detailed Tour Description *</label>
-            <textarea id="tourDesc" rows="4" required placeholder="Describe the specific route, wildlife sightings, physical requirements, and highlights..."></textarea>
-          </div>
-        </div>
-        <button type="submit" class="btn-submit-form">Submit for Review</button>
-      </form>
+      <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Share a tour or trail for consideration using our Google Form. Submissions are handled by the form owner; this static directory does not receive or publish them automatically.</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLScvo5aESNUyGpXgOxqQVL2-mkw8Hf8lKnkhJqvnPvdONeLWxA/viewform?usp=header" class="btn-submit">Open the Google Form ↗</a>
+    </section>
+
+    <section class="info-section" id="contact">
+      <h2>Contact Us</h2>
+      <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Send us a message using the separate contact form. This form is for general inquiries and is separate from the tour suggestion form.</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdJPLUl4K1Dbbsdg7XVb_ioYKjd0dI7RGCPW9H8Np2PF28MFA/viewform?hl=en" class="btn-submit">Open the Contact Us Form ↗</a>
     </section>
   </main>
 
-  <!-- Admin Review Modal -->
-  <div class="modal-overlay" id="adminModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Listing Approval Queue</h2>
-        <button class="btn-close-modal" onclick="closeAdminModal()">&times;</button>
-      </div>
-      <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.25rem;">
-        Submissions and approvals are stored only in this browser. Approving a tour adds it to this browser's directory; it does not publish it to the website or share it with other visitors.
-      </p>
-      <div id="queueList"></div>
-    </div>
-  </div>
-
   <footer>
-    <p>&copy; 2026 Estonia Activities Directory. Granular tour listings and official nature reserves.</p>
-    <p style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.8;">Direct Operator Links · Zero Aggregator Resellers · Hosted on GitHub Pages</p>
+    <p>&copy; 2026 Estonia Activities Directory. Selected tours, activities and public nature resources.</p>
+    <p style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.8;">Static directory · Check official sources for current details</p>
   </footer>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script>
     // Baseline published excursions
     const baseTours = [
-      {
-        provider: "Sportland Kõrvemaa Matka- ja Suusakeskus",
-        title: "Kakerdaja Bog Sunrise Bog-Shoeing Expedition",
-        region: "Northern Estonia",
-        location: "Kakerdaja Bog, Kõrvemaa",
-        cost: "€65 / person",
-        costGroup: "Paid",
-        category: "Bog Hiking",
-        duration: "3.5 Hours (approx. 6 km)",
-        season: "All Year (Sunrise/Day)",
-        meeting: "Orava car park, Kakerdaja bog trailhead",
-        included: "Specialized bog shoes, walking poles, tea & local berry pie, certified bog ecologist guide",
-        desc: "Glide over soft peat moss and navigate between dark bog pools (laukad) without sinking. Learn peat moss hydrology, inspect insectivorous sundew plants, and swim in mineral-rich bog waters during warmer months.",
-        url: "https://korvemaa.ee/en/",
-        img: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        provider: "Soomaa.com Wilderness Tours",
-        title: "Fifth Season Flooded Forest & River Canoe Safari",
-        region: "Western Coast & Islands",
-        location: "Soomaa National Park",
-        cost: "€45 / person",
-        costGroup: "Paid",
-        category: "Canoeing & Kayaking",
-        duration: "3 to 4 Hours",
-        season: "Spring (March–April) & Autumn",
-        meeting: "Karuskose Farmstead, Soomaa NP",
-        included: "Canadian fiberglass canoe, paddles, CE life vests, waterproof dry barrels, safety briefing",
-        desc: "Paddle directly through flooded birch and alder forests, submerged roads, and meadows during Soomaa's UNESCO-inscribed fifth season. Drift silently alongside beaver lodges and ancient dugout boat carving sites.",
-        url: "https://soomaa.com/activities/",
-        img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        provider: "Capture Estonia Expeditions",
-        title: "Malusi Islands Grey Seal & Seabird Boat Safari",
-        region: "Northern Estonia",
-        location: "Malusi Islands Nature Reserve, Kolga Bay",
-        cost: "€135 / adult",
-        costGroup: "Paid",
-        category: "Marine Wildlife",
-        duration: "3.5 Hours (Speedboat)",
-        season: "June to October",
-        meeting: "Kaberneeme Marina (35 min east of Tallinn)",
-        included: "RIB offshore motorboat cruise, skipper, thermal flotation suits, underwater hydrophone",
-        desc: "Cruise out to remote granite islets where up to 400 Baltic grey seals haul out. The tour uses classical music broadcast into the sea to lure curious seals close to the boat, with acoustic hydrophone listening.",
-        url: "https://www.capture-estonia.ee",
-        img: "https://images.unsplash.com/photo-1589656966895-2f33e7653819?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        provider: "Natourest Wildlife Safaris",
-        title: "Alutaguse Taiga Brown Bear Hide Overnight Experience",
-        region: "Northern Estonia",
-        location: "Alutaguse National Park primeval forest",
-        cost: "€130 / night per person",
-        costGroup: "Paid",
-        category: "Wildlife Observation",
-        duration: "14 Hours (17:00 – 08:00 overnight)",
-        season: "April to October",
-        meeting: "Tudu Forest Meeting Point, Lääne-Viru",
-        included: "Overnight bunk in insulated hide, viewing chairs, photo ports, dry toilet, naturalist briefing",
-        desc: "Spend a quiet night inside an observation hide deep in Alutaguse's primeval forest. Excellent probability of viewing wild brown bears, raccoon dogs, roe deer, and occasionally wolves or lynx in total safety.",
-        url: "https://natourest.ee",
-        img: "https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        provider: "Rummu Underwater Park",
-        title: "Submerged Prison Quarry Scuba Dive & Snorkel Tour",
-        region: "Northern Estonia",
-        location: "Rummu Quarry, Harju County",
-        cost: "€65 – €95 / diver",
-        costGroup: "Paid",
-        category: "Scuba Diving",
-        duration: "2.5 Hours",
-        season: "May to October",
-        meeting: "Rummu Diving Centre dock",
-        included: "Air tanks, weights, dive guide briefing (full kit rental available on site)",
-        desc: "Dive the crystal-clear flooded limestone quarry to examine submerged Soviet prison security walls, razor wire fencing, pumping stations, and submerged underwater tree forests. Certification required for deep areas.",
-        url: "https://www.rummu.eu/en/activities/diving/",
-        img: "https://images.unsplash.com/photo-1682687220063-4742bd7fd538?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        provider: "Lake Peipus Winter Sled Tours",
-        title: "Lake Peipus Karakat Monster-Sled Ice Fishing Expedition",
-        region: "Eastern Estonia",
-        location: "Kallaste & Kolkja, Lake Peipus",
-        cost: "€65 / person",
-        costGroup: "Paid",
-        category: "Ice Fishing",
-        duration: "5 Hours",
-        season: "January to March (Subject to Ice)",
-        meeting: "Kallaste Harbour pier",
-        included: "Transport on custom balloon-tire 'karakat' truck, ice auger, rods, jigging lures, hot tea",
-        desc: "Ride custom hand-built giant amphibious vehicles onto the frozen expanse of Europe's fifth-largest lake. Drill through 40cm of ice 5–10km offshore with local Old Believer fishermen to jig for perch and whitefish.",
-        url: "https://kalaluba.ee",
-        img: "https://images.unsplash.com/photo-1516431883659-655d41c09bf9?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        provider: "Paasiku Dogs Manor & Kennel",
-        title: "Winter Siberian Husky Forest Sledding Excursion",
-        region: "Tallinn & Harju",
-        location: "Paasiku Village, Harjumaa (30 min from Tallinn)",
-        cost: "€169 / adult",
-        costGroup: "Paid",
-        category: "Winter Adventure",
-        duration: "2 Hours (Sled run + kennel tour)",
-        season: "December to March (Snow-dependent)",
-        meeting: "Paasiku Manor courtyard",
-        included: "Husky mushing instruction, sled ride driven by 6-dog team, kennel visit, hot herbal tea",
-        desc: "Take the reins of a husky sled or ride as passenger through snow-covered spruce forests. Learn about the working genetics and training of 30+ purebred Siberian Huskies, followed by tea in a heated manor room.",
-        url: "https://paasiku.ee/en/",
-        img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        provider: "Võrumaa Smoke Sauna Network",
-        title: "Traditional South Estonian Smoke Sauna Ritual",
-        region: "Tartu & Southern Estonia",
-        location: "Haanja & Rõuge, Võru County",
-        cost: "€120 – €180 / private group",
-        costGroup: "Paid",
-        category: "Wellness & Heritage",
-        duration: "4 to 5 Hours",
-        season: "Year-Round",
-        meeting: "Mooska Farmstead, Haanja",
-        included: "8-hour wood-heated smoke sauna, birch and nettle whisks, cold pond plunge, herbal teas",
-        desc: "Experience ancient UNESCO Intangible Cultural Heritage. The chimney-less log sauna is heated for hours with birch logs, creating a sterile aromatic atmosphere with gentle steam (leil), followed by ice-hole dips.",
-        url: "https://savvusann.ee/en/",
-        img: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        provider: "Matsalu Kayak Adventures",
-        title: "Matsalu Bay Delta Reed Bed & Sea Eagle Kayak Trail",
-        region: "Western Coast & Islands",
-        location: "Matsalu National Park, Penijõe Delta",
-        cost: "€50 / paddler",
-        costGroup: "Paid",
-        category: "Sea Kayaking",
-        duration: "4 Hours (approx. 12 km)",
-        season: "May to October",
-        meeting: "Penijõe harbor slipway",
-        included: "Single/tandem sea kayaks, spray decks, lightweight paddles, buoyancy aids, certified guide",
-        desc: "Paddle through winding channels cut into Europe's largest continuous reed bed. Outstanding opportunities to observe white-tailed eagles, migrating cranes, mute swans, and bitterns from silent sea kayaks.",
-        url: "https://kaitsealad.ee/en/protected-areas/matsalu-national-park",
-        img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        provider: "RMK (State Forest Management Centre)",
-        title: "Viru Bog Study Trail & Wooden Boardwalk",
-        region: "Northern Estonia",
-        location: "Lahemaa National Park, Harju County",
-        cost: "Free (Public Access)",
-        costGroup: "Free",
-        category: "Self-Guided Trail",
-        duration: "1.5 to 2 Hours (3.5 km loop)",
-        season: "Open 24/7 All Year",
-        meeting: "Loksa road parking area / Viru raba trailhead",
-        included: "Accessible wooden boardwalks, multi-story observation lookout tower, educational panels",
-        desc: "Estonia's most iconic boardwalk walk. The first kilometer is wheelchair and stroller accessible, leading to an observation tower with panoramic vistas over bog pools, peat mounds, and stunted pine trees.",
-        url: "https://www.loodusegakoos.ee/en",
-        img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        provider: "Männiku Safarikeskus",
-        title: "Männiku Quarry Extreme 4x4 ATV & Off-Road Safari",
-        region: "Tallinn & Harju",
-        location: "Männiku sand quarry (15 min south of Tallinn)",
-        cost: "€75 – €120 / vehicle",
-        costGroup: "Paid",
-        category: "Motorsports",
-        duration: "1.5 to 2 Hours",
-        season: "Year-Round",
-        meeting: "Männiku Safarikeskus HQ, Trapi tee",
-        included: "ATV / 4x4 buggy, fuel, helmet, protective goggles, muddy trail briefing, guide leader",
-        desc: "Navigate steep sandy inclines, forest gullies, and water-filled trenches in the former military quarry training grounds. Suitable for beginner and advanced drivers alike.",
-        url: "https://mannikusafarikeskus.ee",
-        img: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        provider: "RMK (State Forest Management Centre)",
-        title: "Suur Taevaskoda & Ahja River Sandstone Trail",
-        region: "Tartu & Southern Estonia",
-        location: "Ahja River Primeval Valley, Põlva County",
-        cost: "Free (Public Access)",
-        costGroup: "Free",
-        category: "Self-Guided Trail",
-        duration: "2 Hours (approx. 4.5 km)",
-        season: "Open 24/7 All Year",
-        meeting: "Taevaskoja RMK Visitor Centre car park",
-        included: "Maintained stairs, boardwalks, campfire sites with free split logs, historical folklore signs",
-        desc: "Trail runs along the amber waters of the Ahja River, framed by towering 24-meter Devonian sandstone cliffs (Suur and Väike Taevaskoda), cave springs, and ancient sacred pagan gathering grounds.",
-        url: "https://www.loodusegakoos.ee/where-to-go",
-        img: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        provider: "Tallinna Vanalinn Ghost Tours",
-        title: "Tallinn Medieval Old Town Legends & Lantern Walk",
-        region: "Tallinn & Harju",
-        location: "Old Town, Tallinn",
-        cost: "€18 / adult",
-        costGroup: "Paid",
-        category: "Historical Walking",
-        duration: "1.5 Hours",
-        season: "Year-Round (Evenings)",
-        meeting: "Town Hall Square (Raekoja plats) fountain",
-        included: "Costumed medieval storyteller guide, handheld hurricane kerosene lanterns",
-        desc: "Explore cobblestone alleys by real lantern light after dusk. Uncover grim medieval executions, the phantom nun of the Maiden's Tower, and the legendary pact with the devil at Rataskaevu 16.",
-        url: "https://www.visittallinn.ee/eng",
-        img: "https://images.unsplash.com/photo-1513581166391-887a96ddeafd?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        provider: "Tehvandi Spordikeskus",
-        title: "Tehvandi World Cup Illuminated Ski Trails & Stadium",
-        region: "Tartu & Southern Estonia",
-        location: "Otepää, Valga County",
-        cost: "Free Track Access / Gear Hire €15",
-        costGroup: "Paid",
-        category: "Cross-Country Skiing",
-        duration: "Flexible (1.5 km – 10 km circuits)",
-        season: "December to late March",
-        meeting: "Tehvandi Stadium service pavilion",
-        included: "Illuminated trails until 21:00, track grooming, wax testing benches (rentals in pavilion)",
-        desc: "Ski on FIS World Cup certified competition tracks through rolling South Estonian drumlins. State-of-the-art snowmaking guarantees track coverage even during milder winter conditions.",
-        url: "https://www.tehvandi.ee/en/",
-        img: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        provider: "Estonian Wildlife Tours",
-        title: "Alutaguse Boreal Flying Squirrel Twilight Tracking",
-        region: "Northern Estonia",
-        location: "Alutaguse Taiga Forest",
-        cost: "€95 / person",
-        costGroup: "Paid",
-        category: "Specialist Wildlife",
-        duration: "3.5 Hours (Late evening / sunset)",
-        season: "May to July (Peak activity)",
-        meeting: "Iisaku Nature Centre, Ida-Virumaa",
-        included: "Wildlife biologist guide, red-light tracking torches, spotting scope, transport from meeting point",
-        desc: "A rare opportunity to observe the elusive and strictly protected Siberian flying squirrel (Pteromys volans). Listen for territorial calls and watch adults glide between old-growth aspen canopies at twilight.",
-        url: "https://natourest.ee/portfolio/flying-squirrel-watching/",
-        img: "https://images.unsplash.com/photo-1507666405895-422eee7d517f?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        provider: "Pirita Seikluspark",
-        title: "Pirita Beach Pine Forest High-Ropes & Beach Zipline",
-        region: "Tallinn & Harju",
-        location: "Pirita Beach, Tallinn",
-        cost: "€26 / adult",
-        costGroup: "Paid",
-        category: "Ropes & Ziplines",
-        duration: "2.5 to 3 Hours (6 trails)",
-        season: "April to October",
-        meeting: "Pirita Adventure Park ticket office, Merivälja tee 5",
-        included: "Petzl full climbing harness, smart dual-carabiner safety system, safety briefing, locker use",
-        desc: "Climb through 6 different difficulty courses set in seaside pine trees, culminating in a 150-meter long beach zipline overlooking the Gulf of Finland and Tallinn Old Town skyline.",
-        url: "https://piritaseikluspark.ee/en/",
-        img: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        provider: "Hiiumaa Heritage Society",
-        title: "Historic Hiiumaa Lighthouses Self-Drive Trail",
-        region: "Western Coast & Islands",
-        location: "Hiiumaa Island (Kõpu, Ristna, Tahkuna)",
-        cost: "€5 entrance per lighthouse / Trail free",
-        costGroup: "Free",
-        category: "Self-Drive Heritage",
-        duration: "Full Day (approx. 90 km drive)",
-        season: "Lighthouses open May–Sept; Grounds 24/7",
-        meeting: "Kõpu Lighthouse parking area",
-        included: "Scenic coastal route, access to Kõpu (built 1531, one of world's oldest operating lighthouses)",
-        desc: "Climb steep narrow stone stairs inside Kõpu lighthouse, visit the cast-iron Eiffel-style Ristna lighthouse, and see Tahkuna lighthouse at the northernmost point of Hiiumaa facing open Baltic seas.",
-        url: "https://kaitsealad.ee/en",
-        img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        provider: "Saaremaa Muuseum",
-        title: "Kuressaare Episcopal Castle & Fortress Exploration",
-        region: "Western Coast & Islands",
-        location: "Kuressaare, Saaremaa",
-        cost: "€12 / adult",
-        costGroup: "Paid",
-        category: "Fortress & History",
-        duration: "2.5 Hours",
-        season: "Open Year-Round",
-        meeting: "Kuressaare Castle main drawbridge gate",
-        included: "Full castle admission, convent building halls, defense towers, moat rampart walks",
-        desc: "The only fully preserved medieval convent-style stone fortress in the Baltic states. Explore the Bishop's chamber, subterranean dungeons, torture displays, and scenic ramparts looking over Kuressaare Bay.",
-        url: "https://saaremaamuuseum.ee/en/kuressaare-episcopal-castle/",
-        img: "https://images.unsplash.com/photo-1533158307587-828f0a76ef96?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        provider: "Setomaa Turism",
-        title: "Setomaa Living Borderlands Culture & Culinary Trail",
-        region: "Tartu & Southern Estonia",
-        location: "Setomaa (Värska, Saatse, Obinitsa)",
-        cost: "Free Route Access (Museums ~€6)",
-        costGroup: "Free",
-        category: "Cultural Trail",
-        duration: "Half to Full Day",
-        season: "Year-Round",
-        meeting: "Värska Farm Museum, Pikk tn 56",
-        included: "Self-drive map, traditional Seto farmstead architecture, craft workshops, local tsäimaja cuisine",
-        desc: "Immerse yourself in unique Seto borderland traditions. Visit Orthodox village chapels (tsässons), hear UNESCO-recognized polyphonic Leelo choral songs, and sample fresh smoked fish and hand-baked pies.",
-        url: "https://www.visitsetomaa.ee/en",
-        img: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=600&q=80"
-      },
-      {
-        provider: "Sihtasutus Haapsalu ja Läänemaa Muuseumid",
-        title: "Haapsalu 13th-Century Fortress & Seaside Promenade",
-        region: "Western Coast & Islands",
-        location: "Haapsalu Old Town",
-        cost: "Courtyard Free / Museum €12",
-        costGroup: "Free",
-        category: "Castles & Resorts",
-        duration: "2 to 3 Hours",
-        season: "Courtyard open daily; Museum year-round",
-        meeting: "Lossiplats 3, Haapsalu",
-        included: "Castle inner courtyard, ruined cathedral with White Lady window, historical moat park",
-        desc: "Walk through the sprawling medieval bishop's castle ruins, famous for the August full-moon ghost apparition. Continue along the shore promenade to see the wooden Kursaal and Tchaikovsky's memorial stone bench.",
-        url: "https://salm.ee/en/haapsalu-castle/",
-        img: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80"
-      }
+      { provider: "Sportland Kõrvemaa", title: "Electric FATbike Tour", region: "Northern Estonia", location: "Kõrvemaa", cost: "€435 for 5; +€69 per additional adult", costGroup: "Paid", category: "Cycling", duration: "Up to 3 hours", included: "Bike, helmet and guided tour", desc: "Guided electric fat-tyre mountain-bike tour in Kõrvemaa.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
+      { provider: "Sportland Kõrvemaa", title: "SUP Tour", region: "Northern Estonia", location: "Venejärv Lake or Soodla River", cost: "€460 for up to 10; +€41 per additional participant", costGroup: "Paid", category: "Paddling", duration: "2 hours", included: "SUP equipment and guided tour", desc: "Guided stand-up paddleboard tour; the provider transports the boards to the start point.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
+      { provider: "Sportland Kõrvemaa", title: "Combined Snowshoe and SUP Tour", region: "Northern Estonia", location: "Koitjärve Bog", cost: "€560 for up to 10; +€46 per additional participant", costGroup: "Paid", category: "Snowshoeing & SUP", duration: "4 hours", included: "Necessary equipment rental and guided tour", desc: "A guided route through Koitjärve bog using snowshoes to reach the pools, then SUP boards across them.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
+      { provider: "Sportland Kõrvemaa", title: "Bog Snowshoe Hike", region: "Northern Estonia", location: "Koitjärve Bog or Kõnnu Suursoo", cost: "€460 for up to 10; additional adult €36, child €21", costGroup: "Paid", category: "Snowshoeing", duration: "Up to 3 hours", included: "Snowshoe rental and guided tour", desc: "Guided snowshoe hike in Koitjärve bog or Kõnnu Suursoo. Participants travel to the starting point by their own transport.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
+      { provider: "Sportland Kõrvemaa", title: "Bike Tour", region: "Northern Estonia", location: "Northern Kõrvemaa", cost: "€460 for up to 10; additional adult €36, child €16", costGroup: "Paid", category: "Cycling", duration: "Up to 2 hours", included: "Bike, helmet and guided tour", desc: "Guided bike tour using mountain bikes or fatbikes available from the provider.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
+      { provider: "Sportland Kõrvemaa", title: "Sunrise or Sunset Hike", region: "Northern Estonia", location: "Kõrvemaa", cost: "€405 for up to 10; additional adult €21, child €11", costGroup: "Paid", category: "Hiking", duration: "Up to 2 hours", included: "Guided tour; headlamp rental if needed", desc: "Guided hike timed for sunrise or sunset in Kõrvemaa.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
+      { provider: "Sportland Kõrvemaa", title: "Walking Hike", region: "Northern Estonia", location: "Northern Kõrvemaa", cost: "€330 for up to 10; additional adult €16, child €11", costGroup: "Paid", category: "Hiking", duration: "Up to 2 hours", included: "Guided tour", desc: "A guided hike in Northern Kõrvemaa, offered at a relaxed or more active pace.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
+      { provider: "Sportland Kõrvemaa", title: "Mushroom Foraging Tour", region: "Northern Estonia", location: "Kõrvemaa", cost: "€460 for up to 10; additional adult €21, child €11", costGroup: "Paid", category: "Foraging", duration: "About 2–2.5 hours", desc: "A guided foraging hike with a mushroom expert, including help identifying collected mushrooms.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
+      { provider: "Sportland Kõrvemaa", title: "Off-Road Touring Ski Adventure", region: "Northern Estonia", location: "Kõrvemaa", cost: "€490 for up to 10; +€36 per additional adult", costGroup: "Paid", category: "Skiing", duration: "Up to 2 hours", included: "MADSHUS touring ski set rental and guided tour", season: "Winter", desc: "Guided touring-ski outing on snow-covered terrain away from prepared trails.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
+      { provider: "Sportland Kõrvemaa", title: "Winter Snowshoe Hike", region: "Northern Estonia", location: "Kõrvemaa", cost: "€490 for up to 10; additional adult €36, child €21", costGroup: "Paid", category: "Snowshoeing", duration: "Up to 3 hours", included: "Snowshoe rental and guided tour", season: "Winter", desc: "Guided winter hike with themes including wildlife, animal tracks and local history.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
+      { provider: "Sportland Kõrvemaa", title: "Kick-Sled Tour", region: "Northern Estonia", location: "Kõrvemaa", cost: "€490 for up to 10; additional adult €36, child €21", costGroup: "Paid", category: "Winter activity", duration: "Up to 2 hours", included: "Kick-sled rental and guided tour", season: "Winter", desc: "A guided kick-sled tour on a maintained trail through the winter landscape.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
+      { provider: "Sportland Kõrvemaa", title: "Ice Skating Tour on the Bog Lakes", region: "Northern Estonia", location: "Kõrvemaa bog lakes", cost: "€490 for up to 10; additional adult €36, child €21", costGroup: "Paid", category: "Ice skating", duration: "Up to 3 hours", included: "Ski boots, touring skates, poles and guided tour", season: "Winter", desc: "Guided skating tour across frozen bog pools, subject to suitable conditions.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
+
+      { provider: "Soomaa.com", title: "Guided Canoe Trips", region: "Western Coast & Islands", location: "Soomaa Holiday Village or agreed location", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Canoeing", duration: "3 hours", season: "March–November", included: "Guide and canoe equipment", desc: "Guided canoe trips on Soomaa's rivers; single travelers may join scheduled trips when available.", url: "https://soomaa.com/guided-canoe-trips/" },
+      { provider: "Soomaa.com", title: "Self-Guided Canoe Trips", region: "Western Coast & Islands", location: "Soomaa Holiday Village or Pärnu", cost: "€30/person (minimum 2); €55/person with Pärnu transfer", costGroup: "Paid", category: "Canoeing", duration: "1–5 hours", season: "April–November; winter if rivers are ice-free", included: "Canoe equipment, route map, local transport and instructions", desc: "Self-guided canoe route in Soomaa; the provider describes a 12 km river route with optional forest and bog trails.", url: "https://soomaa.com/self-guided-canoe-trips/" },
+      { provider: "Soomaa.com", title: "Canoe Rental in Soomaa Holiday Village", region: "Western Coast & Islands", location: "Riisa, Soomaa Holiday Village", cost: "€40 for 1 hour to 1 day; transport not included", costGroup: "Paid", category: "Canoe rental", desc: "Canoes can be used locally or taken to another river or lake, according to the provider.", url: "https://soomaa.com/canoe-rental/" },
+      { provider: "Soomaa.com", title: "Wilderness Day Trip", region: "Western Coast & Islands", location: "Soomaa Holiday Village or Pärnu", cost: "€110/person (minimum 2); €135/person with Pärnu transfer", costGroup: "Paid", category: "Canoeing & hiking", duration: "5–6 hours", season: "May–October", included: "Guide, bogshoeing and canoeing equipment, wilderness lunch", desc: "Guided day trip combining canoeing with bog walking in spring or bogshoeing later in the season.", url: "https://soomaa.com/wilderness-day-trip/" },
+      { provider: "Soomaa.com", title: "Night Canoe Trip", region: "Western Coast & Islands", location: "Soomaa Holiday Village or agreed location", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Canoeing", duration: "2–3 hours", season: "May–October", included: "Guide and canoe equipment", desc: "Guided evening canoe trip on a Soomaa river.", url: "https://soomaa.com/night-canoe-trip/" },
+      { provider: "Soomaa.com", title: "Multi-Day Canoe Camping Trips", region: "Western Coast & Islands", location: "Soomaa Holiday Village or agreed location", cost: "€30/person/day (minimum 2)", costGroup: "Paid", category: "Canoeing & camping", duration: "2–5 days", season: "April–November", included: "Canoe equipment rental and local transport", desc: "Multi-day paddling trips on the Navesti, Halliste, Raudna, Kõpu and Lemmjõgi rivers, with options for overnight wild camping at designated places.", url: "https://soomaa.com/multi-day-canoe-camping-trips/" },
+      { provider: "Soomaa.com", title: "SUP Trips", region: "Western Coast & Islands", location: "Soomaa Holiday Village or agreed location", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Stand-up paddleboarding", duration: "3 hours", season: "May–September", included: "Guide, SUP board, paddle and life jacket", desc: "A guided stand-up paddleboard trip on the Raudna and Halliste rivers.", url: "https://soomaa.com/sup-trips/" },
+      { provider: "Soomaa.com", title: "Bogshoeing", region: "Western Coast & Islands", location: "Soomaa Holiday Village or Pärnu", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Bog hiking", duration: "3 hours", included: "Guide and bogshoe rental", desc: "Guided bogshoeing in Soomaa. The provider notes that during nesting season it uses boardwalks and bog-edge routes instead of entering deeper into the bog.", url: "https://soomaa.com/bogshoeing/" },
+      { provider: "Soomaa.com", title: "Bogwalking", region: "Western Coast & Islands", location: "Soomaa Holiday Village or agreed location", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Hiking", duration: "2–3 hours", season: "Year-round", included: "Guide", desc: "Guided walks on Soomaa trails and boardwalks, with several route options listed by the provider.", url: "https://soomaa.com/bogwalking/" },
+      { provider: "Soomaa.com", title: "Kick Bike Trips", region: "Western Coast & Islands", location: "Ruunaraipe dunes", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Cycling", duration: "2 hours", included: "Guide, kick-bikes and helmets", desc: "A guided kick-bike trip on forest roads near Ruunaraipe dunes.", url: "https://soomaa.com/kick-bike-trips/" },
+      { provider: "Soomaa.com", title: "Kickspark Trips", region: "Western Coast & Islands", location: "Teesoo bus stop or agreed location", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Winter activity", duration: "2 hours", season: "December–March", included: "Guide and kicksled rental", desc: "Guided kicksledding on frozen Soomaa meadows or rivers when conditions allow.", url: "https://soomaa.com/kickspark-trips-2/" },
+      { provider: "Soomaa.com", title: "Snowshoeing", region: "Western Coast & Islands", location: "Soomaa Holiday Village or Pärnu", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Snowshoeing", duration: "2 hours", season: "December–March", included: "Guide and bogshoe rental", desc: "Guided winter snowshoe hikes through frozen bogs, forests and floodplains.", url: "https://soomaa.com/snowshoeing/" },
+      { provider: "Soomaa.com", title: "Mushrooming", region: "Western Coast & Islands", location: "Soomaa Holiday Village or Pärnu", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Foraging", duration: "3–4 hours", season: "July–October", included: "Guide and a light mushroom meal", desc: "A guided forest mushrooming trip covering edible and inedible species and ways of preserving mushrooms.", url: "https://soomaa.com/mushrooming/" },
+
+      { provider: "Natourest", title: "Brown Bear Watching", region: "Northern Estonia", location: "Alutaguse", cost: "€150/person", costGroup: "Paid", category: "Wildlife watching", duration: "1 day–1 night", desc: "The provider's catalog lists bear watching in Alutaguse with 2027 departures; see the product page for current hide details and conditions.", url: "https://natourest.ee/trip/brown-bear-watching/" },
+      { provider: "Natourest", title: "Bearwatching and Photography Comfort Hide", region: "Northern Estonia", location: "Western Alutaguse, near Sirtsi Bog", costGroup: "Paid", category: "Wildlife photography", desc: "A bear-watching and photography hide in western Alutaguse. See the provider page for current dates, rates and facilities.", url: "https://natourest.ee/trip/bearwatching-and-photography-comfort-hide/" },
+      { provider: "Natourest", title: "Bearwatching and Photography Premium Hide", region: "Northern Estonia", location: "Western Alutaguse, near Sirtsi Bog", costGroup: "Paid", category: "Wildlife photography", desc: "A premium bear-watching and photography hide in western Alutaguse. See the provider page for current dates, rates and facilities.", url: "https://natourest.ee/trip/bearwatching-and-photography-premium-hide-2/" },
+      { provider: "Natourest", title: "Bearwatching from the Luxury Hide", region: "Northern Estonia", location: "Western Alutaguse, near Sirtsi Bog", cost: "€690 (listed rate)", costGroup: "Paid", category: "Wildlife watching", duration: "1 day–1 night", desc: "The provider lists a luxury bear hide in Alutaguse; check current departures and conditions on the linked page.", url: "https://natourest.ee/trip/bearwatching-from-luxury-hide/" },
+      { provider: "Natourest", title: "Lynx Tour (Scheduled)", region: "Various locations", cost: "€1,790 (listed rate)", costGroup: "Paid", category: "Wildlife watching", duration: "7 days–6 nights", season: "Spring; autumn option described", desc: "Scheduled lynx tour with a listed March 2027 departure. The provider describes Lahemaa and Matsalu as target areas; check the page for current availability.", url: "https://natourest.ee/trip/lynx-tour-3/" },
+      { provider: "Natourest", title: "Lynx Tour (Private)", region: "Various locations", costGroup: "Paid", category: "Wildlife watching", season: "September–March (provider stated)", desc: "The provider describes private lynx tours and says the season is September through March; confirm itinerary and dates directly.", url: "https://natourest.ee/trip/lynx-tour-2/" },
+      { provider: "Natourest", title: "Lynx and Bear Tour (Scheduled)", region: "Various locations", cost: "€1,980 (listed rate)", costGroup: "Paid", category: "Wildlife watching", duration: "8 days–7 nights", season: "Autumn", desc: "Scheduled autumn tour targeting lynx, brown bear and grey wolf across West Estonia, Lahemaa and Alutaguse, as described by the provider.", url: "https://natourest.ee/trip/lynx-and-bear-tour-scheduled-2/" },
+      { provider: "Natourest", title: "Estonian Birds and Mammals (Scheduled)", region: "Various locations", cost: "€1,850 (listed rate)", costGroup: "Paid", category: "Birdwatching & wildlife", duration: "8 days–7 nights", season: "Spring and autumn departures listed", desc: "A scheduled birding and mammal-watching tour; the provider lists 2027 departures and describes seasonal migration and wildlife-watching highlights.", url: "https://natourest.ee/trip/estonian-birds-and-mammals-scheduled/" },
+      { provider: "Natourest", title: "Estonian Birds and Mammals (Self-Guided)", region: "Various locations", costGroup: "Paid", category: "Self-guided birding & wildlife", desc: "A self-guided tour using a smart device, with destinations and seasonal information provided by Natourest. See the product page for itinerary and rates.", url: "https://natourest.ee/trip/estonian-birds-and-mammals/" },
+      { provider: "Natourest", title: "Eurasian Lynx and Steller’s Eider", region: "Various locations", costGroup: "Paid", category: "Birdwatching & wildlife", desc: "A combined lynx and Steller's Eider tour listed in Natourest's official catalog; consult the provider page for details.", url: "https://natourest.ee/trip/lynx-and-stellers-eider/" },
+      { provider: "Natourest", title: "Flying Squirrel Tour", region: "Northern Estonia", costGroup: "Paid", category: "Wildlife watching", desc: "Flying squirrel tour listed in Natourest's official catalog; consult the provider page for location, dates and conditions.", url: "https://natourest.ee/trip/flying-squirrel-tour/" },
+      { provider: "Natourest", title: "Lynx and the Flying Squirrel", region: "Various locations", cost: "€2,150 (listed rate)", costGroup: "Paid", category: "Wildlife watching", duration: "8 days–7 nights", season: "May departure listed", desc: "A combined lynx and flying-squirrel tour; the provider lists a May 2027 departure and describes additional wildlife and birdwatching.", url: "https://natourest.ee/trip/lynx-and-flying-squirrel-tour/" },
+      { provider: "Natourest", title: "Golden and White-Tailed Eagle Photography in Winter Comfort Hide", region: "Northern Estonia", location: "Alutaguse", cost: "€60 (listed rate)", costGroup: "Paid", category: "Wildlife photography", season: "Late December–early March", desc: "Winter eagle photography from a heated comfort hide in Alutaguse; the provider lists late-December 2026 departures.", url: "https://natourest.ee/trip/golden-and-white-tailed-eagle-photography-in-winter-comfort-hide/" },
+      { provider: "Natourest", title: "Golden Eagle Photography Hide", region: "Northern Estonia", location: "Alutaguse", cost: "€190 (listed rate)", costGroup: "Paid", category: "Wildlife photography", season: "Late December–early March", desc: "Winter eagle photography from a hide in Alutaguse; the provider lists late-December 2026 departures.", url: "https://natourest.ee/trip/golden-eagle-photography-hide/" },
+      { provider: "Natourest", title: "Spring Birding in Estonia", region: "Various locations", costGroup: "Paid", category: "Birdwatching", season: "Spring", desc: "Spring birding tour listed in Natourest's official catalog; consult the provider page for itinerary, dates and rates.", url: "https://natourest.ee/trip/spring-birding-in-estonia/" },
+      { provider: "Natourest", title: "Steller’s Eider Tour", region: "Northern Estonia", costGroup: "Paid", category: "Birdwatching", desc: "Steller's Eider tour listed in Natourest's official catalog; check the provider page for current trip details.", url: "https://natourest.ee/trip/stellers-eider-tour-2/" },
+
+      { provider: "Capture Estonia", title: "Lahemaa National Park Nature & Culture Day Tour", region: "Northern Estonia", location: "Lahemaa National Park", costGroup: "Paid", category: "Nature & culture", desc: "A guided day tour in Lahemaa combining natural landscapes with local cultural heritage, according to the provider's tour page.", url: "https://www.capture-estonia.ee/nature-culture-day-tour-in-lahemaa-national-park/" },
+      { provider: "Capture Estonia", title: "Bird Watching Tour Around Tallinn", region: "Tallinn & Harju", location: "Tallinn and surrounding areas", costGroup: "Paid", category: "Birdwatching", duration: "About 5–6 hours", season: "Year-round; seasonal highlights", desc: "Guided birdwatching tour around Tallinn; the provider says binoculars and a spotting scope are included.", url: "https://www.capture-estonia.ee/bird-wathing-tour-tallinn-area/" },
+      { provider: "Capture Estonia", title: "Bird Watching Tour: North & West Estonia", region: "Western Coast & Islands", location: "Matsalu, Silma and other West Estonia sites", costGroup: "Paid", category: "Birdwatching", duration: "About 9–10 hours", season: "15 March–15 October (provider stated)", desc: "Guided full-day birdwatching tour with route and stops adapted to season, weather and guests' interests.", url: "https://www.capture-estonia.ee/bird-watching-tour-to-west-estonia-day-tour/" },
+      { provider: "Capture Estonia", title: "Matsalu Nature Boat Trip & Wetland Experience", region: "Western Coast & Islands", location: "Matsalu Bay", costGroup: "Paid", category: "Boat trip & nature", desc: "The provider describes this as an optional add-on to its West Estonia birding tour; confirm availability and arrangements directly.", url: "https://www.capture-estonia.ee/bird-watching-tour-to-west-estonia-day-tour/" },
+      { provider: "Capture Estonia", title: "Seal & Seabird Watching Boat Safari", region: "Northern Estonia", location: "Kaberneeme harbour, Kolga Bay", costGroup: "Paid", category: "Marine wildlife", duration: "About 4 hours", season: "Best spring to early autumn; weather-dependent", desc: "A small-group wildlife boat safari from Kaberneeme. The provider notes that sightings are not guaranteed and trips depend on sea conditions.", url: "https://www.capture-estonia.ee/seal-seabird-watching-photography-boat-safari/" },
+      { provider: "Capture Estonia", title: "Nature Day Tour", region: "Various locations", location: "North-West Estonia, Kõrvemaa or Lahemaa", costGroup: "Paid", category: "Nature tour", duration: "About 6 hours", desc: "Guided nature outing with walks; the provider says the route depends on season and conditions.", url: "https://www.capture-estonia.ee/nature-day-tour/" },
+      { provider: "Capture Estonia", title: "Nature Photography Tour", region: "Various locations", costGroup: "Paid", category: "Photography", duration: "About 6 hours; extended option available", desc: "A nature photography tour planned with the provider around participants' interests; the page also mentions optional equipment rental.", url: "https://www.capture-estonia.ee/nature-photography-tour/" },
+      { provider: "Capture Estonia", title: "Wildlife Watching Tour", region: "Western Coast & Islands", location: "West Estonia, departing from Tallinn", costGroup: "Paid", category: "Wildlife watching", duration: "About 6–8 hours", desc: "A guided wildlife tour through coastal meadow, forest and birdwatching-tower habitats; the provider says wildlife observations vary by season and weather.", url: "https://www.capture-estonia.ee/wildlife-watching/" },
+      { provider: "Capture Estonia", title: "Tallinn History & Photography Tour with Film Camera", region: "Tallinn & Harju", location: "Tallinn", costGroup: "Paid", category: "History & photography", duration: "About 3–3.5 hours", season: "All seasons (provider stated)", desc: "A guided Tallinn history and photography tour; the provider page says a film camera, film development and scanning are included.", url: "https://www.capture-estonia.ee/tallinn-history-film-camera-tour/" },
+      { provider: "Capture Estonia", title: "Photography Tour", region: "Various locations", costGroup: "Paid", category: "Photography", duration: "About 2–6 hours in nature or 2–4 hours in the city", desc: "A customizable photography tour in nature or the city, with location determined with the provider.", url: "https://www.capture-estonia.ee/happy-snapper-photography-tour/" },
+
+      { provider: "Paasiku Dogs Manor", title: "Sledding with Siberian Huskies", region: "Tallinn & Harju", location: "Paasiku Dogs Manor", costGroup: "Paid", category: "Husky activity", desc: "A sledding activity listed by Paasiku. The page currently directs visitors to its inquiry form; check with the provider for conditions and availability.", url: "https://paasiku.ee/en/sledding-in-with-siberian-huskies/" },
+      { provider: "Paasiku Dogs Manor", title: "Hiking with Siberian Huskies", region: "Tallinn & Harju", location: "Paasiku Dogs Manor", costGroup: "Paid", category: "Hiking with animals", desc: "A husky hiking activity listed by Paasiku. The page currently directs visitors to its inquiry form; check with the provider for details.", url: "https://paasiku.ee/en/hiking-with-siberian-huskies/" },
+      { provider: "Paasiku Dogs Manor", title: "Kicksledding / Kickbike Tour", region: "Tallinn & Harju", location: "Paasiku Dogs Manor", cost: "€40/person, excluding tax", costGroup: "Paid", category: "Outdoor activity", duration: "About 1.5–2 hours", included: "Introduction to the dogs and other animals, instruction, 3 km track and guide", desc: "The provider states that the ride takes place without dogs and that the sled or scooter is chosen according to weather.", url: "https://paasiku.ee/en/kicksledding/" },
+      { provider: "Paasiku Dogs Manor", title: "Photoshoot with Siberian Huskies", region: "Tallinn & Harju", location: "Paasiku Dogs Manor", cost: "€250, excluding tax", costGroup: "Paid", category: "Photography", duration: "Up to 45 minutes", included: "3–5 locations and about 40 edited photos", desc: "A husky photoshoot for small groups, families or couples, as described by the provider.", url: "https://paasiku.ee/en/photoshoots/" },
+      { provider: "Paasiku Dogs Manor", title: "Children’s Activity Packages", region: "Tallinn & Harju", location: "Paasiku Dogs Manor", costGroup: "Paid", category: "Family activity", desc: "The provider lists children's party packages with a manor visit, hiking, or a picnic; check its page for the package details and current availability.", url: "https://paasiku.ee/en/packages-for-kids/" },
+
+      { provider: "Tallinn Adventure Parks", title: "Pirita Adventure Park", region: "Tallinn & Harju", location: "Merivälja tee 5A, Tallinn", costGroup: "Unknown", category: "Adventure park", season: "2026 season ended; reopening spring 2027", desc: "The official site lists Pirita as one of its Tallinn adventure parks. Its 2026 season has ended; check the provider for the 2027 opening and activities.", url: "https://piritaseikluspark.ee/en/", linkLabel: "Official information ↗" },
+      { provider: "Tallinn Adventure Parks", title: "Nõmme Adventure Park", region: "Tallinn & Harju", location: "Külmallika 15a, Tallinn", costGroup: "Unknown", category: "Adventure park", season: "2026 season ended; reopening spring 2027", desc: "The official site lists Nõmme as one of its Tallinn adventure parks. Check the provider for the 2027 opening and available activities.", url: "https://piritaseikluspark.ee/en/", linkLabel: "Official information ↗" },
+
+      { provider: "Saaremaa Museum", title: "Kuressaare Castle Museum", region: "Western Coast & Islands", location: "Lossihoov 1/1, Kuressaare", cost: "€13/adult (2026 museum ticket)", costGroup: "Paid", category: "Museum & heritage", season: "Winter: Wed–Sun; summer: daily (2026 hours)", desc: "The official visitor information lists museum admission, seasonal opening hours and access details for Kuressaare Castle.", url: "https://linnus.samu.ee/en/visitors-info/", linkLabel: "Official information ↗" },
+      { provider: "Saaremaa Museum", title: "Aavik’s House Museum", region: "Western Coast & Islands", location: "Vallimaa 7, Kuressaare", cost: "€6/adult; guided tour €60", costGroup: "Paid", category: "Museum & heritage", duration: "Guided tour: 1 hour", desc: "Official visitor information for Aavik’s House Museum, including ticket and guided-tour rates.", url: "https://aavikud.samu.ee/en/visitor-info/", linkLabel: "Official information ↗" },
+      { provider: "Saaremaa Museum", title: "Mihkli Farm Museum", region: "Western Coast & Islands", location: "Viki village, Saaremaa", costGroup: "Unknown", category: "Museum & heritage", season: "By prior arrangement", desc: "The official museum page says Mihkli Farm Museum is open by appointment; contact the museum for visitor arrangements.", url: "https://mihkli.samu.ee/en/visitor-info", linkLabel: "Official information ↗" },
+
+      { provider: "RMK (State Forest Management Centre)", title: "RMK Nature Trails and Outdoor Destinations", region: "Various locations", costGroup: "Unknown", category: "Public nature catalogue", desc: "RMK's official nature portal links to destinations, hiking routes, trip ideas and cultural heritage. This is a broad catalogue entry, not an exhaustive list of individual trails.", url: "https://rmk.ee/en/exploring-nature/", linkLabel: "Official catalogue ↗" }
     ];
+    const activeTours = baseTours;
+    const mappedLocations = [
+      { name: "Tallinn (city area)", lat: 59.4372420, lon: 24.7572693, approximate: true, titles: ["Bird Watching Tour Around Tallinn", "Tallinn History & Photography Tour with Film Camera"] },
+      { name: "Lahemaa National Park", lat: 59.5830010, lon: 26.0011770, approximate: true, titles: ["Lahemaa National Park Nature & Culture Day Tour"] },
+      { name: "Kõnnu Suursoo", lat: 59.4038133, lon: 25.7124492, approximate: true, titles: ["Bog Snowshoe Hike"] },
+      { name: "Koitjärve area", lat: 59.3677830, lon: 25.7403872, approximate: true, titles: ["Combined Snowshoe and SUP Tour", "Bog Snowshoe Hike"] },
+      { name: "Kaberneeme Harbour", lat: 59.5201783, lon: 25.2769515, approximate: false, titles: ["Seal & Seabird Watching Boat Safari"] },
+      { name: "Soomaa Holiday Village, Riisa", lat: 58.4666715, lon: 24.9870203, approximate: false, titles: ["Guided Canoe Trips", "Self-Guided Canoe Trips", "Canoe Rental in Soomaa Holiday Village", "Wilderness Day Trip", "Night Canoe Trip", "Multi-Day Canoe Camping Trips", "SUP Trips", "Bogshoeing", "Bogwalking", "Kick Bike Trips", "Kickspark Trips", "Snowshoeing", "Mushrooming"] },
+      { name: "Paasiku Dogs Manor", lat: 59.3504453, lon: 25.3019363, approximate: false, titles: ["Sledding with Siberian Huskies", "Hiking with Siberian Huskies", "Kicksledding / Kickbike Tour", "Photoshoot with Siberian Huskies", "Children’s Activity Packages"] },
+      { name: "Kuressaare Castle", lat: 58.2469041, lon: 22.4795742, approximate: false, titles: ["Kuressaare Castle Museum"] },
+      { name: "Aavik’s House Museum, Kuressaare", lat: 58.2576675, lon: 22.4843145, approximate: false, titles: ["Aavik’s House Museum"] },
+      { name: "Mihkli Farm Museum, Viki", lat: 58.3499499, lon: 22.0804707, approximate: false, titles: ["Mihkli Farm Museum"] },
+      { name: "Pirita Adventure Park, Tallinn", lat: 59.4714838, lon: 24.8340656, approximate: false, titles: ["Pirita Adventure Park"] }
+    ];
+    let activityMap;
+    let activityMarkerLayer;
 
-    // LocalStorage keys
-    const APPROVED_STORAGE_KEY = 'estonia_approved_tours';
-    const QUEUE_STORAGE_KEY = 'estonia_pending_submissions';
+    function updateActivityMap(list) {
+      const mapElement = document.getElementById('activityMap');
+      const fallback = document.getElementById('mapFallback');
+      const fallbackList = document.getElementById('mapFallbackList');
+      const locations = mappedLocations.map(location => ({
+        ...location,
+        activities: location.titles
+          .map(title => list.find(item => item.title === title))
+          .filter(Boolean)
+      })).filter(location => location.activities.length);
 
-    function getApprovedTours() {
-      const stored = localStorage.getItem(APPROVED_STORAGE_KEY);
-      if (stored) {
-        try { return JSON.parse(stored); } catch(e) {}
+      fallbackList.innerHTML = locations.map(location => {
+        const links = location.activities.map(item => {
+          const index = activeTours.indexOf(item);
+          return `<li><a href="#activity-${index}">${item.title}</a></li>`;
+        }).join('');
+        const mapUrl = `https://www.openstreetmap.org/?mlat=${location.lat}&mlon=${location.lon}#map=12/${location.lat}/${location.lon}`;
+        return `<li><strong>${location.name}</strong> — <a href="${mapUrl}">Open map</a><ul>${links}</ul></li>`;
+      }).join('');
+
+      if (!window.L) {
+        mapElement.hidden = true;
+        fallback.hidden = false;
+        return;
       }
-      return [...baseTours];
-    }
 
-    function saveApprovedTours(list) {
-      localStorage.setItem(APPROVED_STORAGE_KEY, JSON.stringify(list));
-    }
-
-    function getPendingQueue() {
-      const stored = localStorage.getItem(QUEUE_STORAGE_KEY);
-      if (stored) {
-        try { return JSON.parse(stored); } catch(e) {}
+      mapElement.hidden = false;
+      fallback.hidden = true;
+      if (!activityMap) {
+        activityMap = L.map(mapElement).setView([58.75, 25.5], 6);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+          maxZoom: 18,
+          attribution: '&copy; OpenStreetMap contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        }).addTo(activityMap);
+        activityMarkerLayer = L.layerGroup().addTo(activityMap);
       }
-      return [];
-    }
-
-    function savePendingQueue(list) {
-      localStorage.setItem(QUEUE_STORAGE_KEY, JSON.stringify(list));
-      updateBadge();
-    }
-
-    function updateBadge() {
-      const queue = getPendingQueue();
-      const badge = document.getElementById('adminBadge');
-      if (badge) {
-        badge.innerText = queue.length;
-        badge.style.display = queue.length > 0 ? 'inline-block' : 'none';
+      activityMarkerLayer.clearLayers();
+      locations.forEach(location => {
+        const listItems = location.activities.map(item => {
+          const index = activeTours.indexOf(item);
+          return `<li><a href="#activity-${index}">${item.title}</a></li>`;
+        }).join('');
+        const approximateLabel = location.approximate ? ' <span>(approximate area)</span>' : '';
+        const popup = `<div class="map-popup-title">${location.name}${approximateLabel}</div><ul class="map-popup-list">${listItems}</ul>`;
+        L.marker([location.lat, location.lon]).bindPopup(popup).addTo(activityMarkerLayer);
+      });
+      if (locations.length) {
+        activityMap.fitBounds(L.latLngBounds(locations.map(location => [location.lat, location.lon])).pad(0.12), { maxZoom: 8 });
       }
+      window.setTimeout(() => activityMap.invalidateSize(), 0);
     }
-
-    let activeTours = getApprovedTours();
 
     function renderCards(list) {
       const grid = document.getElementById('activitiesGrid');
       grid.innerHTML = '';
       list.forEach(item => {
         const isFree = item.costGroup === 'Free';
+        const isPaid = item.costGroup === 'Paid';
+        const typeLabel = isFree ? 'Free / public access' : isPaid ? 'Paid' : 'Check provider';
+        const typeClass = isFree ? 'badge-free' : isPaid ? 'badge-paid' : 'badge-category';
+        const specs = [
+          item.duration ? `<div class="spec-item"><span class="spec-label">Duration</span><span class="spec-val">${item.duration}</span></div>` : '',
+          item.meeting ? `<div class="spec-item"><span class="spec-label">Meeting Point</span><span class="spec-val" title="${item.meeting}">${item.meeting}</span></div>` : ''
+        ].filter(Boolean).join('');
         const card = document.createElement('div');
         card.className = 'card';
+        card.id = `activity-${activeTours.indexOf(item)}`;
         card.setAttribute('data-title', item.title);
         card.setAttribute('data-region', item.region);
         card.setAttribute('data-cost', item.costGroup);
@@ -997,47 +623,33 @@
                  alt="${item.title}"
                  loading="lazy"
                  onerror="this.hidden=true;this.parentElement.classList.add('image-unavailable');" />` : ''}
-            <span class="image-fallback">Photo unavailable</span>
+            <span class="image-fallback">${item.img ? 'Photo unavailable' : 'No provider photo added'}</span>
             <span class="card-provider-pill">${item.provider}</span>
           </div>
           <div class="card-body">
             <div class="badge-bar">
-              <span class="badge ${isFree ? 'badge-free' : 'badge-paid'}">${isFree ? 'Free Trail' : 'Guided / Paid'}</span>
+              <span class="badge ${typeClass}">${typeLabel}</span>
               <span class="badge badge-category">${item.category}</span>
-              <span class="badge badge-season">🗓️ ${item.season}</span>
+              ${item.season ? `<span class="badge badge-season">🗓️ ${item.season}</span>` : ''}
             </div>
             <h3 class="card-title">${item.title}</h3>
-            <div class="card-location">📍 ${item.location}</div>
-
-            <div class="specs-grid">
-              <div class="spec-item">
-                <span class="spec-label">Duration</span>
-                <span class="spec-val">${item.duration}</span>
-              </div>
-              <div class="spec-item">
-                <span class="spec-label">Meeting Point</span>
-                <span class="spec-val" title="${item.meeting}">${item.meeting}</span>
-              </div>
-            </div>
+            ${item.location ? `<div class="card-location">📍 ${item.location}</div>` : ''}
+            ${specs ? `<div class="specs-grid">${specs}</div>` : ''}
 
             <p class="card-desc">${item.desc}</p>
             
-            <div class="includes-box">
-              <strong>Includes:</strong> ${item.included}
-            </div>
+            ${item.included ? `<div class="includes-box"><strong>Includes:</strong> ${item.included}</div>` : ''}
 
             <div class="card-footer">
-              <div class="price-box">
-                <span class="price-sub">Rate</span>
-                <span class="price-tag">${item.cost}</span>
-              </div>
-              <a href="${item.url}" class="btn-link">Official Booking ↗</a>
+              ${item.cost ? `<div class="price-box"><span class="price-sub">Price</span><span class="price-tag">${item.cost}</span></div>` : ''}
+              <a href="${item.url}" class="btn-link">${item.linkLabel || 'Provider details & booking ↗'}</a>
             </div>
           </div>
         `;
         grid.appendChild(card);
       });
-      document.getElementById('resultsCount').innerText = `Showing ${list.length} excursion${list.length === 1 ? '' : 's'}`;
+      document.getElementById('resultsCount').innerText = `Showing ${list.length} ${list.length === 1 ? 'activity' : 'activities'}`;
+      updateActivityMap(list);
     }
 
     function filterDirectory() {
@@ -1046,7 +658,7 @@
       const cost = document.getElementById('costFilter').value;
 
       const filtered = activeTours.filter(item => {
-        const textBlob = `${item.title} ${item.desc} ${item.provider} ${item.location} ${item.included} ${item.category}`.toLowerCase();
+        const textBlob = [item.title, item.desc, item.provider, item.location, item.included, item.category].filter(Boolean).join(' ').toLowerCase();
         const matchesSearch = !search || textBlob.includes(search);
         const matchesRegion = !region || item.region === region;
         const matchesCost = !cost || item.costGroup === cost;
@@ -1057,124 +669,7 @@
       renderCards(filtered);
     }
 
-    // Submission Handler (Holds in moderation queue, DOES NOT auto-publish)
-    function handleFormSubmit(e) {
-      e.preventDefault();
-      const provider = document.getElementById('providerName').value;
-      const email = document.getElementById('contactEmail').value;
-      const title = document.getElementById('tourTitle').value;
-      const region = document.getElementById('tourRegion').value;
-      const duration = document.getElementById('tourDuration').value;
-      const cost = document.getElementById('pricingTier').value;
-      const url = document.getElementById('bookingUrl').value;
-      const userImg = document.getElementById('imageUrl').value;
-      const gear = document.getElementById('gearIncluded').value;
-      const desc = document.getElementById('tourDesc').value;
-
-      const isFree = cost.toLowerCase().includes('free');
-
-      const submission = {
-        id: 'SUB-' + Date.now(),
-        submittedAt: new Date().toLocaleString(),
-        provider: provider,
-        email: email,
-        title: title,
-        region: region,
-        location: region,
-        cost: cost,
-        costGroup: isFree ? 'Free' : 'Paid',
-        category: 'Community Tour',
-        duration: duration,
-        season: 'Flexible / Enquire',
-        meeting: 'Confirmed upon booking',
-        included: gear,
-        desc: desc,
-        url: url,
-        img: userImg.trim()
-      };
-
-      const queue = getPendingQueue();
-      queue.unshift(submission);
-      savePendingQueue(queue);
-
-      alert('Thank you! Your listing has been added to the review queue in this browser only. It will not be sent to the site or shared with other visitors.');
-      e.target.reset();
-    }
-
-    // Moderation Modal Logic
-    function openAdminModal() {
-      renderQueue();
-      document.getElementById('adminModal').style.display = 'flex';
-    }
-
-    function closeAdminModal() {
-      document.getElementById('adminModal').style.display = 'none';
-    }
-
-    function renderQueue() {
-      const queueList = document.getElementById('queueList');
-      const queue = getPendingQueue();
-
-      if (queue.length === 0) {
-        queueList.innerHTML = '<p style="color: var(--text-muted); font-style: italic;">No pending submissions in queue. All listings are up to date!</p>';
-        return;
-      }
-
-      queueList.innerHTML = '';
-      queue.forEach((item, index) => {
-        const div = document.createElement('div');
-        div.className = 'queue-item';
-        div.innerHTML = `
-          <div class="queue-title">${item.title}</div>
-          <div class="queue-meta">Provider: <strong>${item.provider}</strong> (${item.email}) · Region: ${item.region} · Submitted: ${item.submittedAt}</div>
-          <div class="queue-desc">${item.desc}</div>
-          <div class="queue-meta"><strong>Rate:</strong> ${item.cost} | <strong>Includes:</strong> ${item.included} | <strong>Link:</strong> <a href="${item.url}" target="_blank">${item.url}</a></div>
-          <div class="queue-actions">
-            <button class="btn-approve" onclick="approveSubmission(${index})">Approve in This Browser</button>
-            <button class="btn-reject" onclick="rejectSubmission(${index})">Reject</button>
-          </div>
-        `;
-        queueList.appendChild(div);
-      });
-    }
-
-    function approveSubmission(index) {
-      const queue = getPendingQueue();
-      const approvedItem = queue.splice(index, 1)[0];
-      
-      // Clean temporary submission metadata
-      delete approvedItem.id;
-      delete approvedItem.submittedAt;
-      delete approvedItem.email;
-
-      activeTours.unshift(approvedItem);
-      saveApprovedTours(activeTours);
-      savePendingQueue(queue);
-
-      renderQueue();
-      filterDirectory();
-      alert(`"${approvedItem.title}" has been approved and added to this browser's directory. It has not been published to the website.`);
-    }
-
-    function rejectSubmission(index) {
-      if (confirm('Are you sure you want to reject and remove this submission?')) {
-        const queue = getPendingQueue();
-        const removed = queue.splice(index, 1)[0];
-        savePendingQueue(queue);
-        renderQueue();
-      }
-    }
-
-    // Close modal if user clicks backdrop
-    window.onclick = function(event) {
-      const modal = document.getElementById('adminModal');
-      if (event.target === modal) {
-        closeAdminModal();
-      }
-    };
-
     // Initialize
-    updateBadge();
     renderCards(activeTours);
   </script>
 </body>
