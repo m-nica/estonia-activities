@@ -371,6 +371,52 @@
         <option value="Eastern Estonia">Eastern Estonia (Lake Peipus)</option>
         <option value="Various locations">Various locations / Estonia-wide</option>
       </select>
+      <select id="categoryFilter" class="filter-select" aria-label="Filter by activity category" onchange="filterDirectory()">
+        <option value="">All Activity Categories</option>
+        <optgroup label="Outdoors & trails">
+          <option value="cycling">Cycling</option>
+          <option value="hiking">Hiking & walking</option>
+          <option value="foraging">Foraging</option>
+          <option value="self-guided-trails">Self-guided trails</option>
+          <option value="dog-activities">Dog activities</option>
+          <option value="adventure-parks">Adventure parks</option>
+          <option value="other-outdoors">Other outdoor activities</option>
+        </optgroup>
+        <optgroup label="Water & fishing">
+          <option value="paddling">SUP & paddling</option>
+          <option value="canoeing">Canoeing</option>
+          <option value="watercraft-rentals">Watercraft rentals</option>
+          <option value="boat-activities">Boat activities</option>
+          <option value="guided-fishing">Guided fishing</option>
+          <option value="crayfishing">Crayfishing</option>
+          <option value="ice-fishing">Ice fishing</option>
+          <option value="fishing-rentals">Fishing equipment rentals</option>
+          <option value="fishing-team-events">Fishing team events</option>
+        </optgroup>
+        <optgroup label="Wildlife & nature">
+          <option value="wildlife-watching">Wildlife watching</option>
+          <option value="birdwatching">Birdwatching</option>
+          <option value="wildlife-photography">Wildlife photography</option>
+          <option value="nature-tours">Nature tours</option>
+          <option value="nature-photography">Nature photography</option>
+        </optgroup>
+        <optgroup label="Winter">
+          <option value="snowshoeing">Snowshoeing</option>
+          <option value="skiing">Skiing</option>
+          <option value="ice-skating">Ice skating</option>
+          <option value="winter-activities">Other winter activities</option>
+        </optgroup>
+        <optgroup label="Culture & heritage">
+          <option value="museums-heritage">Museums & heritage</option>
+          <option value="history-culture">History & culture</option>
+        </optgroup>
+        <optgroup label="Rentals & other">
+          <option value="picnics-celebrations">Picnics & celebrations</option>
+          <option value="family-group">Family & group activities</option>
+          <option value="outdoor-food">Outdoor food & cooking</option>
+          <option value="other-activities">Other activities</option>
+        </optgroup>
+      </select>
       <select id="costFilter" class="filter-select" onchange="filterDirectory()">
         <option value="">All Tour Types</option>
         <option value="Free">Free Self-Guided Trails</option>
@@ -562,6 +608,27 @@
       { provider: "RMK Sagadi Manor", title: "Snowshoe Hike in Lahemaa", region: "Northern Estonia", location: "Lahemaa", costGroup: "Paid", category: "Guided snowshoeing", duration: "About 2.5 hours", season: "Winter", included: "Guide; introduction to snowshoeing", desc: "A guided snowshoe hike in Lahemaa for groups of up to 10. The provider asks visitors to request a group offer.", url: "https://rmk.ee/en/sagadi-manor/additional-services/nature-tours/", linkLabel: "Official tour details ↗" },
       { provider: "RMK Sagadi Manor", title: "Night Trip to the Old-Growth Forest", region: "Northern Estonia", cost: "€105 in Estonian; €120 in English or Finnish (group price)", costGroup: "Paid", category: "Guided wildlife & forest tour", duration: "1.5 hours", included: "Guide and gear; transport from Sagadi Manor is not included", desc: "A guided evening or pre-dawn outing in Oandu primeval forest or Altja forests, listening for nocturnal activity and looking for wildlife signs. The provider lists groups of 10–20.", url: "https://rmk.ee/en/sagadi-manor/additional-services/nature-tours/", linkLabel: "Official tour details ↗" },
       { provider: "RMK Sagadi Manor", title: "Guided Nature Exploration in Lahemaa", region: "Northern Estonia", location: "Lahemaa forests", costGroup: "Paid", category: "Guided forest hike", duration: "1.5–2 hours", desc: "A guided forest walk with nature guide Peeter Hussar, offered for groups of 10–20. The provider asks visitors to request a group offer and says Finnish and Russian versions are also available.", url: "https://rmk.ee/en/sagadi-manor/additional-services/nature-tours/", linkLabel: "Official tour details ↗" },
+      { provider: "EstFish", title: "Guided Sea Trout Fishing Trip", region: "Various locations", location: "Estonian coastal waters", cost: "€250", costGroup: "Paid", category: "Guided fishing", included: "Guided wade fishing, fishing licence for the day, lunch and warm drink; gear rental available separately", desc: "A guided sea trout fishing outing with an introduction to the fish and sustainable fishing, plus several fishing spots. Contact EstFish to arrange the trip.", url: "https://www.estfish.ee/en/e-shop/products/sea-trout-fishing-with-fish", linkLabel: "Official trip details ↗" },
+      { provider: "EstFish", title: "Guided Sea Trout Fishing Trip for Two", region: "Various locations", location: "Estonian coastal waters", cost: "€300", costGroup: "Paid", category: "Guided fishing", duration: "6 hours", included: "Guide, wade-fishing instruction, lunch and warm drink; fishing rights for the day", desc: "A guided sea trout fishing day for two anglers. Fishing and wading equipment can be rented separately from the provider.", url: "https://www.estfish.ee/en/e-shop/products/guided-sea-trout-sishing-trip-for-two-puuk-kahele-koos-kalastusgiidiga", linkLabel: "Official trip details ↗" },
+      { provider: "EstFish", title: "Boat Fishing Trip", region: "Various locations", location: "Estonian coastal waters", cost: "€450", costGroup: "Paid", category: "Boat fishing", duration: "6 hours", included: "Boat and guide, fishing equipment, fuel, safety equipment, lunch and fishing licence for the day", desc: "A guided coastal fishing trip by motorboat for up to three people. The provider lists sea trout, pike, zander and garfish as possible catches.", url: "https://www.estfish.ee/en/e-shop/products/boat-fishing-trips-sea-trout-pike-ja-garfish", linkLabel: "Official trip details ↗" },
+      { provider: "EstFish", title: "Seal Watching Trip to the Malusi Islands", region: "Northern Estonia", location: "Malusi Islands, Kolga Bay", cost: "€300", costGroup: "Paid", category: "Wildlife boat tour", duration: "Up to 3 hours", season: "16 July–31 October 2027 (provider-listed dates)", included: "Boat ride, life jackets, light snacks and drinks", desc: "A boat-based seal-watching trip for groups of up to four. The provider asks visitors to observe seals from the boat to avoid disturbing them.", url: "https://www.estfish.ee/en/e-shop/products/hulgevaatlusretk", linkLabel: "Official trip details ↗" },
+      { provider: "EstFish", title: "Ice Fishing Trip", region: "Various locations", location: "Pärnu Bay or Lake Peipus", cost: "€175 per person", costGroup: "Paid", category: "Ice fishing", season: "Winter", included: "Fishing and safety equipment", desc: "An introductory winter fishing trip for perch, suitable for adults and children. The provider requests an inquiry for larger groups.", url: "https://www.estfish.ee/en/e-shop/products/jaapuuk", linkLabel: "Official trip details ↗" },
+      { provider: "EstFish", title: "Fishing Equipment Rental", region: "Various locations", location: "Available with an EstFish fishing package", cost: "€30", costGroup: "Paid", category: "Fishing equipment rental", included: "Rod, reel, line, lures, wading trousers and boots", desc: "Equipment rental for one person. EstFish states that rental is available only together with a fishing package.", url: "https://www.estfish.ee/en/e-shop/products/fishing-equipment-rental", linkLabel: "Official rental details ↗" },
+      { provider: "Fishing Trips Estonia", title: "Guided Salmon Fishing", region: "Various locations", location: "Estonian salmon waters (specific location arranged with the guide)", costGroup: "Unknown", category: "Salmon fishing", included: "Waders and boots, specialist spinning set and lures, polarized sunglasses, required licences", desc: "A guided salmon-fishing trip. The provider describes it as an experience requiring season- and location-specific knowledge; contact the guide for pricing and arrangements.", url: "https://fishingtrips.ee/en/services/salmon-fishing/", linkLabel: "Official trip details ↗" },
+      { provider: "Fishing Trips Estonia", title: "Guided Fly Fishing", region: "Various locations", location: "Estonian rivers", costGroup: "Unknown", category: "Fly fishing", desc: "A guided fly-fishing experience in Estonia's rivers. The provider describes wild brown trout and sea trout fishing in rivers and notes that spring creeks are among the waters used for fly fishing; contact the guide for pricing and arrangements.", url: "https://fishingtrips.ee/en/services/fly-fishing/", linkLabel: "Official trip details ↗" },
+      { provider: "Fishing Trips Estonia", title: "Guided Shore Angling", region: "Various locations", location: "Estonian lakes and shore waters", costGroup: "Unknown", category: "Angling", desc: "Guided fishing from shore, starting with a simple pole rod or using a reel rod. The provider describes it as suitable for beginners, children and families; contact the guide for pricing and arrangements.", url: "https://fishingtrips.ee/en/services/angling/", linkLabel: "Official trip details ↗" },
+      { provider: "Fishing Trips Estonia", title: "Crayfishing in Estonia", region: "Various locations", location: "Location arranged with the provider", costGroup: "Unknown", category: "Crayfishing", season: "August only (per provider)", desc: "A late-evening group crayfishing experience using traps. The provider describes it as a summer activity that can include camping and a campfire; crayfishing is permitted only in August. Contact the guide for pricing and arrangements.", url: "https://fishingtrips.ee/en/services/crayfishing/", linkLabel: "Official trip details ↗" },
+      { provider: "Fishing Trips Estonia", title: "Guided Boat Fishing on Estonian Lakes and Rivers", region: "Various locations", location: "Võrtsjärv, Lake Peipus, Lake Saadjärv or the Suur-Emajõgi River; provider-arranged", costGroup: "Unknown", category: "Boat fishing", desc: "Boat-based guided fishing with locations and target species varying by season. The provider names several lakes and the Suur-Emajõgi River, and describes seasonal fishing for sea trout, pike, garfish, zander and perch; contact the guide for pricing and arrangements.", url: "https://fishingtrips.ee/en/services/boat-fishing/", linkLabel: "Official trip details ↗" },
+      { provider: "Fishing Trips Estonia", title: "Guided Ice Fishing in Vooremaa", region: "Various locations", location: "Vooremaa lakes", costGroup: "Unknown", category: "Ice fishing", season: "Winter", desc: "A guided winter ice-fishing activity on Vooremaa's lakes. The provider describes it as suitable for children and as a possible team event; contact the guide for pricing, conditions and availability.", url: "https://fishingtrips.ee/en/services/icefishing/", linkLabel: "Official trip details ↗" },
+      { provider: "Fishing Trips Estonia", title: "Fishing Team-Building Events", region: "Various locations", location: "Vooremaa, Võrtsjärv, Emajõgi and other partner-arranged locations", costGroup: "Unknown", category: "Fishing team-building", desc: "Custom team events combining fishing with group activities. The provider describes fishing from a boat and ice fishing, and says event arrangements can include catering, accommodation or seminars through local partners; contact the provider for pricing and arrangements.", url: "https://fishingtrips.ee/en/services/team-building-events/", linkLabel: "Official event details ↗" },
+      { provider: "Fishing Trips Estonia", title: "Wild Catering", region: "Various locations", location: "Arranged with the provider", costGroup: "Unknown", category: "Wild catering", desc: "Outdoor catering featuring food from the forest and water, with fish or meat prepared in front of guests. The provider describes spring creeks as a source of fish used in its offering; contact the provider for pricing and arrangements.", url: "https://fishingtrips.ee/en/services/wild-catering/", linkLabel: "Official service details ↗" },
+      { provider: "360 KRAADI", title: "Guided Sea Kayak Tours", region: "Western Coast & Islands", location: "Estonia’s western coast and islands", costGroup: "Paid", category: "Sea kayaking", duration: "2–4 hours", season: "Year-round, weather permitting", desc: "Guided sea-kayak excursions approaching islands off Estonia’s western coast, with short nature walks and cultural heritage. The provider lists groups of 10–50 and says tours suit kayakers aged 14 and up; contact them to join a scheduled tour or arrange a group.", url: "https://360.ee/en/matkad/kayak-tours/", linkLabel: "Official tour details ↗" },
+      { provider: "360 KRAADI", title: "Canoeing on the Keila River", region: "Tallinn & Harju", location: "Keila to Keila-Joa", cost: "€39 + VAT per participant; minimum 12", costGroup: "Paid", category: "Canoeing", duration: "About 2–3.5 hours; 8–14 km", included: "Canoe, paddles, dry bags, life vests and guide", desc: "A guided downstream canoe trip on the Keila River, ending near Keila-Joa bridge. The provider describes an easy route suitable for beginners and handles car transfers to the finish.", url: "https://360.ee/en/matkad/kayak-tours/canoeing-on-the-keila-river/", linkLabel: "Official tour details ↗" },
+      { provider: "360 KRAADI", title: "Fifth-Season Canoe Trip in Soomaa", region: "Western Coast & Islands", location: "Near Riisa in Soomaa; meeting point varies with water level", costGroup: "Paid", category: "Canoeing", duration: "2–3 hours", season: "March–April, depending on weather and water", desc: "A guided canoe trip during Soomaa’s high-water season, visiting floodwater areas and river meadows near the Karuskose, Raudna and Halliste rivers. The meeting point is confirmed with participants because it can change with water levels.", url: "https://360.ee/en/matkad/kayak-tours/fifth-season-in-soomaa/", linkLabel: "Official tour details ↗" },
+      { provider: "360 KRAADI", title: "Canoe Trip and Bogshoe Hike in Seli Bog", region: "Northern Estonia", location: "Jägala River at Simisalu Bridge and Seli Bog", costGroup: "Paid", category: "Canoeing & hiking", duration: "About 4–5 hours; 8 km by canoe and 4 km on foot", included: "Canoe, paddle, life jacket, snowshoes, guide, waterproof bags and lunch", desc: "An easy guided canoe trip along the Jägala River followed by a snowshoe hike in Seli Bog. The provider says no prior canoeing or snowshoe experience is required.", url: "https://360.ee/en/matkad/nature-walk-and-bogshoeing/canoe-trip-along-the-river-to-a-bogshoe-hike-in-the-bog/", linkLabel: "Official tour details ↗" },
+      { provider: "360 KRAADI", title: "Canoe and Snowshoe Trip in Põhja-Kõrvemaa", region: "Northern Estonia", location: "Soodla River and Koitjärve Bog", costGroup: "Paid", category: "Canoeing & snowshoeing", duration: "One day; about 10 km by canoe and 3 km on foot", included: "Canoe, paddle, life jacket, snowshoes, guide, waterproof bags and picnic lunch", desc: "A guided trip on the Soodla River with a snowshoe hike in Koitjärve Bog. The provider describes it as easy and says no prior canoeing or snowshoe experience is required.", url: "https://360.ee/en/matkad/kayak-tours/combined-canoe-and-snowshoe-trip-in-pohja-korvemaa-nature-reserve/", linkLabel: "Official tour details ↗" },
+      { provider: "Matkajuht", title: "Ahja River Canoe, Kayak or Raft Trip", region: "Tartu & Southern Estonia", location: "Ahja River, Põlva County", cost: "€30/adult; €20/child (provider-listed)", costGroup: "Paid", category: "Canoeing & kayaking", duration: "Route options: 7–24 km; about 1.5–6 hours", included: "Canoe, kayak or raft, life vest, pre-trip instruction and transport logistics", desc: "Choose among short, half-day and full-day routes on the Ahja River, including Kiidjärve–Taevaskoja and Koorvere–Kiidjärve. Matkajuht offers canoe, kayak or raft options; contact the provider to confirm the route and current arrangements.", url: "https://www.matkajuht.ee/matkad/kanuumatkad-ahja-j%C3%B5el/", linkLabel: "Official trip details ↗" },
+      { provider: "Matkajuht", title: "Võhandu River Canoe, Kayak or Raft Trip", region: "Tartu & Southern Estonia", location: "Võhandu River, Leevi–Reo area", cost: "€30/adult; €20/child (provider-listed)", costGroup: "Paid", category: "Canoeing & kayaking", duration: "2–6 hours; 9–24 km", season: "Spring–autumn", desc: "A guided paddle on the Võhandu River by canoe, kayak or raft. The provider lists scheduled trips on the Leevi–Reo section and says custom trips can be arranged on other river sections.", url: "https://www.matkajuht.ee/matkad/p%C3%A4evane-kanuumatk-s%C3%BCstamatk-parvematk-v%C3%B5handu/", linkLabel: "Official trip details ↗" },
       { provider: "RMK (State Forest Management Centre)", title: "RMK Nature Trails and Outdoor Destinations", region: "Various locations", costGroup: "Unknown", category: "Public nature catalogue", desc: "RMK's official nature portal links to destinations, hiking routes, trip ideas and cultural heritage. This is a broad catalogue entry, not an exhaustive list of individual trails.", url: "https://rmk.ee/en/exploring-nature/", linkLabel: "Official catalogue ↗" }
     ];
     const activeTours = baseTours;
@@ -658,6 +725,30 @@
         page: "https://commons.wikimedia.org/wiki/File:Mihkli_Talumuuseum_2009_-_003.JPG",
         credit: "Mihkli Farm Museum · Ivo Kruusamägi · CC BY 3.0",
         exactLocation: true
+      },
+      paasikuParty: {
+        img: "https://paasiku.ee/wp-content/uploads/2023/07/IMG_4933-1024x768.jpg",
+        page: "https://paasiku.ee/en/glamping-party-package/",
+        credit: "Photo from Paasiku Dogs Manor",
+        alt: "Decorated glamping tent for a party at Paasiku Dogs Manor"
+      },
+      paasikuRomantic: {
+        img: "https://paasiku.ee/wp-content/uploads/2023/08/image1-11-scaled-e1692078934243-1024x726.jpeg",
+        page: "https://paasiku.ee/en/romantic-glamping/",
+        credit: "Photo from Paasiku Dogs Manor",
+        alt: "Picnic in a decorated glamping tent at Paasiku Dogs Manor"
+      },
+      oanduForest: {
+        img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/Oandu_loodusmets.jpg/960px-Oandu_loodusmets.jpg",
+        page: "https://commons.wikimedia.org/wiki/File:Oandu_loodusmets.jpg",
+        credit: "Oandu old-growth forest · Margus6 · CC BY-SA 4.0",
+        alt: "Oandu old-growth forest in Lahemaa National Park"
+      },
+      rougeCanyon: {
+        img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Hinni_kanjon.jpg/960px-Hinni_kanjon.jpg",
+        page: "https://commons.wikimedia.org/wiki/File:Hinni_kanjon.jpg",
+        credit: "Hinni Canyon · Vaido Otsar · CC BY 3.0",
+        alt: "Hinni Canyon on the Rõuge Primeval Valley Hiking Trail"
       }
     };
 
@@ -667,8 +758,10 @@
       if (title.includes("aavik")) return activityPhotos.aavikHouse;
       if (title.includes("mihkli")) return activityPhotos.mihkliFarm;
       if (title.includes("adventure park")) return activityPhotos.adventurePark;
-      if (title.includes("old-growth") || title.includes("rõuge") || title.includes("nature exploration")) return null;
-      if (title.includes("glamping") || title.includes("picnic for two")) return null;
+      if (title.includes("rõuge")) return activityPhotos.rougeCanyon;
+      if (title.includes("old-growth") || title.includes("nature exploration")) return activityPhotos.oanduForest;
+      if (title.includes("party in a glamping tent")) return activityPhotos.paasikuParty;
+      if (title.includes("romantic glamping picnic for two")) return activityPhotos.paasikuRomantic;
       if (title.includes("flying squirrel") || title.includes("squirrel")) return activityPhotos.squirrel;
       if (title.includes("eider")) return activityPhotos.eider;
       if (title.includes("eagle")) return activityPhotos.eagle;
@@ -784,7 +877,7 @@
           <div class="card-img-wrapper${photo ? '' : ' image-unavailable'}">
             ${photo ? `<img class="card-img"
                  src="${photo.img}"
-                 alt="${photo.exactLocation ? photo.credit.split(' · ')[0] : `Illustrative photo for ${item.title}`}"
+                 alt="${photo.alt || (photo.exactLocation ? photo.credit.split(' · ')[0] : `Illustrative photo for ${item.title}`)}"
                  loading="lazy"
                  onerror="this.hidden=true;this.parentElement.classList.add('image-unavailable');" />
             <a class="photo-credit" href="${photo.page}" target="_blank" rel="noopener noreferrer">${photo.credit}</a>` : ''}
@@ -817,18 +910,95 @@
       updateActivityMap(list);
     }
 
+    const categoryGroups = {
+        "Cycling": "cycling",
+        "Paddling": "paddling",
+        "Snowshoeing & SUP": "snowshoeing",
+        "Snowshoeing": "snowshoeing",
+        "Hiking": "hiking",
+        "Foraging": "foraging",
+        "Skiing": "skiing",
+        "Winter activity": "winter-activities",
+        "Ice skating": "ice-skating",
+        "Canoeing": "canoeing",
+        "Canoe rental": "watercraft-rentals",
+        "Canoeing & hiking": "canoeing",
+        "Canoeing & camping": "canoeing",
+        "Sea kayaking": "canoeing",
+        "Canoeing & kayaking": "canoeing",
+        "Canoeing & snowshoeing": "canoeing",
+        "Stand-up paddleboarding": "paddling",
+        "Bog hiking": "hiking",
+        "Kick-bike rental": "other-outdoors",
+        "Winter activity rental": "winter-activities",
+        "Wildlife watching": "wildlife-watching",
+        "Wildlife photography": "wildlife-photography",
+        "Birdwatching & wildlife": "wildlife-watching",
+        "Self-guided birding & wildlife": "birdwatching",
+        "Birdwatching": "birdwatching",
+        "Smart-guided birdwatching": "birdwatching",
+        "Custom nature tour": "nature-tours",
+        "Wildlife & nature": "wildlife-watching",
+        "Wildlife & snowshoeing": "snowshoeing",
+        "Nature & culture": "history-culture",
+        "Boat trip & nature": "boat-activities",
+        "Marine wildlife": "wildlife-watching",
+        "Adventure park": "adventure-parks",
+        "Climbing & group activity": "adventure-parks",
+        "Self-guided nature trail": "self-guided-trails",
+        "Self-guided forest trail": "self-guided-trails",
+        "Self-guided bog trail": "self-guided-trails",
+        "Self-guided hiking trail": "self-guided-trails",
+        "Public nature catalogue": "self-guided-trails",
+        "Nature tour": "nature-tours",
+        "Photography": "nature-photography",
+        "History & photography": "history-culture",
+        "Husky activity": "dog-activities",
+        "Hiking with animals": "dog-activities",
+        "Outdoor activity": "other-outdoors",
+        "Family activity": "family-group",
+        "Dogs & manor tour": "dog-activities",
+        "Picnic & celebration": "picnics-celebrations",
+        "Picnic & glamping": "picnics-celebrations",
+        "Museum & heritage": "museums-heritage",
+        "Guided snowshoeing": "snowshoeing",
+        "Guided wildlife & forest tour": "wildlife-watching",
+        "Guided forest hike": "hiking",
+        "Guided fishing": "guided-fishing",
+        "Boat fishing": "guided-fishing",
+        "Salmon fishing": "guided-fishing",
+        "Fly fishing": "guided-fishing",
+        "Angling": "guided-fishing",
+        "Crayfishing": "crayfishing",
+        "Fishing team-building": "fishing-team-events",
+        "Wild catering": "outdoor-food",
+        "Wildlife boat tour": "wildlife-watching",
+        "Ice fishing": "ice-fishing",
+        "Fishing equipment rental": "fishing-rentals"
+      };
+
+    function getCategoryGroup(item) {
+      if (item.category === "Photography") {
+        if (/husky/i.test(item.title)) return "dog-activities";
+        return /nature/i.test(item.title) ? "nature-photography" : "other-activities";
+      }
+      return categoryGroups[item.category] || "other-activities";
+    }
+
     function filterDirectory() {
       const search = document.getElementById('searchInput').value.toLowerCase();
       const region = document.getElementById('regionFilter').value;
       const cost = document.getElementById('costFilter').value;
+      const category = document.getElementById('categoryFilter').value;
 
       const filtered = activeTours.filter(item => {
         const textBlob = [item.title, item.desc, item.provider, item.location, item.included, item.category].filter(Boolean).join(' ').toLowerCase();
         const matchesSearch = !search || textBlob.includes(search);
         const matchesRegion = !region || item.region === region;
         const matchesCost = !cost || item.costGroup === cost;
+        const matchesCategory = !category || getCategoryGroup(item) === category;
 
-        return matchesSearch && matchesRegion && matchesCost;
+        return matchesSearch && matchesRegion && matchesCost && matchesCategory;
       });
 
       renderCards(filtered);
