@@ -186,18 +186,35 @@
       font-weight: 700;
     }
     .image-unavailable .image-fallback { display: grid; }
+    .image-unavailable .photo-credit { display: none; }
     .card-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       transition: transform 0.3s ease;
     }
+    .photo-credit {
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      left: 8px;
+      z-index: 1;
+      padding: 0.35rem 0.5rem;
+      border-radius: 4px;
+      color: white;
+      background: rgba(15, 23, 42, 0.78);
+      font-size: 0.68rem;
+      line-height: 1.35;
+      text-align: right;
+      text-decoration: none;
+    }
+    .photo-credit:hover, .photo-credit:focus-visible { text-decoration: underline; }
     .card:hover .card-img {
       transform: scale(1.05);
     }
     .card-provider-pill {
       position: absolute;
-      bottom: 10px;
+      top: 10px;
       left: 10px;
       background: rgba(27, 67, 50, 0.9);
       color: white;
@@ -484,6 +501,8 @@
       { provider: "Soomaa.com", title: "Kickspark Trips", region: "Western Coast & Islands", location: "Teesoo bus stop or agreed location", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Winter activity", duration: "2 hours", season: "December–March", included: "Guide and kicksled rental", desc: "Guided kicksledding on frozen Soomaa meadows or rivers when conditions allow.", url: "https://soomaa.com/kickspark-trips-2/" },
       { provider: "Soomaa.com", title: "Snowshoeing", region: "Western Coast & Islands", location: "Soomaa Holiday Village or Pärnu", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Snowshoeing", duration: "2 hours", season: "December–March", included: "Guide and bogshoe rental", desc: "Guided winter snowshoe hikes through frozen bogs, forests and floodplains.", url: "https://soomaa.com/snowshoeing/" },
       { provider: "Soomaa.com", title: "Mushrooming", region: "Western Coast & Islands", location: "Soomaa Holiday Village or Pärnu", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Foraging", duration: "3–4 hours", season: "July–October", included: "Guide and a light mushroom meal", desc: "A guided forest mushrooming trip covering edible and inedible species and ways of preserving mushrooms.", url: "https://soomaa.com/mushrooming/" },
+      { provider: "Soomaa.com", title: "Kick Bike Rental", region: "Western Coast & Islands", location: "Soomaa Holiday Village", cost: "€25 per bike", costGroup: "Paid", category: "Kick-bike rental", duration: "1–4 hours", season: "April–October", included: "Kick bike, helmet, instructions and area map", desc: "Self-guided kick-bike rental for adults and children; the provider offers instruction before the ride.", url: "https://soomaa.com/kick-bike-rental/" },
+      { provider: "Soomaa.com", title: "Kicksled Rental", region: "Western Coast & Islands", location: "Tõramaa watching tower or agreed location", cost: "€25/person", costGroup: "Paid", category: "Winter activity rental", duration: "2 hours", season: "December–March", included: "Kicksled rental and instructions", desc: "Self-guided kicksled rental when winter weather and surface conditions are suitable.", url: "https://soomaa.com/kick-sled-rental/" },
 
       { provider: "Natourest", title: "Brown Bear Watching", region: "Northern Estonia", location: "Alutaguse", cost: "€150/person", costGroup: "Paid", category: "Wildlife watching", duration: "1 day–1 night", desc: "The provider's catalog lists bear watching in Alutaguse with 2027 departures; see the product page for current hide details and conditions.", url: "https://natourest.ee/trip/brown-bear-watching/" },
       { provider: "Natourest", title: "Bearwatching and Photography Comfort Hide", region: "Northern Estonia", location: "Western Alutaguse, near Sirtsi Bog", costGroup: "Paid", category: "Wildlife photography", desc: "A bear-watching and photography hide in western Alutaguse. See the provider page for current dates, rates and facilities.", url: "https://natourest.ee/trip/bearwatching-and-photography-comfort-hide/" },
@@ -492,7 +511,7 @@
       { provider: "Natourest", title: "Lynx Tour (Scheduled)", region: "Various locations", cost: "€1,790 (listed rate)", costGroup: "Paid", category: "Wildlife watching", duration: "7 days–6 nights", season: "Spring; autumn option described", desc: "Scheduled lynx tour with a listed March 2027 departure. The provider describes Lahemaa and Matsalu as target areas; check the page for current availability.", url: "https://natourest.ee/trip/lynx-tour-3/" },
       { provider: "Natourest", title: "Lynx Tour (Private)", region: "Various locations", costGroup: "Paid", category: "Wildlife watching", season: "September–March (provider stated)", desc: "The provider describes private lynx tours and says the season is September through March; confirm itinerary and dates directly.", url: "https://natourest.ee/trip/lynx-tour-2/" },
       { provider: "Natourest", title: "Lynx and Bear Tour (Scheduled)", region: "Various locations", cost: "€1,980 (listed rate)", costGroup: "Paid", category: "Wildlife watching", duration: "8 days–7 nights", season: "Autumn", desc: "Scheduled autumn tour targeting lynx, brown bear and grey wolf across West Estonia, Lahemaa and Alutaguse, as described by the provider.", url: "https://natourest.ee/trip/lynx-and-bear-tour-scheduled-2/" },
-      { provider: "Natourest", title: "Estonian Birds and Mammals (Scheduled)", region: "Various locations", cost: "€1,850 (listed rate)", costGroup: "Paid", category: "Birdwatching & wildlife", duration: "8 days–7 nights", season: "Spring and autumn departures listed", desc: "A scheduled birding and mammal-watching tour; the provider lists 2027 departures and describes seasonal migration and wildlife-watching highlights.", url: "https://natourest.ee/trip/estonian-birds-and-mammals-scheduled/" },
+      { provider: "Natourest", title: "Brown Bears, Elks, Bird Migration and Ringed Seals in Estonia", region: "Various locations", cost: "€1,850 (listed rate)", costGroup: "Paid", category: "Birdwatching & wildlife", duration: "8 days–7 nights", season: "Spring and autumn 2027 departures listed", desc: "A scheduled birding and mammal-watching tour. Natourest lists 2027 departures on 24 April, 22 May and 25 September; availability can change, so confirm on the provider page.", url: "https://natourest.ee/trip/estonian-birds-and-mammals-scheduled/" },
       { provider: "Natourest", title: "Estonian Birds and Mammals (Self-Guided)", region: "Various locations", costGroup: "Paid", category: "Self-guided birding & wildlife", desc: "A self-guided tour using a smart device, with destinations and seasonal information provided by Natourest. See the product page for itinerary and rates.", url: "https://natourest.ee/trip/estonian-birds-and-mammals/" },
       { provider: "Natourest", title: "Eurasian Lynx and Steller’s Eider", region: "Various locations", costGroup: "Paid", category: "Birdwatching & wildlife", desc: "A combined lynx and Steller's Eider tour listed in Natourest's official catalog; consult the provider page for details.", url: "https://natourest.ee/trip/lynx-and-stellers-eider/" },
       { provider: "Natourest", title: "Flying Squirrel Tour", region: "Northern Estonia", costGroup: "Paid", category: "Wildlife watching", desc: "Flying squirrel tour listed in Natourest's official catalog; consult the provider page for location, dates and conditions.", url: "https://natourest.ee/trip/flying-squirrel-tour/" },
@@ -501,6 +520,10 @@
       { provider: "Natourest", title: "Golden Eagle Photography Hide", region: "Northern Estonia", location: "Alutaguse", cost: "€190 (listed rate)", costGroup: "Paid", category: "Wildlife photography", season: "Late December–early March", desc: "Winter eagle photography from a hide in Alutaguse; the provider lists late-December 2026 departures.", url: "https://natourest.ee/trip/golden-eagle-photography-hide/" },
       { provider: "Natourest", title: "Spring Birding in Estonia", region: "Various locations", costGroup: "Paid", category: "Birdwatching", season: "Spring", desc: "Spring birding tour listed in Natourest's official catalog; consult the provider page for itinerary, dates and rates.", url: "https://natourest.ee/trip/spring-birding-in-estonia/" },
       { provider: "Natourest", title: "Steller’s Eider Tour", region: "Northern Estonia", costGroup: "Paid", category: "Birdwatching", desc: "Steller's Eider tour listed in Natourest's official catalog; check the provider page for current trip details.", url: "https://natourest.ee/trip/stellers-eider-tour-2/" },
+      { provider: "Natourest", title: "Steller’s Eider Weekend – Smart-Guided Tour", region: "Various locations", cost: "€590 (listed rate)", costGroup: "Paid", category: "Smart-guided birdwatching", duration: "4 days", desc: "A smart-guided birding tour focused on Steller’s Eiders and other seaducks, with additional bird and mammal-watching opportunities described by the provider. Check the product page for current dates and details.", url: "https://natourest.ee/trip/stellers-eider-weekend-smart-guided-tour/" },
+      { provider: "Natourest", title: "Tailor-Made Smart-Guided Nature Tour", region: "Various locations", costGroup: "Paid", category: "Custom nature tour", desc: "A custom tour arranged around requested dates, duration, habitats and species; the provider describes birding, mammal observation or a mix. Contact Natourest for a proposed itinerary and price.", url: "https://natourest.ee/trip/tailor-made-smart-guided-tour/" },
+      { provider: "Natourest", title: "Estonia Wildlife & Nature Tour", region: "Northern Estonia", costGroup: "Paid", category: "Wildlife & nature", duration: "3 days", desc: "The provider describes a three-day tour combining bear watching, wildlife viewing, Lahemaa National Park and guided bog walking. No fixed departure is currently listed.", url: "https://natourest.ee/trip/estonia-wildlife-nature-tour-bears-moose-lahemaa-national-park-bog-walki/" },
+      { provider: "Natourest", title: "Snowshoe Tour on Wolf Tracks", region: "Various locations", costGroup: "Paid", category: "Wildlife & snowshoeing", duration: "1 day", season: "Winter; no fixed departure currently listed", desc: "A winter snowshoe outing focused on wolf tracks and behavior, ending after dark; the provider says there may be a chance to hear a wolf pack howl. No fixed departure is currently listed.", url: "https://natourest.ee/trip/snow-shoe-tour-on-the-wolf-tracks/" },
 
       { provider: "Capture Estonia", title: "Lahemaa National Park Nature & Culture Day Tour", region: "Northern Estonia", location: "Lahemaa National Park", costGroup: "Paid", category: "Nature & culture", desc: "A guided day tour in Lahemaa combining natural landscapes with local cultural heritage, according to the provider's tour page.", url: "https://www.capture-estonia.ee/nature-culture-day-tour-in-lahemaa-national-park/" },
       { provider: "Capture Estonia", title: "Bird Watching Tour Around Tallinn", region: "Tallinn & Harju", location: "Tallinn and surrounding areas", costGroup: "Paid", category: "Birdwatching", duration: "About 5–6 hours", season: "Year-round; seasonal highlights", desc: "Guided birdwatching tour around Tallinn; the provider says binoculars and a spotting scope are included.", url: "https://www.capture-estonia.ee/bird-wathing-tour-tallinn-area/" },
@@ -518,25 +541,165 @@
       { provider: "Paasiku Dogs Manor", title: "Kicksledding / Kickbike Tour", region: "Tallinn & Harju", location: "Paasiku Dogs Manor", cost: "€40/person, excluding tax", costGroup: "Paid", category: "Outdoor activity", duration: "About 1.5–2 hours", included: "Introduction to the dogs and other animals, instruction, 3 km track and guide", desc: "The provider states that the ride takes place without dogs and that the sled or scooter is chosen according to weather.", url: "https://paasiku.ee/en/kicksledding/" },
       { provider: "Paasiku Dogs Manor", title: "Photoshoot with Siberian Huskies", region: "Tallinn & Harju", location: "Paasiku Dogs Manor", cost: "€250, excluding tax", costGroup: "Paid", category: "Photography", duration: "Up to 45 minutes", included: "3–5 locations and about 40 edited photos", desc: "A husky photoshoot for small groups, families or couples, as described by the provider.", url: "https://paasiku.ee/en/photoshoots/" },
       { provider: "Paasiku Dogs Manor", title: "Children’s Activity Packages", region: "Tallinn & Harju", location: "Paasiku Dogs Manor", costGroup: "Paid", category: "Family activity", desc: "The provider lists children's party packages with a manor visit, hiking, or a picnic; check its page for the package details and current availability.", url: "https://paasiku.ee/en/packages-for-kids/" },
+      { provider: "Paasiku Dogs Manor", title: "Tour in Paasiku Dogs Manor", region: "Tallinn & Harju", location: "Paasiku Dogs Manor", cost: "€25/adult; €20/child; private tour €150 (excluding tax)", costGroup: "Paid", category: "Dogs & manor tour", duration: "About 1.5 hours", included: "Siberian husky introduction, meet the dogs, ponies and an alpaca", desc: "The provider lists a maximum group size of 70 and a group discount from 10 people. The private-tour rate is for up to 2 adults and 2 children.", url: "https://paasiku.ee/en/tour-in-paasiku-dogs-manor/" },
+      { provider: "Paasiku Dogs Manor", title: "Party in a Glamping Tent", region: "Tallinn & Harju", location: "Paasiku Dogs Manor", cost: "€190 for 6 people; +€30 per additional guest (excluding tax)", costGroup: "Paid", category: "Picnic & celebration", included: "Welcome drink, snacks, manor tour and decorated glamping tent for picnics", desc: "A party package for birthdays or groups of friends, as described by Paasiku. The page lists optional add-ons and says catering is available by agreement.", url: "https://paasiku.ee/en/glamping-party-package/" },
+      { provider: "Paasiku Dogs Manor", title: "Romantic Glamping Picnic for Two", region: "Tallinn & Harju", location: "Paasiku Dogs Manor", cost: "€99 for two (excluding tax)", costGroup: "Paid", category: "Picnic & glamping", included: "Manor tour, picnic basket and a picnic in a decorated glamping tent", desc: "A romantic picnic package for two; check the provider page for arrangements and optional add-ons.", url: "https://paasiku.ee/en/romantic-glamping/" },
 
       { provider: "Tallinn Adventure Parks", title: "Pirita Adventure Park", region: "Tallinn & Harju", location: "Merivälja tee 5A, Tallinn", costGroup: "Unknown", category: "Adventure park", season: "2026 season ended; reopening spring 2027", desc: "The official site lists Pirita as one of its Tallinn adventure parks. Its 2026 season has ended; check the provider for the 2027 opening and activities.", url: "https://piritaseikluspark.ee/en/", linkLabel: "Official information ↗" },
       { provider: "Tallinn Adventure Parks", title: "Nõmme Adventure Park", region: "Tallinn & Harju", location: "Külmallika 15a, Tallinn", costGroup: "Unknown", category: "Adventure park", season: "2026 season ended; reopening spring 2027", desc: "The official site lists Nõmme as one of its Tallinn adventure parks. Check the provider for the 2027 opening and available activities.", url: "https://piritaseikluspark.ee/en/", linkLabel: "Official information ↗" },
+      { provider: "Tallinn Adventure Parks", title: "Adventure Park Group Visits and Events", region: "Tallinn & Harju", costGroup: "Unknown", category: "Climbing & group activity", season: "2026 season ended; parks reopen spring 2027", desc: "The provider lists birthday visits, team/group visits using its team course, and school-group packages. Contact the park for arrangements and 2027 availability.", url: "https://piritaseikluspark.ee/en/", linkLabel: "Official information ↗" },
 
       { provider: "Saaremaa Museum", title: "Kuressaare Castle Museum", region: "Western Coast & Islands", location: "Lossihoov 1/1, Kuressaare", cost: "€13/adult (2026 museum ticket)", costGroup: "Paid", category: "Museum & heritage", season: "Winter: Wed–Sun; summer: daily (2026 hours)", desc: "The official visitor information lists museum admission, seasonal opening hours and access details for Kuressaare Castle.", url: "https://linnus.samu.ee/en/visitors-info/", linkLabel: "Official information ↗" },
       { provider: "Saaremaa Museum", title: "Aavik’s House Museum", region: "Western Coast & Islands", location: "Vallimaa 7, Kuressaare", cost: "€6/adult; guided tour €60", costGroup: "Paid", category: "Museum & heritage", duration: "Guided tour: 1 hour", desc: "Official visitor information for Aavik’s House Museum, including ticket and guided-tour rates.", url: "https://aavikud.samu.ee/en/visitor-info/", linkLabel: "Official information ↗" },
       { provider: "Saaremaa Museum", title: "Mihkli Farm Museum", region: "Western Coast & Islands", location: "Viki village, Saaremaa", costGroup: "Unknown", category: "Museum & heritage", season: "By prior arrangement", desc: "The official museum page says Mihkli Farm Museum is open by appointment; contact the museum for visitor arrangements.", url: "https://mihkli.samu.ee/en/visitor-info", linkLabel: "Official information ↗" },
 
+      { provider: "RMK (State Forest Management Centre)", title: "Viru Bog Nature Trail", region: "Northern Estonia", location: "Lahemaa National Park", costGroup: "Unknown", category: "Self-guided nature trail", duration: "3.5 km; 5.5 km loop option", desc: "A marked trail through forest and Viru bog, with an observation tower and information boards. RMK notes the 5.5 km loop option and asks visitors to stay on the boardwalk to protect the bog.", url: "https://rmk.ee/en/exploring-nature/where-to-go/viru-bog-nature-trail-3-5-km/", linkLabel: "Official trail details ↗" },
+      { provider: "RMK (State Forest Management Centre)", title: "Kakerdaja Nature Trail", region: "Northern Estonia", location: "Aegviidu–Kõrvemaa Recreation Area", costGroup: "Unknown", category: "Self-guided nature trail", duration: "7 km", desc: "RMK's route combines a 4 km bog boardwalk with forest and lake sections; the route passes Noku and Kalajärve campfire sites.", url: "https://rmk.ee/en/exploring-nature/where-to-go/kakerdaja-nature-trail-7-km/", linkLabel: "Official trail details ↗" },
+      { provider: "RMK (State Forest Management Centre)", title: "Oandu Old-Growth Forest Nature Trail", region: "Northern Estonia", location: "Lahemaa National Park", costGroup: "Unknown", category: "Self-guided forest trail", duration: "4.7 km", desc: "A marked route through old-growth and other forest types, with information boards. RMK recommends starting with the forest exhibition at Oandu Visitor Centre.", url: "https://rmk.ee/en/exploring-nature/where-to-go/oandu-old-growth-forest-nature-trail-4-7-km/", linkLabel: "Official trail details ↗" },
+      { provider: "RMK (State Forest Management Centre)", title: "Riisa Study Trail", region: "Western Coast & Islands", location: "Soomaa National Park", costGroup: "Unknown", category: "Self-guided bog trail", duration: "4.8 km", desc: "A route through Riisa bog and forest beside the Navesti River, with an observation tower and rest areas. RMK states that the boardwalk is wheelchair- and stroller-accessible for the first 1,220 metres to the first bog pool.", url: "https://rmk.ee/en/exploring-nature/where-to-go/riisa-study-trail-4-8-km/", linkLabel: "Official trail details ↗" },
+      { provider: "RMK (State Forest Management Centre)", title: "Rannametsa–Tolkuse Nature Study Trail", region: "Western Coast & Islands", location: "Luitemaa Nature Reserve, Pärnu County", costGroup: "Unknown", category: "Self-guided bog trail", duration: "2.2 km circular route", desc: "A boardwalk route over coastal dunes to Tolkuse bog and an observation tower. RMK says the section from the parking area to the bog pool is suitable for wheelchairs and strollers.", url: "https://rmk.ee/en/exploring-nature/where-to-go/rannametsa-tolkuse-nature-study-trail-2-2-km/", linkLabel: "Official trail details ↗" },
+      { provider: "RMK (State Forest Management Centre)", title: "Rõuge Primeval Valley Hiking Trail", region: "Tartu & Southern Estonia", location: "Haanja Nature Park, Võru County", costGroup: "Unknown", category: "Self-guided hiking trail", duration: "10 km", desc: "A route past the Rõuge lakes and Hinni canyon. RMK notes that part of the trail crosses private land, free-roaming dogs may be present, and the route has changed; follow current trail signs and RMK's updated route information.", url: "https://rmk.ee/en/exploring-nature/where-to-go/rouge-primeval-valley-hiking-trail-10-km/", linkLabel: "Official trail details ↗" },
+      { provider: "RMK Sagadi Manor", title: "Snowshoe Hike in Lahemaa", region: "Northern Estonia", location: "Lahemaa", costGroup: "Paid", category: "Guided snowshoeing", duration: "About 2.5 hours", season: "Winter", included: "Guide; introduction to snowshoeing", desc: "A guided snowshoe hike in Lahemaa for groups of up to 10. The provider asks visitors to request a group offer.", url: "https://rmk.ee/en/sagadi-manor/additional-services/nature-tours/", linkLabel: "Official tour details ↗" },
+      { provider: "RMK Sagadi Manor", title: "Night Trip to the Old-Growth Forest", region: "Northern Estonia", cost: "€105 in Estonian; €120 in English or Finnish (group price)", costGroup: "Paid", category: "Guided wildlife & forest tour", duration: "1.5 hours", included: "Guide and gear; transport from Sagadi Manor is not included", desc: "A guided evening or pre-dawn outing in Oandu primeval forest or Altja forests, listening for nocturnal activity and looking for wildlife signs. The provider lists groups of 10–20.", url: "https://rmk.ee/en/sagadi-manor/additional-services/nature-tours/", linkLabel: "Official tour details ↗" },
+      { provider: "RMK Sagadi Manor", title: "Guided Nature Exploration in Lahemaa", region: "Northern Estonia", location: "Lahemaa forests", costGroup: "Paid", category: "Guided forest hike", duration: "1.5–2 hours", desc: "A guided forest walk with nature guide Peeter Hussar, offered for groups of 10–20. The provider asks visitors to request a group offer and says Finnish and Russian versions are also available.", url: "https://rmk.ee/en/sagadi-manor/additional-services/nature-tours/", linkLabel: "Official tour details ↗" },
       { provider: "RMK (State Forest Management Centre)", title: "RMK Nature Trails and Outdoor Destinations", region: "Various locations", costGroup: "Unknown", category: "Public nature catalogue", desc: "RMK's official nature portal links to destinations, hiking routes, trip ideas and cultural heritage. This is a broad catalogue entry, not an exhaustive list of individual trails.", url: "https://rmk.ee/en/exploring-nature/", linkLabel: "Official catalogue ↗" }
     ];
     const activeTours = baseTours;
+    const activityPhotos = {
+      bike: {
+        img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/Fat-Bikepacking_Lake_Superior_%28camp_set%29.jpg/960px-Fat-Bikepacking_Lake_Superior_%28camp_set%29.jpg",
+        page: "https://commons.wikimedia.org/wiki/File:Fat-Bikepacking_Lake_Superior_(camp_set).jpg",
+        credit: "Illustrative photo · Jereme Rauckman · CC BY 2.0"
+      },
+      sup: {
+        img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Stand-up_paddleboarding_on_Lake_Michigan_%289722656744%29.jpg/960px-Stand-up_paddleboarding_on_Lake_Michigan_%289722656744%29.jpg",
+        page: "https://commons.wikimedia.org/wiki/File:Stand-up_paddleboarding_on_Lake_Michigan_(9722656744).jpg",
+        credit: "Illustrative photo · Ben Schumin · CC BY-SA 2.0"
+      },
+      canoe: {
+        img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/Dock%2C_canoes_and_a_house._-_Flickr_-_Lauri_P._Photography.jpg/960px-Dock%2C_canoes_and_a_house._-_Flickr_-_Lauri_P._Photography.jpg",
+        page: "https://commons.wikimedia.org/wiki/File:Dock,_canoes_and_a_house._-_Flickr_-_Lauri_P._Photography.jpg",
+        credit: "Illustrative photo · Lauri P. Photography · Public domain"
+      },
+      bog: {
+        img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f6/Viru_Bog%2C_Parque_Nacional_Lahemaa%2C_Estonia%2C_2012-08-12%2C_DD_07.JPG/960px-Viru_Bog%2C_Parque_Nacional_Lahemaa%2C_Estonia%2C_2012-08-12%2C_DD_07.JPG",
+        page: "https://commons.wikimedia.org/wiki/File:Viru_Bog,_Parque_Nacional_Lahemaa,_Estonia,_2012-08-12,_DD_07.JPG",
+        credit: "Illustrative photo · Diego Delso · CC BY-SA 3.0"
+      },
+      bear: {
+        img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/Eurasian_brown_bear_%28Ursus_arctos_arctos%29_female_1.jpg/960px-Eurasian_brown_bear_%28Ursus_arctos_arctos%29_female_1.jpg",
+        page: "https://commons.wikimedia.org/wiki/File:Eurasian_brown_bear_(Ursus_arctos_arctos)_female_1.jpg",
+        credit: "Illustrative photo · Charles J. Sharp · CC BY-SA 4.0"
+      },
+      lynx: {
+        img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d8/Lynx_lynx-4.JPG/960px-Lynx_lynx-4.JPG",
+        page: "https://commons.wikimedia.org/wiki/File:Lynx_lynx-4.JPG",
+        credit: "Illustrative photo · David Castor · Public domain"
+      },
+      squirrel: {
+        img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/Pteromys_volans_0zz.jpg/960px-Pteromys_volans_0zz.jpg",
+        page: "https://commons.wikimedia.org/wiki/File:Pteromys_volans_0zz.jpg",
+        credit: "Illustrative photo · David J. Stang · CC BY-SA 4.0"
+      },
+      eider: {
+        img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Polysticta_stelleri%2C_Kiberg%2C_Vard%C3%B8%2C_Norway_92934764.jpg/960px-Polysticta_stelleri%2C_Kiberg%2C_Vard%C3%B8%2C_Norway_92934764.jpg",
+        page: "https://commons.wikimedia.org/wiki/File:Polysticta_stelleri,_Kiberg,_Vard%C3%B8,_Norway_92934764.jpg",
+        credit: "Illustrative photo · Christoph Moning · CC BY 4.0"
+      },
+      eagle: {
+        img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/001_Wild_Golden_Eagle_and_Majinghorn_Pfyn-Finges_Photo_by_Giles_Laurent.jpg/960px-001_Wild_Golden_Eagle_and_Majinghorn_Pfyn-Finges_Photo_by_Giles_Laurent.jpg",
+        page: "https://commons.wikimedia.org/wiki/File:001_Wild_Golden_Eagle_and_Majinghorn_Pfyn-Finges_Photo_by_Giles_Laurent.jpg",
+        credit: "Illustrative photo · Giles Laurent · CC BY-SA 4.0"
+      },
+      bird: {
+        img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8a/Flock_of_birds_in_flight_in_Estonia_2010.jpg/960px-Flock_of_birds_in_flight_in_Estonia_2010.jpg",
+        page: "https://commons.wikimedia.org/wiki/File:Flock_of_birds_in_flight_in_Estonia_2010.jpg",
+        credit: "Illustrative photo · Oleg Yu. Novikov · CC BY 3.0"
+      },
+      seal: {
+        img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/021_Wild_smiling_harbor_seal_at_J%C3%B6kuls%C3%A1rl%C3%B3n_%28Iceland%29_Photo_by_Giles_Laurent.jpg/960px-021_Wild_smiling_harbor_seal_at_J%C3%B6kuls%C3%A1rl%C3%B3n_%28Iceland%29_Photo_by_Giles_Laurent.jpg",
+        page: "https://commons.wikimedia.org/wiki/File:021_Wild_smiling_harbor_seal_at_J%C3%B6kuls%C3%A1rl%C3%B3n_(Iceland)_Photo_by_Giles_Laurent.jpg",
+        credit: "Illustrative photo · Giles Laurent · CC BY-SA 4.0"
+      },
+      husky: {
+        img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Sled_dog_on_Svalbard_eager_to_go_on_a_hike.jpg/960px-Sled_dog_on_Svalbard_eager_to_go_on_a_hike.jpg",
+        page: "https://commons.wikimedia.org/wiki/File:Sled_dog_on_Svalbard_eager_to_go_on_a_hike.jpg",
+        credit: "Illustrative photo · AWeith · CC BY-SA 4.0"
+      },
+      snow: {
+        img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/A_cross-country_skiing_track_in_pine_forest_Helsinki.jpg/960px-A_cross-country_skiing_track_in_pine_forest_Helsinki.jpg",
+        page: "https://commons.wikimedia.org/wiki/File:A_cross-country_skiing_track_in_pine_forest_Helsinki.jpg",
+        credit: "Illustrative photo · Pöllö · CC BY 3.0"
+      },
+      tallinn: {
+        img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/Old_Town_of_Tallinn%2C_Tallinn%2C_Estonia_-_panoramio_%2839%29.jpg/960px-Old_Town_of_Tallinn%2C_Tallinn%2C_Estonia_-_panoramio_%2839%29.jpg",
+        page: "https://commons.wikimedia.org/wiki/File:Old_Town_of_Tallinn,_Tallinn,_Estonia_-_panoramio_(39).jpg",
+        credit: "Illustrative photo · Ben Bender · CC BY-SA 3.0"
+      },
+      adventurePark: {
+        img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/Adventure_Park_in_Tambov_-_01.jpg/960px-Adventure_Park_in_Tambov_-_01.jpg",
+        page: "https://commons.wikimedia.org/wiki/File:Adventure_Park_in_Tambov_-_01.jpg",
+        credit: "Illustrative photo · Alexander Novikov · CC BY-SA 4.0"
+      },
+      kuressaareCastle: {
+        img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Kuressaare-linnus%2C_2010.jpg/960px-Kuressaare-linnus%2C_2010.jpg",
+        page: "https://commons.wikimedia.org/wiki/File:Kuressaare-linnus,_2010.jpg",
+        credit: "Kuressaare Castle · WikedKentaur · CC BY-SA 3.0",
+        exactLocation: true
+      },
+      aavikHouse: {
+        img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/Aavikute_majamuuseum.jpg/960px-Aavikute_majamuuseum.jpg",
+        page: "https://commons.wikimedia.org/wiki/File:Aavikute_majamuuseum.jpg",
+        credit: "Aavik’s House Museum · Ave Maria Mõistlik · CC BY-SA 2.5",
+        exactLocation: true
+      },
+      mihkliFarm: {
+        img: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/65/Mihkli_Talumuuseum_2009_-_003.JPG/960px-Mihkli_Talumuuseum_2009_-_003.JPG",
+        page: "https://commons.wikimedia.org/wiki/File:Mihkli_Talumuuseum_2009_-_003.JPG",
+        credit: "Mihkli Farm Museum · Ivo Kruusamägi · CC BY 3.0",
+        exactLocation: true
+      }
+    };
+
+    function photoForActivity(item) {
+      const title = item.title.toLowerCase();
+      if (title.includes("kuressaare castle")) return activityPhotos.kuressaareCastle;
+      if (title.includes("aavik")) return activityPhotos.aavikHouse;
+      if (title.includes("mihkli")) return activityPhotos.mihkliFarm;
+      if (title.includes("adventure park")) return activityPhotos.adventurePark;
+      if (title.includes("old-growth") || title.includes("rõuge") || title.includes("nature exploration")) return null;
+      if (title.includes("glamping") || title.includes("picnic for two")) return null;
+      if (title.includes("flying squirrel") || title.includes("squirrel")) return activityPhotos.squirrel;
+      if (title.includes("eider")) return activityPhotos.eider;
+      if (title.includes("eagle")) return activityPhotos.eagle;
+      if (title.includes("bear")) return activityPhotos.bear;
+      if (title.includes("lynx")) return activityPhotos.lynx;
+      if (title.includes("wolf")) return activityPhotos.snow;
+      if (title.includes("seal")) return activityPhotos.seal;
+      if (title.includes("bird")) return activityPhotos.bird;
+      if (title.includes("husky") || title.includes("dog") || title.includes("sledding") || title.includes("children’s activity")) return activityPhotos.husky;
+      if (title.includes("sup")) return activityPhotos.sup;
+      if (title.includes("canoe") || title.includes("boat trip")) return activityPhotos.canoe;
+      if (title.includes("tallinn history")) return activityPhotos.tallinn;
+      if (title.includes("ski") || title.includes("snowshoe") || title.includes("kickspark") || title.includes("kicksled") || title.includes("kick-sled") || title.includes("ice skating")) return activityPhotos.snow;
+      if (title.includes("bike") || title.includes("cycling")) return activityPhotos.bike;
+      return activityPhotos.bog;
+    }
+
     const mappedLocations = [
       { name: "Tallinn (city area)", lat: 59.4372420, lon: 24.7572693, approximate: true, titles: ["Bird Watching Tour Around Tallinn", "Tallinn History & Photography Tour with Film Camera"] },
       { name: "Lahemaa National Park", lat: 59.5830010, lon: 26.0011770, approximate: true, titles: ["Lahemaa National Park Nature & Culture Day Tour"] },
       { name: "Kõnnu Suursoo", lat: 59.4038133, lon: 25.7124492, approximate: true, titles: ["Bog Snowshoe Hike"] },
       { name: "Koitjärve area", lat: 59.3677830, lon: 25.7403872, approximate: true, titles: ["Combined Snowshoe and SUP Tour", "Bog Snowshoe Hike"] },
       { name: "Kaberneeme Harbour", lat: 59.5201783, lon: 25.2769515, approximate: false, titles: ["Seal & Seabird Watching Boat Safari"] },
-      { name: "Soomaa Holiday Village, Riisa", lat: 58.4666715, lon: 24.9870203, approximate: false, titles: ["Guided Canoe Trips", "Self-Guided Canoe Trips", "Canoe Rental in Soomaa Holiday Village", "Wilderness Day Trip", "Night Canoe Trip", "Multi-Day Canoe Camping Trips", "SUP Trips", "Bogshoeing", "Bogwalking", "Kick Bike Trips", "Kickspark Trips", "Snowshoeing", "Mushrooming"] },
-      { name: "Paasiku Dogs Manor", lat: 59.3504453, lon: 25.3019363, approximate: false, titles: ["Sledding with Siberian Huskies", "Hiking with Siberian Huskies", "Kicksledding / Kickbike Tour", "Photoshoot with Siberian Huskies", "Children’s Activity Packages"] },
+      { name: "Soomaa Holiday Village, Riisa", lat: 58.4666715, lon: 24.9870203, approximate: false, titles: ["Guided Canoe Trips", "Self-Guided Canoe Trips", "Canoe Rental in Soomaa Holiday Village", "Wilderness Day Trip", "Night Canoe Trip", "Multi-Day Canoe Camping Trips", "SUP Trips", "Bogshoeing", "Bogwalking", "Kick Bike Trips", "Kick Bike Rental", "Kickspark Trips", "Snowshoeing", "Mushrooming"] },
+      { name: "Riisa Study Trail, Soomaa National Park", lat: 58.488544, lon: 24.981708, approximate: false, titles: ["Riisa Study Trail"] },
+      { name: "Paasiku Dogs Manor", lat: 59.3504453, lon: 25.3019363, approximate: false, titles: ["Sledding with Siberian Huskies", "Hiking with Siberian Huskies", "Kicksledding / Kickbike Tour", "Photoshoot with Siberian Huskies", "Children’s Activity Packages", "Tour in Paasiku Dogs Manor", "Party in a Glamping Tent", "Romantic Glamping Picnic for Two"] },
+      { name: "Viru Bog Nature Trail", lat: 59.464375, lon: 25.638328, approximate: false, titles: ["Viru Bog Nature Trail"] },
+      { name: "Oandu Visitor Centre", lat: 59.565661, lon: 26.099849, approximate: false, titles: ["Oandu Old-Growth Forest Nature Trail"] },
+      { name: "Kakerdaja Nature Trail", lat: 59.18869, lon: 25.51021, approximate: false, titles: ["Kakerdaja Nature Trail"] },
+      { name: "Rannametsa–Tolkuse Nature Study Trail", lat: 58.13457, lon: 24.511862, approximate: false, titles: ["Rannametsa–Tolkuse Nature Study Trail"] },
+      { name: "Rõuge Ööbikuorg Visitor Centre", lat: 57.72783, lon: 26.9345, approximate: false, titles: ["Rõuge Primeval Valley Hiking Trail"] },
       { name: "Kuressaare Castle", lat: 58.2469041, lon: 22.4795742, approximate: false, titles: ["Kuressaare Castle Museum"] },
       { name: "Aavik’s House Museum, Kuressaare", lat: 58.2576675, lon: 22.4843145, approximate: false, titles: ["Aavik’s House Museum"] },
       { name: "Mihkli Farm Museum, Viki", lat: 58.3499499, lon: 22.0804707, approximate: false, titles: ["Mihkli Farm Museum"] },
@@ -601,6 +764,7 @@
       const grid = document.getElementById('activitiesGrid');
       grid.innerHTML = '';
       list.forEach(item => {
+        const photo = photoForActivity(item);
         const isFree = item.costGroup === 'Free';
         const isPaid = item.costGroup === 'Paid';
         const typeLabel = isFree ? 'Free / public access' : isPaid ? 'Paid' : 'Check provider';
@@ -617,13 +781,14 @@
         card.setAttribute('data-cost', item.costGroup);
 
         card.innerHTML = `
-          <div class="card-img-wrapper${item.img ? '' : ' image-unavailable'}">
-            ${item.img ? `<img class="card-img"
-                 src="${item.img}"
-                 alt="${item.title}"
+          <div class="card-img-wrapper${photo ? '' : ' image-unavailable'}">
+            ${photo ? `<img class="card-img"
+                 src="${photo.img}"
+                 alt="${photo.exactLocation ? photo.credit.split(' · ')[0] : `Illustrative photo for ${item.title}`}"
                  loading="lazy"
-                 onerror="this.hidden=true;this.parentElement.classList.add('image-unavailable');" />` : ''}
-            <span class="image-fallback">${item.img ? 'Photo unavailable' : 'No provider photo added'}</span>
+                 onerror="this.hidden=true;this.parentElement.classList.add('image-unavailable');" />
+            <a class="photo-credit" href="${photo.page}" target="_blank" rel="noopener noreferrer">${photo.credit}</a>` : ''}
+            <span class="image-fallback">${photo ? 'Photo unavailable' : 'No suitable photo available'}</span>
             <span class="card-provider-pill">${item.provider}</span>
           </div>
           <div class="card-body">
