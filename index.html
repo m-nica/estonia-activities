@@ -390,9 +390,29 @@
     .map-fallback { padding: 1.25rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
     .map-fallback[hidden] { display: none; }
     .map-fallback ul { margin: 0.5rem 0 0 1.25rem; }
-    .map-popup-title { color: var(--primary); font-weight: 800; margin-bottom: 0.35rem; }
-    .map-popup-list { padding-left: 1.1rem; }
-    .map-popup-list li { margin: 0.2rem 0; }
+    .map-popup-title { color: var(--primary); font-weight: 800; margin-bottom: 0.35rem; font-size: 0.95rem; }
+    .map-popup-title span { font-weight: 500; font-size: 0.8rem; color: var(--text-muted); }
+    .map-popup-list { padding-left: 1.1rem; margin: 0.25rem 0 0; max-height: 220px; overflow-y: auto; }
+    .map-popup-list li { margin: 0.28rem 0; font-size: 0.85rem; line-height: 1.35; }
+    .map-popup-list a { color: var(--primary-light); font-weight: 600; text-decoration: none; }
+    .map-popup-list a:hover { text-decoration: underline; }
+    .map-popup-cost { color: var(--text-muted); font-size: 0.78rem; font-weight: 500; margin-left: 0.25rem; }
+    .leaflet-tooltip.map-hover-tooltip {
+      background: #0b3b2c;
+      color: #ffffff;
+      border: 1px solid rgba(110, 231, 183, 0.45);
+      border-radius: 10px;
+      padding: 0.55rem 0.75rem;
+      box-shadow: 0 10px 25px -5px rgba(11, 59, 44, 0.35);
+      font-family: inherit;
+      max-width: 280px;
+      white-space: normal;
+    }
+    .leaflet-tooltip-top.map-hover-tooltip::before { border-top-color: #0b3b2c; }
+    .map-tooltip-name { font-weight: 800; font-size: 0.88rem; color: #a7f3d0; margin-bottom: 0.2rem; line-height: 1.25; }
+    .map-tooltip-count { font-size: 0.76rem; color: #cbd5e1; font-weight: 600; margin-bottom: 0.3rem; }
+    .map-tooltip-preview { font-size: 0.8rem; color: #f8fafc; line-height: 1.35; }
+    .map-tooltip-hint { font-size: 0.72rem; color: #6ee7b7; margin-top: 0.35rem; font-weight: 600; }
 
     .card {
       min-width: 0;
@@ -837,6 +857,16 @@
       <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Send us a message using the separate contact form. This form is for general inquiries and is separate from the tour suggestion form.</p>
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSdJPLUl4K1Dbbsdg7XVb_ioYKjd0dI7RGCPW9H8Np2PF28MFA/viewform?hl=en" class="btn-submit">Open the Contact Us Form ↗</a>
     </section>
+
+    <section class="info-section" id="why-this-guide" style="background: linear-gradient(135deg, #ffffff 0%, #f0f7f4 100%); border-left: 5px solid var(--primary);">
+      <span style="display: inline-block; background: var(--accent-soft); color: var(--primary); font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; padding: 0.35rem 0.85rem; border-radius: 50px; margin-bottom: 0.9rem;">🌿 The Story Behind Estonia Activities</span>
+      <h2>Why I Built This Guide</h2>
+      <div style="display: grid; gap: 1rem; color: var(--text-main); font-size: 1.05rem; line-height: 1.75; max-width: 880px;">
+        <p>When I first visited Estonia, before eventually moving here, I wanted to do more than just walk around sightseeing. I wanted to get out into the bogs, try local crafts, paddle through flooded forests, and actually <em>experience</em> the country.</p>
+        <p>I quickly realized how hard it was to find practical advice in one place. Planning a single weekend meant piecing together clues across dozens of scattered websites, many of which barely explained what the activity actually involved, what it cost, or when to go.</p>
+        <p>I created <strong>Estonia Activities</strong> to solve that problem. Every listing here is hand-picked and researched so you can see exactly what you'll do, how long it takes, what's included, and which season works best, with direct links to the local guides and trails that make Estonia unforgettable.</p>
+      </div>
+    </section>
   </main>
 
   <footer>
@@ -848,125 +878,1468 @@
   <script>
     // Baseline published excursions
     const baseTours = [
-      { provider: "Sportland Kõrvemaa", title: "Electric FATbike Tour", region: "Northern Estonia", location: "Kõrvemaa", cost: "€435 for 5; +€69 per additional adult", costGroup: "Paid", category: "Cycling", duration: "Up to 3 hours", included: "Bike, helmet and guided tour", desc: "Guided electric fat-tyre mountain-bike tour in Kõrvemaa.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
-      { provider: "Sportland Kõrvemaa", title: "SUP Tour", region: "Northern Estonia", location: "Venejärv Lake or Soodla River", cost: "€460 for up to 10; +€41 per additional participant", costGroup: "Paid", category: "Paddling", duration: "2 hours", included: "SUP equipment and guided tour", desc: "A guided stand-up paddleboard tour, with boards transported to the starting point.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
-      { provider: "Sportland Kõrvemaa", title: "Combined Snowshoe and SUP Tour", region: "Northern Estonia", location: "Koitjärve Bog", cost: "€560 for up to 10; +€46 per additional participant", costGroup: "Paid", category: "Snowshoeing & SUP", duration: "4 hours", included: "Necessary equipment rental and guided tour", desc: "A guided route through Koitjärve bog using snowshoes to reach the pools, then SUP boards across them.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
-      { provider: "Sportland Kõrvemaa", title: "Bog Snowshoe Hike", region: "Northern Estonia", location: "Koitjärve Bog or Kõnnu Suursoo", cost: "€460 for up to 10; additional adult €36, child €21", costGroup: "Paid", category: "Snowshoeing", duration: "Up to 3 hours", included: "Snowshoe rental and guided tour", desc: "Guided snowshoe hike in Koitjärve bog or Kõnnu Suursoo. Participants travel to the starting point by their own transport.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
-      { provider: "Sportland Kõrvemaa", title: "Bike Tour", region: "Northern Estonia", location: "Northern Kõrvemaa", cost: "€460 for up to 10; additional adult €36, child €16", costGroup: "Paid", category: "Cycling", duration: "Up to 2 hours", included: "Bike, helmet and guided tour", desc: "A guided tour on a mountain bike or fatbike.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
-      { provider: "Sportland Kõrvemaa", title: "Sunrise or Sunset Hike", region: "Northern Estonia", location: "Kõrvemaa", cost: "€405 for up to 10; additional adult €21, child €11", costGroup: "Paid", category: "Hiking", duration: "Up to 2 hours", included: "Guided tour; headlamp rental if needed", desc: "Guided hike timed for sunrise or sunset in Kõrvemaa.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
-      { provider: "Sportland Kõrvemaa", title: "Walking Hike", region: "Northern Estonia", location: "Northern Kõrvemaa", cost: "€330 for up to 10; additional adult €16, child €11", costGroup: "Paid", category: "Hiking", duration: "Up to 2 hours", included: "Guided tour", desc: "A guided hike in Northern Kõrvemaa, offered at a relaxed or more active pace.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
-      { provider: "Sportland Kõrvemaa", title: "Mushroom Foraging Tour", region: "Northern Estonia", location: "Kõrvemaa", cost: "€460 for up to 10; additional adult €21, child €11", costGroup: "Paid", category: "Foraging", duration: "About 2–2.5 hours", desc: "A guided foraging hike with a mushroom expert, including help identifying collected mushrooms.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
-      { provider: "Sportland Kõrvemaa", title: "Off-Road Touring Ski Adventure", region: "Northern Estonia", location: "Kõrvemaa", cost: "€490 for up to 10; +€36 per additional adult", costGroup: "Paid", category: "Skiing", duration: "Up to 2 hours", included: "MADSHUS touring ski set rental and guided tour", season: "Winter", desc: "Guided touring-ski outing on snow-covered terrain away from prepared trails.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
-      { provider: "Sportland Kõrvemaa", title: "Winter Snowshoe Hike", region: "Northern Estonia", location: "Kõrvemaa", cost: "€490 for up to 10; additional adult €36, child €21", costGroup: "Paid", category: "Snowshoeing", duration: "Up to 3 hours", included: "Snowshoe rental and guided tour", season: "Winter", desc: "Guided winter hike with themes including wildlife, animal tracks and local history.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
-      { provider: "Sportland Kõrvemaa", title: "Kick-Sled Tour", region: "Northern Estonia", location: "Kõrvemaa", cost: "€490 for up to 10; additional adult €36, child €21", costGroup: "Paid", category: "Winter activity", duration: "Up to 2 hours", included: "Kick-sled rental and guided tour", season: "Winter", desc: "A guided kick-sled tour on a maintained trail through the winter landscape.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
-      { provider: "Sportland Kõrvemaa", title: "Ice Skating Tour on the Bog Lakes", region: "Northern Estonia", location: "Kõrvemaa bog lakes", cost: "€490 for up to 10; additional adult €36, child €21", costGroup: "Paid", category: "Ice skating", duration: "Up to 3 hours", included: "Ski boots, touring skates, poles and guided tour", season: "Winter", desc: "Guided skating tour across frozen bog pools, subject to suitable conditions.", url: "https://sportlandkorvemaa.ee/en/hiking/" },
+      {
+            "provider": "RMK (State Forest Management Centre)",
+            "title": "Viru Bog Nature Trail",
+            "region": "Northern Estonia",
+            "location": "Lahemaa National Park",
+            "cost": "Free public access",
+            "costGroup": "Free",
+            "category": "Self-guided nature trail",
+            "duration": "3.5 km; 5.5 km loop option",
+            "desc": "Follow a marked route through forest and Viru bog to an observation tower and information boards; a 5.5 km loop option is available. Stay on the boardwalk to protect the bog.",
+            "url": "https://rmk.ee/en/exploring-nature/where-to-go/viru-bog-nature-trail-3-5-km/",
+            "linkLabel": "Official trail details ↗"
+      },
+      {
+            "provider": "Soomaa.com",
+            "title": "Kick Bike Rental",
+            "region": "Western Coast & Islands",
+            "location": "Soomaa Holiday Village",
+            "cost": "€25 per bike",
+            "costGroup": "Paid",
+            "category": "Kick-bike rental",
+            "duration": "1–4 hours",
+            "season": "April–October",
+            "included": "Kick bike, helmet, instructions and area map",
+            "desc": "Self-guided kick-bike rental for adults and children; the provider offers instruction before the ride.",
+            "url": "https://soomaa.com/kick-bike-rental/"
+      },
+      {
+            "provider": "Angla Windmill Park",
+            "title": "Angla Heritage Culture Centre Craft Workshops",
+            "region": "Western Coast & Islands",
+            "location": "Angla village, Saaremaa",
+            "cost": "€8–€15/person (plus windmill park entry)",
+            "costGroup": "Paid",
+            "category": "Traditional craft workshop",
+            "duration": "1.5 hours",
+            "season": "Year-round (extended hours May–August)",
+            "included": "Master craftsman instruction, raw materials, finished handmade souvenir & access to historic windmill hill",
+            "desc": "Hands-on heritage masterclasses inside Saaremaa's iconic windmill park. Learn traditional island techniques under master artisans across 5 workshops: blacksmithing & jewellery, pottery sculpting, wool spinning, felt work, and rye bread baking.",
+            "url": "https://visitestonia.com/en/angla-heritage-culture-centre-workshops",
+            "linkLabel": "Official workshop details ↗"
+      },
+      {
+            "provider": "Taevaskoja Matkad",
+            "title": "Guided Fatbike & E-Fatbike Tour in Taevaskoja",
+            "region": "Tartu & Southern Estonia",
+            "location": "Ahja River Valley, Taevaskoja",
+            "cost": "€25–€35/person (regular or e-fatbike)",
+            "costGroup": "Paid",
+            "category": "Fatbike & cycling",
+            "duration": "2–2.5 hours",
+            "season": "Year-round (forest trails in summer, frozen lake riding in winter)",
+            "included": "Quality fatbike / e-fatbike, cycling helmet, experienced trail guide & scenic stops with storytelling",
+            "desc": "Ride wide-tire fatbikes through the primeval Ahja River valley. Traverse undulating pine eskers, pass Suur Taevaskoda sandstone cliffs, Neitsikoobas Cave, and Kiidjärve watermill, riding forest singletracks and winter river ice.",
+            "url": "https://visitestonia.com/en/fatbike-tours-in-taevaskoda",
+            "linkLabel": "Official tour details ↗"
+      },
+      {
+            "provider": "Wittenstein Activity Museum",
+            "title": "19th-Century Master Leatherworker Workshop",
+            "region": "Various locations",
+            "location": "Paide, Central Estonia (Järva County)",
+            "cost": "€12–€25/person (depending on crafted item)",
+            "costGroup": "Paid",
+            "category": "Maker workshop",
+            "duration": "1–1.5 hours",
+            "season": "Year-round (indoor historical workshop)",
+            "included": "Natural leather hides, specialized leatherworking tools, master artisan guidance & crafted leather souvenir to keep",
+            "desc": "Step back into a genuine 19th-century workshop in central Paide. Under the hands-on guidance of a master leather artisan, learn traditional leathercrafting, cutting, embossing, and stitching to create your own belt, card wallet, or bracelet.",
+            "url": "https://www.visitestonia.com/en/leatherworkers-workshop-at-the-wittenstein-activity-museum",
+            "linkLabel": "Official workshop details ↗"
+      },
+      {
+            "provider": "Tallinn Adventure Parks",
+            "title": "Pirita Adventure Park",
+            "region": "Tallinn & Harju",
+            "location": "Merivälja tee 5A, Tallinn",
+            "cost": "Adults €28, Youth €20–€22, Kids €10",
+            "costGroup": "Paid",
+            "category": "Adventure park",
+            "duration": "2–3 hours",
+            "season": "April–October",
+            "included": "Safety harness, helmet, safety briefing and access to all 6 high adventure trails",
+            "desc": "Adventure park in Pirita pine forest by the sea with 6 high adventure tracks, long beach ziplines, and a dedicated kids park.",
+            "url": "https://piritaseikluspark.ee/en/",
+            "linkLabel": "Official information ↗"
+      },
+      {
+            "provider": "Paasiku Dogs Manor",
+            "title": "Tour in Paasiku Dogs Manor",
+            "region": "Tallinn & Harju",
+            "location": "Paasiku Dogs Manor",
+            "cost": "€25/adult; €20/child; private tour €150 (excluding tax)",
+            "costGroup": "Paid",
+            "category": "Dogs & manor tour",
+            "duration": "About 1.5 hours",
+            "included": "Siberian husky introduction, meet the dogs, ponies and an alpaca",
+            "desc": "Meet the Siberian huskies, ponies and an alpaca on a manor tour. Groups can include up to 70 people, with a discount listed from 10 people; the private-tour rate covers up to 2 adults and 2 children.",
+            "url": "https://paasiku.ee/en/tour-in-paasiku-dogs-manor/"
+      },
+      {
+            "provider": "360 KRAADI",
+            "title": "Canoeing on the Keila River",
+            "region": "Tallinn & Harju",
+            "location": "Keila to Keila-Joa",
+            "cost": "€39 + VAT per participant; minimum 12",
+            "costGroup": "Paid",
+            "category": "Canoeing",
+            "duration": "About 2–3.5 hours; 8–14 km",
+            "included": "Canoe, paddles, dry bags, life vests and guide",
+            "desc": "Paddle downstream on an easy, beginner-friendly guided route from Keila toward Keila-Joa bridge (8–14 km). The provider arranges car transfers to the finish.",
+            "url": "https://360.ee/en/matkad/kayak-tours/canoeing-on-the-keila-river/",
+            "linkLabel": "Official tour details ↗"
+      },
+      {
+            "provider": "Saaremaa Museum",
+            "title": "Aavik’s House Museum",
+            "region": "Western Coast & Islands",
+            "location": "Vallimaa 7, Kuressaare",
+            "cost": "€6/adult; guided tour €60",
+            "costGroup": "Paid",
+            "category": "Museum & heritage",
+            "duration": "Guided tour: 1 hour",
+            "desc": "Visit Aavik’s House Museum; the visitor page lists admission and guided-tour rates.",
+            "url": "https://aavikud.samu.ee/en/visitor-info/",
+            "linkLabel": "Official information ↗"
+      },
+      {
+            "provider": "Matkajuht",
+            "title": "Ahja River Canoe, Kayak or Raft Trip",
+            "region": "Tartu & Southern Estonia",
+            "location": "Ahja River, Põlva County",
+            "cost": "€30/adult; €20/child (provider-listed)",
+            "costGroup": "Paid",
+            "category": "Canoeing & kayaking",
+            "duration": "Route options: 7–24 km; about 1.5–6 hours",
+            "included": "Canoe, kayak or raft, life vest, pre-trip instruction and transport logistics",
+            "desc": "Choose a short, half-day or full-day route on the Ahja River, including Kiidjärve–Taevaskoja and Koorvere–Kiidjärve. Canoe, kayak and raft options are available; confirm the route and arrangements with Matkajuht.",
+            "url": "https://www.matkajuht.ee/matkad/kanuumatkad-ahja-j%C3%B5el/",
+            "linkLabel": "Official trip details ↗"
+      },
+      {
+            "provider": "Natourest",
+            "title": "Snowshoe Tour on Wolf Tracks",
+            "region": "Northern Estonia",
+            "location": "Kõrvemaa & Alutaguse wilderness",
+            "cost": "€45–€65/person (group or private on request)",
+            "costGroup": "Paid",
+            "category": "Wildlife & snowshoeing",
+            "duration": "Approx. 4–5 hours (finishes after dark)",
+            "season": "Late January–March (wolf rutting season)",
+            "included": "Quality snowshoes, headlamps, tracking guide Bert Rähni, folklore & modern science insights, warm hot tea",
+            "desc": "Trek on snowshoes deep into the wolf pack territories during the peak winter rutting season (hundikuu). Follow fresh paw tracks on the snow and finish after dark for a rare chance to hear the haunting chorus of a howling wild wolf pack.",
+            "url": "https://natourest.ee/trip/snow-shoe-tour-on-the-wolf-tracks/"
+      },
+      {
+            "provider": "RMK Sagadi Manor",
+            "title": "Night Trip to the Old-Growth Forest",
+            "region": "Northern Estonia",
+            "cost": "€105 in Estonian; €120 in English or Finnish (group price)",
+            "costGroup": "Paid",
+            "category": "Guided wildlife & forest tour",
+            "duration": "1.5 hours",
+            "included": "Guide and gear; transport from Sagadi Manor is not included",
+            "desc": "An evening or pre-dawn guided outing in Oandu primeval forest or Altja forests, listening for nocturnal activity and looking for wildlife signs. Groups are listed for 10–20 people.",
+            "url": "https://rmk.ee/en/sagadi-manor/additional-services/nature-tours/",
+            "linkLabel": "Official tour details ↗"
+      },
+      {
+            "provider": "Capture Estonia",
+            "title": "Bird Watching Tour Around Tallinn",
+            "region": "Tallinn & Harju",
+            "location": "Paljassaare, alvars & coastal Tallinn",
+            "cost": "€110–€135/person (for 2); €210–€260 (solo)",
+            "costGroup": "Paid",
+            "category": "Birdwatching",
+            "duration": "5–6 hours (extended 8h available)",
+            "season": "Year-round (peaks in spring & autumn)",
+            "included": "Expert birding guide, return transport from Tallinn, professional spotting scope & binoculars",
+            "desc": "Explore capital bird habitats including Paljassaare Nature Reserve and coastal alvars. Spot waterfowl, raptors, and passerines with optics provided.",
+            "url": "https://www.capture-estonia.ee/bird-wathing-tour-tallinn-area/"
+      },
+      {
+            "provider": "Mooska Farm",
+            "title": "UNESCO Smoke Sauna Experience at Mooska Farm",
+            "region": "Tartu & Southern Estonia",
+            "location": "Haanja uplands, Võru County",
+            "cost": "From €250 (private group session up to 8 people)",
+            "costGroup": "Paid",
+            "category": "Traditional smoke sauna",
+            "duration": "3–4 hours",
+            "season": "Year-round (ice pond dipping in winter)",
+            "included": "Certified sauna master guidance, birch whisks (viht), sauna honey, herbal tea, towel & dip in natural pond",
+            "desc": "Experience the UNESCO-inscribed intangible cultural heritage of Old Võromaa. An authentic 3-hour smoke sauna ritual led by local masters featuring rich wood aromas, gentle smoke-cured meat notes, birch whisking, and cold pond dips.",
+            "url": "https://visitestonia.com/en/sauna-session-in-a-traditional-old-voromaa-smoke-sauna-at-mooska",
+            "linkLabel": "Official booking ↗"
+      },
+      {
+            "provider": "EstFish",
+            "title": "Fishing Equipment Rental",
+            "region": "Various locations",
+            "location": "Available with an EstFish fishing package",
+            "cost": "€30",
+            "costGroup": "Paid",
+            "category": "Fishing equipment rental",
+            "included": "Rod, reel, line, lures, wading trousers and boots",
+            "desc": "Equipment rental for one person, available only with an EstFish fishing package.",
+            "url": "https://www.estfish.ee/en/e-shop/products/fishing-equipment-rental",
+            "linkLabel": "Official rental details ↗"
+      },
+      {
+            "provider": "Fishing Trips Estonia",
+            "title": "Guided Salmon Fishing",
+            "region": "Various locations",
+            "location": "Estonian salmon waters (specific location arranged with the guide)",
+            "costGroup": "Unknown",
+            "category": "Salmon fishing",
+            "included": "Waders and boots, specialist spinning set and lures, polarized sunglasses, required licences",
+            "desc": "Fish for salmon with a guide; waders, boots, specialist spinning gear, lures, polarized sunglasses and required licences are included. The location is arranged with the guide; contact them for pricing and trip details.",
+            "url": "https://fishingtrips.ee/en/services/salmon-fishing/",
+            "linkLabel": "Official trip details ↗"
+      },
+      {
+            "provider": "Sportland Kõrvemaa",
+            "title": "Walking Hike",
+            "region": "Northern Estonia",
+            "location": "Northern Kõrvemaa",
+            "cost": "€330 for up to 10; additional adult €16, child €11",
+            "costGroup": "Paid",
+            "category": "Hiking",
+            "duration": "Up to 2 hours",
+            "included": "Guided tour",
+            "desc": "A guided hike in Northern Kõrvemaa, offered at a relaxed or more active pace.",
+            "url": "https://sportlandkorvemaa.ee/en/hiking/"
+      },
+      {
+            "provider": "RMK (State Forest Management Centre)",
+            "title": "Kakerdaja Nature Trail",
+            "region": "Northern Estonia",
+            "location": "Aegviidu–Kõrvemaa Recreation Area (Noku / Kalajärve)",
+            "cost": "Free public access",
+            "costGroup": "Free",
+            "category": "Self-guided nature trail",
+            "duration": "7 km (2–3 hours)",
+            "season": "Year-round (swimming in summer, bogshoeing in winter)",
+            "included": "4 km bog boardwalk across Kakerdi peat lake, 16 educational info stands, Noku & Kalajärve campfire sites with fire pits, parking & dry toilets",
+            "desc": "Classic 7 km loop through the primeval Kõrvemaa peatlands. Features 4 km of boardwalk passing deep bog pools and Lake Kakerdi, ancient sacred island Hiiesaar, diverse esker forests around Lake Suur-Kalajärv, and equipped RMK campfire sites with firewood.",
+            "url": "https://rmk.ee/en/exploring-nature/where-to-go/kakerdaja-nature-trail-7-km/",
+            "linkLabel": "Official trail details ↗"
+      },
+      {
+            "provider": "Soomaa.com",
+            "title": "Kicksled Rental",
+            "region": "Western Coast & Islands",
+            "location": "Tõramaa watching tower or agreed location",
+            "cost": "€25/person",
+            "costGroup": "Paid",
+            "category": "Winter activity rental",
+            "duration": "2 hours",
+            "season": "December–March",
+            "included": "Kicksled rental and instructions",
+            "desc": "Self-guided kicksled rental when winter weather and surface conditions are suitable.",
+            "url": "https://soomaa.com/kick-sled-rental/"
+      },
+      {
+            "provider": "Tallinn Adventure Parks",
+            "title": "Nõmme Adventure Park",
+            "region": "Tallinn & Harju",
+            "location": "Külmallika 15a, Tallinn",
+            "cost": "Adults €28, Youth €20–€22, Kids €10",
+            "costGroup": "Paid",
+            "category": "Adventure park",
+            "duration": "2–3 hours",
+            "season": "April–October",
+            "included": "Safety harness, helmet, briefing, 7 adventure trails and speed zipline",
+            "desc": "Adventure park nestled in the scenic forest terrain of Nõmme with 7 adventure trails and a thrilling speed zipline.",
+            "url": "https://piritaseikluspark.ee/en/",
+            "linkLabel": "Official information ↗"
+      },
+      {
+            "provider": "Paasiku Dogs Manor",
+            "title": "Kicksledding / Kickbike Tour",
+            "region": "Tallinn & Harju",
+            "location": "Paasiku Dogs Manor",
+            "cost": "€40/person, excluding tax",
+            "costGroup": "Paid",
+            "category": "Outdoor activity",
+            "duration": "About 1.5–2 hours",
+            "included": "Introduction to the dogs and other animals, instruction, 3 km track and guide",
+            "desc": "No dogs accompany the ride. The provider chooses a kicksled or kickbike according to the weather; the activity includes instruction, a guide, a 3 km track and an introduction to the dogs and other animals.",
+            "url": "https://paasiku.ee/en/kicksledding/"
+      },
+      {
+            "provider": "360 KRAADI",
+            "title": "Guided Sea Kayak Tours",
+            "region": "Western Coast & Islands",
+            "location": "Estonia’s western coast and islands",
+            "costGroup": "Paid",
+            "category": "Sea kayaking",
+            "duration": "2–4 hours",
+            "season": "Year-round, weather permitting",
+            "desc": "Approach islands off Estonia’s western coast by sea kayak, with short nature walks and cultural heritage. Listed group size is 10–50, and the minimum age is 14; ask about scheduled tours or arranging a group.",
+            "url": "https://360.ee/en/matkad/kayak-tours/",
+            "linkLabel": "Official tour details ↗"
+      },
+      {
+            "provider": "Saaremaa Museum",
+            "title": "Mihkli Farm Museum",
+            "region": "Western Coast & Islands",
+            "location": "Viki village, Saaremaa",
+            "cost": "Adult €8, Concession €6, Family €17 (Museum Card accepted)",
+            "costGroup": "Paid",
+            "category": "Museum & heritage",
+            "duration": "1–2 hours",
+            "season": "Regular open May–September (other times by arrangement)",
+            "included": "Full access to historic 18th-century farmyard, thatched buildings, and permanent exhibits",
+            "desc": "An authentic, exceptionally preserved 18th-century West Saaremaa farm complex with thatched roofs, windmills, and original household items.",
+            "url": "https://mihkli.samu.ee/en/visitor-info",
+            "linkLabel": "Official information ↗"
+      },
+      {
+            "provider": "Matkajuht",
+            "title": "Võhandu River Canoe, Kayak or Raft Trip",
+            "region": "Tartu & Southern Estonia",
+            "location": "Võhandu River, Leevi–Reo area",
+            "cost": "€30/adult; €20/child (provider-listed)",
+            "costGroup": "Paid",
+            "category": "Canoeing & kayaking",
+            "duration": "2–6 hours; 9–24 km",
+            "season": "Spring–autumn",
+            "desc": "Paddle the Võhandu by canoe, kayak or raft on a guided trip. Scheduled trips use the Leevi–Reo section; custom trips can be arranged on other sections of the river.",
+            "url": "https://www.matkajuht.ee/matkad/p%C3%A4evane-kanuumatk-s%C3%BCstamatk-parvematk-v%C3%B5handu/",
+            "linkLabel": "Official trip details ↗"
+      },
+      {
+            "provider": "Natourest",
+            "title": "Golden and White-Tailed Eagle Photography in Winter Comfort Hide",
+            "region": "Northern Estonia",
+            "location": "Alutaguse (130 km from Tallinn)",
+            "cost": "€60/person (or €190 private premium hide)",
+            "costGroup": "Paid",
+            "category": "Wildlife photography",
+            "duration": "1 Day (daylight hours)",
+            "season": "Late December–early March",
+            "included": "Heated hide, 8 photo openings, warm running water, WC, electric kettle, bunk beds, and 300m walking trail from parking",
+            "desc": "Specialized heated winter hide in Alutaguse for photographing Golden Eagles, White-tailed Eagles, Ural and Pygmy Owls, Woodpeckers, and visiting carnivores. Accommodates up to 8 photographers comfortably.",
+            "url": "https://natourest.ee/trip/golden-and-white-tailed-eagle-photography-in-winter-comfort-hide/"
+      },
+      {
+            "provider": "RMK Sagadi Manor",
+            "title": "Snowshoe Hike in Lahemaa",
+            "region": "Northern Estonia",
+            "location": "Lahemaa",
+            "costGroup": "Paid",
+            "category": "Guided snowshoeing",
+            "duration": "About 2.5 hours",
+            "season": "Winter",
+            "included": "Guide; introduction to snowshoeing",
+            "desc": "A guided 2.5-hour snowshoe hike in Lahemaa for groups of up to 10. Request a group offer from the provider.",
+            "url": "https://rmk.ee/en/sagadi-manor/additional-services/nature-tours/",
+            "linkLabel": "Official tour details ↗"
+      },
+      {
+            "provider": "Capture Estonia",
+            "title": "Lahemaa National Park Nature & Culture Day Tour",
+            "region": "Northern Estonia",
+            "location": "Viru Bog, Käsmu, Altja & Palmse Manor",
+            "cost": "€125/person (for 2); €240 (solo); +€90 extra person",
+            "costGroup": "Paid",
+            "category": "Nature & culture",
+            "duration": "6–8 hours (extended 9h available)",
+            "season": "Year-round (10% discount Nov 15–Mar 15)",
+            "included": "Comfortable roundtrip transport from Tallinn, personal guide, Viru Bog boardwalks, coastal cliffs & fishing village stops",
+            "desc": "Full-day immersive journey connecting wild northern nature and Baltic German history. Explore Viru Bog observation towers, rocky capes at Pärispea and Juminda, Altja fishing village, and grand Palmse/Sagadi estates.",
+            "url": "https://www.capture-estonia.ee/nature-culture-day-tour-in-lahemaa-national-park/"
+      },
+      {
+            "provider": "EstFish",
+            "title": "Ice Fishing Trip",
+            "region": "Various locations",
+            "location": "Pärnu Bay or Lake Peipus",
+            "cost": "€175 per person",
+            "costGroup": "Paid",
+            "category": "Ice fishing",
+            "season": "Winter",
+            "included": "Fishing and safety equipment",
+            "desc": "Try winter perch fishing on an introductory trip suitable for adults and children. Fishing and safety equipment are included; larger groups should enquire.",
+            "url": "https://www.estfish.ee/en/e-shop/products/jaapuuk",
+            "linkLabel": "Official trip details ↗"
+      },
+      {
+            "provider": "Fishing Trips Estonia",
+            "title": "Guided Fly Fishing",
+            "region": "Various locations",
+            "location": "Estonian rivers",
+            "costGroup": "Unknown",
+            "category": "Fly fishing",
+            "desc": "Guided fly fishing on Estonian rivers for wild brown trout and sea trout; spring creeks are among the waters used. Contact the guide for pricing and arrangements.",
+            "url": "https://fishingtrips.ee/en/services/fly-fishing/",
+            "linkLabel": "Official trip details ↗"
+      },
+      {
+            "provider": "Sportland Kõrvemaa",
+            "title": "Sunrise or Sunset Hike",
+            "region": "Northern Estonia",
+            "location": "Kõrvemaa",
+            "cost": "€405 for up to 10; additional adult €21, child €11",
+            "costGroup": "Paid",
+            "category": "Hiking",
+            "duration": "Up to 2 hours",
+            "included": "Guided tour; headlamp rental if needed",
+            "desc": "Guided hike timed for sunrise or sunset in Kõrvemaa.",
+            "url": "https://sportlandkorvemaa.ee/en/hiking/"
+      },
+      {
+            "provider": "RMK (State Forest Management Centre)",
+            "title": "Oandu Old-Growth Forest Nature Trail",
+            "region": "Northern Estonia",
+            "location": "Lahemaa National Park",
+            "cost": "Free public access",
+            "costGroup": "Free",
+            "category": "Self-guided forest trail",
+            "duration": "4.7 km",
+            "desc": "Follow a marked route through old-growth and other forest types, with information boards. RMK recommends visiting the forest exhibition at Oandu Visitor Centre before the walk.",
+            "url": "https://rmk.ee/en/exploring-nature/where-to-go/oandu-old-growth-forest-nature-trail-4-7-km/",
+            "linkLabel": "Official trail details ↗"
+      },
+      {
+            "provider": "Soomaa.com",
+            "title": "Self-Guided Canoe Trips",
+            "region": "Western Coast & Islands",
+            "location": "Soomaa Holiday Village or Pärnu",
+            "cost": "€30/person (minimum 2); €55/person with Pärnu transfer",
+            "costGroup": "Paid",
+            "category": "Canoeing",
+            "duration": "1–5 hours",
+            "season": "April–November; winter if rivers are ice-free",
+            "included": "Canoe equipment, route map, local transport and instructions",
+            "desc": "Paddle a 12 km river route in Soomaa, with optional forest and bog trails. Canoe equipment, a route map, instructions and local transport are included.",
+            "url": "https://soomaa.com/self-guided-canoe-trips/"
+      },
+      {
+            "provider": "Tallinn Adventure Parks",
+            "title": "Adventure Park Group Visits and Events",
+            "region": "Tallinn & Harju",
+            "costGroup": "Unknown",
+            "category": "Climbing & group activity",
+            "season": "2026 season ended; parks reopen spring 2027",
+            "desc": "Options include birthday visits, team or group visits using the team course, and school-group packages. Contact the park to arrange a visit and confirm 2027 availability.",
+            "url": "https://piritaseikluspark.ee/en/",
+            "linkLabel": "Official information ↗"
+      },
+      {
+            "provider": "Paasiku Dogs Manor",
+            "title": "Hiking with Siberian Huskies",
+            "region": "Tallinn & Harju",
+            "location": "Paasiku Dogs Manor",
+            "cost": "€45/person (group discounts available)",
+            "costGroup": "Paid",
+            "category": "Hiking with animals",
+            "duration": "Approx. 2.5–3 hours",
+            "included": "Breed history, individual dog meet & cuddle, special hiking harness & line, meeting ponies & alpacas",
+            "desc": "Active guided hike around Paasiku manor paired with a personal Siberian husky using hands-free pulling harnesses. Suitable for ages 10+.",
+            "url": "https://paasiku.ee/en/hiking-with-siberian-huskies/"
+      },
+      {
+            "provider": "360 KRAADI",
+            "title": "Fifth-Season Canoe Trip in Soomaa",
+            "region": "Western Coast & Islands",
+            "location": "Near Riisa in Soomaa; meeting point varies with water level",
+            "costGroup": "Paid",
+            "category": "Canoeing",
+            "duration": "2–3 hours",
+            "season": "March–April, depending on weather and water",
+            "desc": "Canoe through Soomaa’s high-water landscape, including floodwater areas and river meadows near the Karuskose, Raudna and Halliste rivers. The meeting point can change with water levels and is confirmed with participants.",
+            "url": "https://360.ee/en/matkad/kayak-tours/fifth-season-in-soomaa/",
+            "linkLabel": "Official tour details ↗"
+      },
+      {
+            "provider": "Saaremaa Museum",
+            "title": "Kuressaare Castle Museum",
+            "region": "Western Coast & Islands",
+            "location": "Lossihoov 1/1, Kuressaare",
+            "cost": "€13/adult (2026 museum ticket)",
+            "costGroup": "Paid",
+            "category": "Museum & heritage",
+            "season": "Winter: Wed–Sun; summer: daily (2026 hours)",
+            "desc": "Explore the Saaremaa Museum at Kuressaare Castle. Check visitor information for current admission, seasonal hours and access details.",
+            "url": "https://linnus.samu.ee/en/visitors-info/",
+            "linkLabel": "Official information ↗"
+      },
+      {
+            "provider": "Natourest",
+            "title": "Brown Bear Watching",
+            "region": "Northern Estonia",
+            "location": "Alutaguse",
+            "cost": "€150/person",
+            "costGroup": "Paid",
+            "category": "Wildlife watching",
+            "duration": "1 day–1 night",
+            "desc": "Bear watching in Alutaguse, with 2027 departures listed. Hide details and conditions may vary; check current information before booking.",
+            "url": "https://natourest.ee/trip/brown-bear-watching/"
+      },
+      {
+            "provider": "RMK Sagadi Manor",
+            "title": "Guided Nature Exploration in Lahemaa",
+            "region": "Northern Estonia",
+            "location": "Lahemaa forests",
+            "costGroup": "Paid",
+            "category": "Guided forest hike",
+            "duration": "1.5–2 hours",
+            "desc": "A guided forest walk with nature guide Peeter Hussar for groups of 10–20. Finnish and Russian versions are also available; request a group offer.",
+            "url": "https://rmk.ee/en/sagadi-manor/additional-services/nature-tours/",
+            "linkLabel": "Official tour details ↗"
+      },
+      {
+            "provider": "Capture Estonia",
+            "title": "Nature Photography Tour",
+            "region": "Various locations",
+            "location": "Tailored locations across Estonia",
+            "cost": "€125/person (for 2); €235 (solo); camera rent €40",
+            "costGroup": "Paid",
+            "category": "Photography",
+            "duration": "6 hours (extended 8h available)",
+            "season": "Year-round (10% discount Nov 15–Mar 15)",
+            "included": "Professional nature & wildlife photographer guidance, field tuition, animal tracking, transport, and optional camera/lens hire",
+            "desc": "Private field workshop led by an established Estonian wildlife photographer. Learn animal behavior, tracking signs, and capture rare forest species, raptors, and misty peatland dawns with pro gear support.",
+            "url": "https://www.capture-estonia.ee/nature-photography-tour/"
+      },
+      {
+            "provider": "EstFish",
+            "title": "Guided Sea Trout Fishing Trip",
+            "region": "Various locations",
+            "location": "Estonian coastal waters",
+            "cost": "€250",
+            "costGroup": "Paid",
+            "category": "Guided fishing",
+            "included": "Guided wade fishing, fishing licence for the day, lunch and warm drink; gear rental available separately",
+            "desc": "Wade fish for sea trout with a guide, with a day licence, lunch and a warm drink included. Gear rental is available separately; contact EstFish to arrange the trip.",
+            "url": "https://www.estfish.ee/en/e-shop/products/sea-trout-fishing-with-fish",
+            "linkLabel": "Official trip details ↗"
+      },
+      {
+            "provider": "Fishing Trips Estonia",
+            "title": "Guided Shore Angling",
+            "region": "Various locations",
+            "location": "Estonian lakes and shore waters",
+            "costGroup": "Unknown",
+            "category": "Angling",
+            "desc": "Learn shore angling with a guide, using a simple pole rod or a reel rod. The provider lists the trip as suitable for beginners, children and families; contact the guide for pricing and arrangements.",
+            "url": "https://fishingtrips.ee/en/services/angling/",
+            "linkLabel": "Official trip details ↗"
+      },
+      {
+            "provider": "Sportland Kõrvemaa",
+            "title": "Electric FATbike Tour",
+            "region": "Northern Estonia",
+            "location": "Kõrvemaa",
+            "cost": "€435 for 5; +€69 per additional adult",
+            "costGroup": "Paid",
+            "category": "Cycling",
+            "duration": "Up to 3 hours",
+            "included": "Bike, helmet and guided tour",
+            "desc": "Guided electric fat-tyre mountain-bike tour in Kõrvemaa.",
+            "url": "https://sportlandkorvemaa.ee/en/hiking/"
+      },
+      {
+            "provider": "RMK (State Forest Management Centre)",
+            "title": "Riisa Study Trail",
+            "region": "Western Coast & Islands",
+            "location": "Soomaa National Park",
+            "cost": "Free public access",
+            "costGroup": "Free",
+            "category": "Self-guided bog trail",
+            "duration": "4.8 km",
+            "desc": "Follow a route through Riisa bog and forest beside the Navesti River, with an observation tower and rest areas. The first 1,220 metres of boardwalk, up to the first bog pool, is described as wheelchair- and stroller-accessible.",
+            "url": "https://rmk.ee/en/exploring-nature/where-to-go/riisa-study-trail-4-8-km/",
+            "linkLabel": "Official trail details ↗"
+      },
+      {
+            "provider": "Soomaa.com",
+            "title": "Multi-Day Canoe Camping Trips",
+            "region": "Western Coast & Islands",
+            "location": "Soomaa Holiday Village or agreed location",
+            "cost": "€30/person/day (minimum 2)",
+            "costGroup": "Paid",
+            "category": "Canoeing & camping",
+            "duration": "2–5 days",
+            "season": "April–November",
+            "included": "Canoe equipment rental and local transport",
+            "desc": "Multi-day paddling trips on the Navesti, Halliste, Raudna, Kõpu and Lemmjõgi rivers, with options for overnight wild camping at designated places.",
+            "url": "https://soomaa.com/multi-day-canoe-camping-trips/"
+      },
+      {
+            "provider": "Paasiku Dogs Manor",
+            "title": "Romantic Glamping Picnic for Two",
+            "region": "Tallinn & Harju",
+            "location": "Paasiku Dogs Manor",
+            "cost": "€99 for two (excluding tax)",
+            "costGroup": "Paid",
+            "category": "Picnic & glamping",
+            "included": "Manor tour, picnic basket and a picnic in a decorated glamping tent",
+            "desc": "A picnic for two in a decorated glamping tent, with a manor tour and picnic basket. Check the provider page for arrangements and optional add-ons.",
+            "url": "https://paasiku.ee/en/romantic-glamping/"
+      },
+      {
+            "provider": "360 KRAADI",
+            "title": "Canoe Trip and Bogshoe Hike in Seli Bog",
+            "region": "Northern Estonia",
+            "location": "Jägala River at Simisalu Bridge and Seli Bog",
+            "costGroup": "Paid",
+            "category": "Canoeing & hiking",
+            "duration": "About 4–5 hours; 8 km by canoe and 4 km on foot",
+            "included": "Canoe, paddle, life jacket, snowshoes, guide, waterproof bags and lunch",
+            "desc": "Paddle about 8 km along the Jägala River, then walk about 4 km in Seli Bog with a guide. The trip is described as requiring no prior canoeing or snowshoe experience.",
+            "url": "https://360.ee/en/matkad/nature-walk-and-bogshoeing/canoe-trip-along-the-river-to-a-bogshoe-hike-in-the-bog/",
+            "linkLabel": "Official tour details ↗"
+      },
+      {
+            "provider": "Natourest",
+            "title": "Bearwatching and Photography Comfort Hide",
+            "region": "Northern Estonia",
+            "location": "Western Alutaguse, near Sirtsi Bog",
+            "cost": "€150/person",
+            "costGroup": "Paid",
+            "category": "Wildlife photography",
+            "duration": "1 Day / 1 Night (overnight)",
+            "season": "April–October",
+            "included": "Private sleeping room per booking, observation windows with photo sleeves, WC, electricity, hot water",
+            "desc": "Overnight wildlife watching in Alutaguse, Estonia’s prime bear sanctuary. Offers observation windows, private bunk rooms, and electric night illumination.",
+            "url": "https://natourest.ee/trip/bearwatching-and-photography-comfort-hide/"
+      },
+      {
+            "provider": "Capture Estonia",
+            "title": "Wildlife Watching Tour",
+            "region": "Western Coast & Islands",
+            "location": "Matsalu coastal meadows, forests & lookout towers",
+            "cost": "€125/person (for 2); €87 (for 3); €70 (for 4)",
+            "costGroup": "Paid",
+            "category": "Wildlife watching",
+            "duration": "6–8 hours",
+            "season": "Year-round (peaks in spring & autumn)",
+            "included": "Return transport from Tallinn, professional guide, spotting scopes, light snacks & hot drinks (5–7 km moderate trail walk)",
+            "desc": "Guided expedition from Tallinn to the premier wildlife corridors of Western Estonia. Search for Elk (Moose), Wild Boar, Beavers, Roe Deer, and carnivore tracks across varied coastal and woodland habitats.",
+            "url": "https://www.capture-estonia.ee/wildlife-watching/"
+      },
+      {
+            "provider": "EstFish",
+            "title": "Guided Sea Trout Fishing Trip for Two",
+            "region": "Various locations",
+            "location": "Estonian coastal waters",
+            "cost": "€300",
+            "costGroup": "Paid",
+            "category": "Guided fishing",
+            "duration": "6 hours",
+            "included": "Guide, wade-fishing instruction, lunch and warm drink; fishing rights for the day",
+            "desc": "A six-hour guided sea trout fishing trip for two, including wade-fishing instruction, lunch, a warm drink and fishing rights for the day. Wading and fishing equipment can be rented separately.",
+            "url": "https://www.estfish.ee/en/e-shop/products/guided-sea-trout-sishing-trip-for-two-puuk-kahele-koos-kalastusgiidiga",
+            "linkLabel": "Official trip details ↗"
+      },
+      {
+            "provider": "Fishing Trips Estonia",
+            "title": "Crayfishing in Estonia",
+            "region": "Various locations",
+            "location": "Location arranged with the provider",
+            "costGroup": "Unknown",
+            "category": "Crayfishing",
+            "season": "August only (per provider)",
+            "desc": "An evening group activity using crayfish traps, with camping and a campfire among the described options. The listing says crayfishing is permitted only in August; verify current rules and availability with the provider before booking.",
+            "url": "https://fishingtrips.ee/en/services/crayfishing/",
+            "linkLabel": "Official trip details ↗"
+      },
+      {
+            "provider": "Sportland Kõrvemaa",
+            "title": "SUP Tour",
+            "region": "Northern Estonia",
+            "location": "Venejärv Lake or Soodla River",
+            "cost": "€460 for up to 10; +€41 per additional participant",
+            "costGroup": "Paid",
+            "category": "Paddling",
+            "duration": "2 hours",
+            "included": "SUP equipment and guided tour",
+            "desc": "A guided stand-up paddleboard tour, with boards transported to the starting point.",
+            "url": "https://sportlandkorvemaa.ee/en/hiking/"
+      },
+      {
+            "provider": "RMK (State Forest Management Centre)",
+            "title": "Rannametsa–Tolkuse Nature Study Trail",
+            "region": "Western Coast & Islands",
+            "location": "Luitemaa Nature Reserve, Pärnu County",
+            "cost": "Free public access",
+            "costGroup": "Free",
+            "category": "Self-guided bog trail",
+            "duration": "2.2 km circular route",
+            "desc": "A boardwalk route over coastal dunes to Tolkuse bog and an observation tower. The section from the parking area to the bog pool is described as suitable for wheelchairs and strollers.",
+            "url": "https://rmk.ee/en/exploring-nature/where-to-go/rannametsa-tolkuse-nature-study-trail-2-2-km/",
+            "linkLabel": "Official trail details ↗"
+      },
+      {
+            "provider": "Soomaa.com",
+            "title": "Canoe Rental in Soomaa Holiday Village",
+            "region": "Western Coast & Islands",
+            "location": "Riisa, Soomaa Holiday Village",
+            "cost": "€40 for 1 hour to 1 day; transport not included",
+            "costGroup": "Paid",
+            "category": "Canoe rental",
+            "desc": "Use the canoe locally or take it to another river or lake; transport is not included.",
+            "url": "https://soomaa.com/canoe-rental/"
+      },
+      {
+            "provider": "Paasiku Dogs Manor",
+            "title": "Party in a Glamping Tent",
+            "region": "Tallinn & Harju",
+            "location": "Paasiku Dogs Manor",
+            "cost": "€190 for 6 people; +€30 per additional guest (excluding tax)",
+            "costGroup": "Paid",
+            "category": "Picnic & celebration",
+            "included": "Welcome drink, snacks, manor tour and decorated glamping tent for picnics",
+            "desc": "Celebrate a birthday or gather with friends in a decorated glamping tent. The package includes a welcome drink, snacks and a manor tour; optional add-ons are available, and catering can be arranged by agreement.",
+            "url": "https://paasiku.ee/en/glamping-party-package/"
+      },
+      {
+            "provider": "360 KRAADI",
+            "title": "Canoe and Snowshoe Trip in Põhja-Kõrvemaa",
+            "region": "Northern Estonia",
+            "location": "Soodla River and Koitjärve Bog",
+            "costGroup": "Paid",
+            "category": "Canoeing & snowshoeing",
+            "duration": "One day; about 10 km by canoe and 3 km on foot",
+            "included": "Canoe, paddle, life jacket, snowshoes, guide, waterproof bags and picnic lunch",
+            "desc": "Paddle about 10 km on the Soodla River, then snowshoe about 3 km in Koitjärve Bog. The trip is described as easy, with no prior canoeing or snowshoe experience required.",
+            "url": "https://360.ee/en/matkad/kayak-tours/combined-canoe-and-snowshoe-trip-in-pohja-korvemaa-nature-reserve/",
+            "linkLabel": "Official tour details ↗"
+      },
+      {
+            "provider": "Natourest",
+            "title": "Golden Eagle Photography Hide",
+            "region": "Northern Estonia",
+            "location": "Alutaguse",
+            "cost": "€190 (listed rate)",
+            "costGroup": "Paid",
+            "category": "Wildlife photography",
+            "season": "Late December–early March",
+            "desc": "Photograph golden eagles from a hide in Alutaguse. Late-December 2026 departures are listed; check current availability.",
+            "url": "https://natourest.ee/trip/golden-eagle-photography-hide/"
+      },
+      {
+            "provider": "Capture Estonia",
+            "title": "Seal & Seabird Watching Boat Safari",
+            "region": "Northern Estonia",
+            "location": "Kaberneeme harbour, Kolga Bay",
+            "cost": "€135/adult, €85/child (min group fee €395)",
+            "costGroup": "Paid",
+            "category": "Marine wildlife",
+            "duration": "Approx. 4 hours",
+            "season": "Spring to early autumn",
+            "included": "Specialised observation boat with silent electric motor, mirrored windows, marine guide",
+            "desc": "Small-group marine safari in Kolga Bay. Observe wild grey seals and coastal seabirds from a specialised observation boat designed for unobtrusive viewing.",
+            "url": "https://www.capture-estonia.ee/seal-seabird-watching-photography-boat-safari/"
+      },
+      {
+            "provider": "EstFish",
+            "title": "Seal Watching Trip to the Malusi Islands",
+            "region": "Northern Estonia",
+            "location": "Malusi Islands, Kolga Bay",
+            "cost": "€300",
+            "costGroup": "Paid",
+            "category": "Wildlife boat tour",
+            "duration": "Up to 3 hours",
+            "season": "16 July–31 October 2027 (provider-listed dates)",
+            "included": "Boat ride, life jackets, light snacks and drinks",
+            "desc": "A boat-based seal-watching trip to the Malusi Islands for groups of up to four. Stay aboard to avoid disturbing the seals.",
+            "url": "https://www.estfish.ee/en/e-shop/products/hulgevaatlusretk",
+            "linkLabel": "Official trip details ↗"
+      },
+      {
+            "provider": "Fishing Trips Estonia",
+            "title": "Guided Boat Fishing on Estonian Lakes and Rivers",
+            "region": "Various locations",
+            "location": "Võrtsjärv, Lake Peipus, Lake Saadjärv or the Suur-Emajõgi River; provider-arranged",
+            "costGroup": "Unknown",
+            "category": "Boat fishing",
+            "desc": "Guided boat fishing, with locations and target species varying by season. Listed waters include Võrtsjärv, Lake Peipus, Lake Saadjärv and the Suur-Emajõgi; listed species include sea trout, pike, garfish, zander and perch. Contact the guide for pricing and arrangements.",
+            "url": "https://fishingtrips.ee/en/services/boat-fishing/",
+            "linkLabel": "Official trip details ↗"
+      },
+      {
+            "provider": "Sportland Kõrvemaa",
+            "title": "Bog Snowshoe Hike",
+            "region": "Northern Estonia",
+            "location": "Koitjärve Bog or Kõnnu Suursoo",
+            "cost": "€460 for up to 10; additional adult €36, child €21",
+            "costGroup": "Paid",
+            "category": "Snowshoeing",
+            "duration": "Up to 3 hours",
+            "included": "Snowshoe rental and guided tour",
+            "desc": "Guided snowshoe hike in Koitjärve bog or Kõnnu Suursoo. Participants travel to the starting point by their own transport.",
+            "url": "https://sportlandkorvemaa.ee/en/hiking/"
+      },
+      {
+            "provider": "RMK (State Forest Management Centre)",
+            "title": "Rõuge Primeval Valley Hiking Trail",
+            "region": "Tartu & Southern Estonia",
+            "location": "Haanja Nature Park, Võru County",
+            "cost": "Free public access",
+            "costGroup": "Free",
+            "category": "Self-guided hiking trail",
+            "duration": "10 km",
+            "desc": "A route past the Rõuge lakes and Hinni canyon. RMK notes that part of the trail crosses private land, free-roaming dogs may be present, and the route has changed; follow current trail signs and RMK's updated route information.",
+            "url": "https://rmk.ee/en/exploring-nature/where-to-go/rouge-primeval-valley-hiking-trail-10-km/",
+            "linkLabel": "Official trail details ↗"
+      },
+      {
+            "provider": "Soomaa.com",
+            "title": "Guided Canoe Trips",
+            "region": "Western Coast & Islands",
+            "location": "Soomaa Holiday Village or agreed location",
+            "cost": "€80/person (minimum 2); €105/person with Pärnu transfer",
+            "costGroup": "Paid",
+            "category": "Canoeing",
+            "duration": "3 hours",
+            "season": "March–November",
+            "included": "Guide and canoe equipment",
+            "desc": "Guided canoe trips on Soomaa's rivers; single travelers may join scheduled trips when available.",
+            "url": "https://soomaa.com/guided-canoe-trips/"
+      },
+      {
+            "provider": "Paasiku Dogs Manor",
+            "title": "Photoshoot with Siberian Huskies",
+            "region": "Tallinn & Harju",
+            "location": "Paasiku Dogs Manor",
+            "cost": "€250, excluding tax",
+            "costGroup": "Paid",
+            "category": "Photography",
+            "duration": "Up to 45 minutes",
+            "included": "3–5 locations and about 40 edited photos",
+            "desc": "A husky photoshoot for small groups, families or couples.",
+            "url": "https://paasiku.ee/en/photoshoots/"
+      },
+      {
+            "provider": "Natourest",
+            "title": "Flying Squirrel Tour",
+            "region": "Northern Estonia",
+            "location": "Western Alutaguse / Northeast Estonia",
+            "cost": "From €290 (or €590 custom package)",
+            "costGroup": "Paid",
+            "category": "Wildlife watching",
+            "duration": "1 Evening / Day",
+            "season": "May–July (best visibility during white nights)",
+            "included": "Expert biologist guide with 30+ years flying squirrel research experience, spotting scopes & localized transport",
+            "desc": "A specialized twilight expedition to spot the elusive Siberian Flying Squirrel (Pteromys volans) in the ancient aspen forests of Northeast Estonia, one of its few remaining European habitats.",
+            "url": "https://natourest.ee/trip/flying-squirrel-tour/"
+      },
+      {
+            "provider": "Capture Estonia",
+            "title": "Bird Watching Tour: North & West Estonia",
+            "region": "Western Coast & Islands",
+            "location": "Matsalu National Park & Silma Reserve",
+            "cost": "€140–€170/person (for 2); €270–€320 (solo)",
+            "costGroup": "Paid",
+            "category": "Birdwatching",
+            "duration": "9–10 hours (full day)",
+            "season": "15 March–15 October",
+            "included": "Return transport from Tallinn, local lunch & hot drinks, optics & expert guide",
+            "desc": "Full-day expedition along the East Atlantic Flyway through Matsalu Bay and Silma lagoons to witness massive waterfowl migrations and rare coastal species.",
+            "url": "https://www.capture-estonia.ee/bird-watching-tour-to-west-estonia-day-tour/"
+      },
+      {
+            "provider": "EstFish",
+            "title": "Boat Fishing Trip",
+            "region": "Various locations",
+            "location": "Estonian coastal waters",
+            "cost": "€450",
+            "costGroup": "Paid",
+            "category": "Boat fishing",
+            "duration": "6 hours",
+            "included": "Boat and guide, fishing equipment, fuel, safety equipment, lunch and fishing licence for the day",
+            "desc": "Take a six-hour guided motorboat fishing trip for up to three people. Possible catches listed include sea trout, pike, zander and garfish.",
+            "url": "https://www.estfish.ee/en/e-shop/products/boat-fishing-trips-sea-trout-pike-ja-garfish",
+            "linkLabel": "Official trip details ↗"
+      },
+      {
+            "provider": "Fishing Trips Estonia",
+            "title": "Guided Ice Fishing in Vooremaa",
+            "region": "Various locations",
+            "location": "Vooremaa lakes",
+            "costGroup": "Unknown",
+            "category": "Ice fishing",
+            "season": "Winter",
+            "desc": "Guided winter ice fishing on Vooremaa's lakes, listed as suitable for children and available for team events. Contact the guide to confirm ice conditions, pricing and availability.",
+            "url": "https://fishingtrips.ee/en/services/icefishing/",
+            "linkLabel": "Official trip details ↗"
+      },
+      {
+            "provider": "Sportland Kõrvemaa",
+            "title": "Bike Tour",
+            "region": "Northern Estonia",
+            "location": "Northern Kõrvemaa",
+            "cost": "€460 for up to 10; additional adult €36, child €16",
+            "costGroup": "Paid",
+            "category": "Cycling",
+            "duration": "Up to 2 hours",
+            "included": "Bike, helmet and guided tour",
+            "desc": "A guided tour on a mountain bike or fatbike.",
+            "url": "https://sportlandkorvemaa.ee/en/hiking/"
+      },
+      {
+            "provider": "RMK (State Forest Management Centre)",
+            "title": "RMK Nature Trails and Outdoor Destinations",
+            "region": "Various locations",
+            "cost": "Free public access",
+            "costGroup": "Free",
+            "category": "Public trail network",
+            "desc": "RMK's official nature portal links to hundreds of marked trails, forest huts, observation towers, and campfire sites across Estonia.",
+            "url": "https://rmk.ee/en/exploring-nature/",
+            "linkLabel": "RMK nature portal ↗"
+      },
+      {
+            "provider": "Soomaa.com",
+            "title": "Night Canoe Trip",
+            "region": "Western Coast & Islands",
+            "location": "Soomaa Holiday Village or agreed location",
+            "cost": "€80/person (minimum 2); €105/person with Pärnu transfer",
+            "costGroup": "Paid",
+            "category": "Canoeing",
+            "duration": "2–3 hours",
+            "season": "May–October",
+            "included": "Guide and canoe equipment",
+            "desc": "Guided evening canoe trip on a Soomaa river.",
+            "url": "https://soomaa.com/night-canoe-trip/"
+      },
+      {
+            "provider": "Paasiku Dogs Manor",
+            "title": "Sledding with Siberian Huskies",
+            "region": "Tallinn & Harju",
+            "location": "Paasiku Dogs Manor",
+            "cost": "Inquire for quote (max 6 people per booking)",
+            "costGroup": "Paid",
+            "category": "Husky activity",
+            "duration": "1.5–2 hours (active sledding ~20–30 min)",
+            "season": "January–March (snow-dependent)",
+            "included": "Breed intro, dog harness prep, 3 km sled run with 6–8 huskies, meeting ponies & alpacas",
+            "desc": "Thrilling winter dogsledding through the countryside. 1 adult acts as standing musher guiding the team of 6–8 dogs while a passenger sits in the sled.",
+            "url": "https://paasiku.ee/en/sledding-in-with-siberian-huskies/"
+      },
+      {
+            "provider": "Natourest",
+            "title": "Bearwatching and Photography Premium Hide",
+            "region": "Northern Estonia",
+            "location": "Western Alutaguse, near Sirtsi Bog",
+            "cost": "Exclusive cabin booking (~€450–€690)",
+            "costGroup": "Paid",
+            "category": "Wildlife photography",
+            "duration": "1 Day / 1 Night (overnight)",
+            "season": "April–October",
+            "included": "Exclusive 25 m² 4-room cabin, kitchen, separate observation room, WC, electricity",
+            "desc": "Exclusive luxury hide reserved for a single private family or group. Separate observation and living areas allow quiet socialising without disturbing bears.",
+            "url": "https://natourest.ee/trip/bearwatching-and-photography-premium-hide-2/"
+      },
+      {
+            "provider": "Capture Estonia",
+            "title": "Matsalu Nature Boat Trip & Wetland Experience",
+            "region": "Western Coast & Islands",
+            "location": "Matsalu Bay",
+            "costGroup": "Paid",
+            "category": "Boat trip & nature",
+            "desc": "An optional boat-trip add-on to the West Estonia birding tour; confirm availability and arrangements directly.",
+            "url": "https://www.capture-estonia.ee/bird-watching-tour-to-west-estonia-day-tour/"
+      },
+      {
+            "provider": "Fishing Trips Estonia",
+            "title": "Fishing Team-Building Events",
+            "region": "Various locations",
+            "location": "Vooremaa, Võrtsjärv, Emajõgi and other partner-arranged locations",
+            "costGroup": "Unknown",
+            "category": "Fishing team-building",
+            "desc": "Custom team events can include boat fishing or ice fishing. Catering, accommodation or seminars may be arranged through local partners; contact the provider for pricing and details.",
+            "url": "https://fishingtrips.ee/en/services/team-building-events/",
+            "linkLabel": "Official event details ↗"
+      },
+      {
+            "provider": "Sportland Kõrvemaa",
+            "title": "Mushroom Foraging Tour",
+            "region": "Northern Estonia",
+            "location": "Kõrvemaa",
+            "cost": "€460 for up to 10; additional adult €21, child €11",
+            "costGroup": "Paid",
+            "category": "Foraging",
+            "duration": "About 2–2.5 hours",
+            "desc": "A guided foraging hike with a mushroom expert, including help identifying collected mushrooms.",
+            "url": "https://sportlandkorvemaa.ee/en/hiking/"
+      },
+      {
+            "provider": "RMK (State Forest Management Centre)",
+            "title": "Taevaskoja-Otteni Hiking Trail",
+            "region": "Tartu & Southern Estonia",
+            "location": "Ahja River Valley Landscape Reserve, Põlvamaa",
+            "cost": "Free public access",
+            "costGroup": "Free",
+            "category": "Self-guided nature trail",
+            "duration": "3.8 km circular (or 6.8 km full loop)",
+            "season": "Year-round (swimming, foliage & winter snow walks)",
+            "included": "Marked Ahja river trail, Suur Taevaskoda sandstone cliffs, Otteni historic arched bridge, watermill ruins, campfire sites & parking",
+            "desc": "Estonia's most famous river valley walk along the primeval Ahja River. Gaze up at the dramatic 24-meter red Devonian sandstone outcrops of Suur and Väike Taevaskoda, historical movie filming locations, and Otteni bridge.",
+            "url": "https://rmk.ee/en/exploring-nature/where-to-go/taevaskoja-otteni-taevaskoja-hiking-trail-38-km/",
+            "linkLabel": "Official trail details ↗"
+      },
+      {
+            "provider": "Soomaa.com",
+            "title": "SUP Trips",
+            "region": "Western Coast & Islands",
+            "location": "Soomaa Holiday Village or agreed location",
+            "cost": "€80/person (minimum 2); €105/person with Pärnu transfer",
+            "costGroup": "Paid",
+            "category": "Stand-up paddleboarding",
+            "duration": "3 hours",
+            "season": "May–September",
+            "included": "Guide, SUP board, paddle and life jacket",
+            "desc": "A guided stand-up paddleboard trip on the Raudna and Halliste rivers.",
+            "url": "https://soomaa.com/sup-trips/"
+      },
+      {
+            "provider": "Paasiku Dogs Manor",
+            "title": "Children’s Activity Packages",
+            "region": "Tallinn & Harju",
+            "location": "Paasiku Dogs Manor",
+            "costGroup": "Paid",
+            "category": "Family activity",
+            "desc": "Children's party packages include a manor visit, hiking or a picnic. Check the provider page for package details and current availability.",
+            "url": "https://paasiku.ee/en/packages-for-kids/"
+      },
+      {
+            "provider": "Natourest",
+            "title": "Tailor-Made Smart-Guided Nature Tour",
+            "region": "Various locations",
+            "location": "Custom across Estonia",
+            "cost": "From €490 (custom quote based on itinerary)",
+            "costGroup": "Paid",
+            "category": "Custom nature tour",
+            "duration": "Flexible (3–10 days)",
+            "season": "Year-round (adapted to target species)",
+            "included": "Personalized GPS itinerary loaded onto smart device, offline navigation, curated hides, and booked accommodations",
+            "desc": "Customized independent nature tour tailored to your priority species (bears, lynx, flying squirrels, or rare birds). NaTourEst provides updated local intelligence, bookings, and turn-by-turn smart guidance.",
+            "url": "https://natourest.ee/trip/tailor-made-smart-guided-tour/"
+      },
+      {
+            "provider": "Capture Estonia",
+            "title": "Nature Day Tour",
+            "region": "Various locations",
+            "location": "North-West Estonia, Kõrvemaa or Lahemaa",
+            "costGroup": "Paid",
+            "category": "Nature tour",
+            "duration": "About 6 hours",
+            "desc": "A guided nature outing with walks; the route varies by season and conditions.",
+            "url": "https://www.capture-estonia.ee/nature-day-tour/"
+      },
+      {
+            "provider": "Fishing Trips Estonia",
+            "title": "Wild Catering",
+            "region": "Various locations",
+            "location": "Arranged with the provider",
+            "costGroup": "Unknown",
+            "category": "Wild catering",
+            "desc": "Outdoor catering featuring food from the forest and water, with fish or meat prepared in front of guests. Contact the provider for pricing and arrangements.",
+            "url": "https://fishingtrips.ee/en/services/wild-catering/",
+            "linkLabel": "Official service details ↗"
+      },
+      {
+            "provider": "Sportland Kõrvemaa",
+            "title": "Off-Road Touring Ski Adventure",
+            "region": "Northern Estonia",
+            "location": "Kõrvemaa",
+            "cost": "€490 for up to 10; +€36 per additional adult",
+            "costGroup": "Paid",
+            "category": "Skiing",
+            "duration": "Up to 2 hours",
+            "included": "MADSHUS touring ski set rental and guided tour",
+            "season": "Winter",
+            "desc": "Guided touring-ski outing on snow-covered terrain away from prepared trails.",
+            "url": "https://sportlandkorvemaa.ee/en/hiking/"
+      },
+      {
+            "provider": "RMK (State Forest Management Centre)",
+            "title": "Meenikunno Bog Hiking Trail",
+            "region": "Tartu & Southern Estonia",
+            "location": "Meenikunno Landscape Reserve, Põlvamaa",
+            "cost": "Free public access",
+            "costGroup": "Free",
+            "category": "Self-guided nature trail",
+            "duration": "5.8 km (2.4 km boardwalk + 3.4 km forest)",
+            "season": "Year-round (wheelchair-friendly section, berry picking)",
+            "included": "2.4 km bog boardwalk across hollows & pools, Suur Suujärv swimming lake, Liipsaare observation tower, forest hut & campfire sites",
+            "desc": "Spectacular peatland trail passing mirror-smooth bog lakes and vibrant moss carpets. Features Liipsaare lookout tower, refreshing bog lake swimming in Suur Suujärv, 13 educational stops, and an overnight RMK forest hut.",
+            "url": "https://rmk.ee/en/exploring-nature/where-to-go/meenikunno-hiking-trail-5-8-km/",
+            "linkLabel": "Official trail details ↗"
+      },
+      {
+            "provider": "Soomaa.com",
+            "title": "Bogshoeing",
+            "region": "Western Coast & Islands",
+            "location": "Soomaa Holiday Village or Pärnu",
+            "cost": "€80/person (minimum 2); €105/person with Pärnu transfer",
+            "costGroup": "Paid",
+            "category": "Bog hiking",
+            "duration": "3 hours",
+            "included": "Guide and bogshoe rental",
+            "desc": "Explore Soomaa's bogs with a guide and rented bogshoes. During nesting season, routes use boardwalks and bog edges rather than going deeper into the bog.",
+            "url": "https://soomaa.com/bogshoeing/"
+      },
+      {
+            "provider": "Natourest",
+            "title": "Steller’s Eider Weekend – Smart-Guided Tour",
+            "region": "Western Coast & Islands",
+            "location": "Saaremaa coast & Harilaid",
+            "cost": "€590/person",
+            "costGroup": "Paid",
+            "category": "Smart-guided birdwatching",
+            "duration": "4 Days / 3 Nights",
+            "season": "Late December–early March",
+            "included": "Smart GPS navigation app with offline maps, detailed daily itinerary, curated coastal birding coordinates & accommodations",
+            "desc": "Winter coastal birding expedition targeting the 600–1,000 rare Steller’s Eiders wintering off Saaremaa, along with 7 woodpecker species, lekking capercaillies, and winter owls.",
+            "url": "https://natourest.ee/trip/stellers-eider-weekend-smart-guided-tour/"
+      },
+      {
+            "provider": "Capture Estonia",
+            "title": "Tallinn History & Photography Tour with Film Camera",
+            "region": "Tallinn & Harju",
+            "location": "Tallinn",
+            "costGroup": "Paid",
+            "category": "History & photography",
+            "duration": "About 3–3.5 hours",
+            "season": "All seasons (provider stated)",
+            "desc": "A guided Tallinn history and photography tour with a film camera, film development and scanning included.",
+            "url": "https://www.capture-estonia.ee/tallinn-history-film-camera-tour/"
+      },
+      {
+            "provider": "Sportland Kõrvemaa",
+            "title": "Winter Snowshoe Hike",
+            "region": "Northern Estonia",
+            "location": "Kõrvemaa",
+            "cost": "€490 for up to 10; additional adult €36, child €21",
+            "costGroup": "Paid",
+            "category": "Snowshoeing",
+            "duration": "Up to 3 hours",
+            "included": "Snowshoe rental and guided tour",
+            "season": "Winter",
+            "desc": "Guided winter hike with themes including wildlife, animal tracks and local history.",
+            "url": "https://sportlandkorvemaa.ee/en/hiking/"
+      },
+      {
+            "provider": "RMK (State Forest Management Centre)",
+            "title": "Mukri Bog Nature Trail",
+            "region": "Western Coast & Islands",
+            "location": "Mukri Nature Reserve, Rapla County",
+            "cost": "Free public access",
+            "costGroup": "Free",
+            "category": "Self-guided nature trail",
+            "duration": "2.5 km",
+            "season": "Year-round (swimming in summer, bog-walking)",
+            "included": "Boardwalk through pristine peatland, wooden observation tower, Lake Eidapere swimming, picnic shelter, campfire site with wood & parking",
+            "desc": "One of Estonia's oldest and most accessible raised bogs, dating back nearly 10,000 years. Climb the tall wooden observation tower for panoramic views over countless bog pools, and swim in Lake Mukri/Eidapere.",
+            "url": "https://rmk.ee/en/exploring-nature/where-to-go/mukri-nature-trail-2-5-km/",
+            "linkLabel": "Official trail details ↗"
+      },
+      {
+            "provider": "Soomaa.com",
+            "title": "Bogwalking",
+            "region": "Western Coast & Islands",
+            "location": "Soomaa Holiday Village or agreed location",
+            "cost": "€80/person (minimum 2); €105/person with Pärnu transfer",
+            "costGroup": "Paid",
+            "category": "Hiking",
+            "duration": "2–3 hours",
+            "season": "Year-round",
+            "included": "Guide",
+            "desc": "Join a guided walk on Soomaa's trails and boardwalks; several route options are available.",
+            "url": "https://soomaa.com/bogwalking/"
+      },
+      {
+            "provider": "Natourest",
+            "title": "Bearwatching from the Luxury Hide",
+            "region": "Northern Estonia",
+            "location": "Western Alutaguse, near Sirtsi Bog",
+            "cost": "€690 (listed rate)",
+            "costGroup": "Paid",
+            "category": "Wildlife watching",
+            "duration": "1 day–1 night",
+            "desc": "Watch for bears from a luxury hide in western Alutaguse, near Sirtsi Bog. The listed rate is €690; check current departures and conditions before booking.",
+            "url": "https://natourest.ee/trip/bearwatching-from-luxury-hide/"
+      },
+      {
+            "provider": "Capture Estonia",
+            "title": "Photography Tour",
+            "region": "Various locations",
+            "costGroup": "Paid",
+            "category": "Photography",
+            "duration": "About 2–6 hours in nature or 2–4 hours in the city",
+            "desc": "Choose a nature or city photography tour and arrange the location with the provider.",
+            "url": "https://www.capture-estonia.ee/happy-snapper-photography-tour/"
+      },
+      {
+            "provider": "Sportland Kõrvemaa",
+            "title": "Kick-Sled Tour",
+            "region": "Northern Estonia",
+            "location": "Kõrvemaa",
+            "cost": "€490 for up to 10; additional adult €36, child €21",
+            "costGroup": "Paid",
+            "category": "Winter activity",
+            "duration": "Up to 2 hours",
+            "included": "Kick-sled rental and guided tour",
+            "season": "Winter",
+            "desc": "A guided kick-sled tour on a maintained trail through the winter landscape.",
+            "url": "https://sportlandkorvemaa.ee/en/hiking/"
+      },
+      {
+            "provider": "RMK (State Forest Management Centre)",
+            "title": "Ingatsi Study Trail & Kuresoo Bog Slope",
+            "region": "Western Coast & Islands",
+            "location": "Soomaa National Park, Sandra village",
+            "cost": "Free public access",
+            "costGroup": "Free",
+            "category": "Self-guided nature trail",
+            "duration": "4.3 km circular",
+            "season": "Year-round (Fifth-Season high waters & swimming)",
+            "included": "Boardwalk climbing Europe's highest bog slope (8m peat wall), bog observation tower, swimming ladder at peat pools, 5 rest sites & firewood",
+            "desc": "Climb up the steep 8-meter peat wall of Kuresoo—the highest bog slope in Europe. The boardwalk meanders through flooded swamp forests directly to the top of Kuresoo bog massif with an observation tower and swimming ladders.",
+            "url": "https://rmk.ee/en/exploring-nature/where-to-go/ingatsi-study-trail-4-3-km/",
+            "linkLabel": "Official trail details ↗"
+      },
+      {
+            "provider": "Soomaa.com",
+            "title": "Kick Bike Trips",
+            "region": "Western Coast & Islands",
+            "location": "Ruunaraipe dunes",
+            "cost": "€80/person (minimum 2); €105/person with Pärnu transfer",
+            "costGroup": "Paid",
+            "category": "Cycling",
+            "duration": "2 hours",
+            "included": "Guide, kick-bikes and helmets",
+            "desc": "A guided kick-bike trip on forest roads near Ruunaraipe dunes.",
+            "url": "https://soomaa.com/kick-bike-trips/"
+      },
+      {
+            "provider": "Natourest",
+            "title": "Estonian Birds and Mammals (Self-Guided)",
+            "region": "Various locations",
+            "location": "Alutaguse, Matsalu & Western Estonia",
+            "cost": "From €690 (depending on group size)",
+            "costGroup": "Paid",
+            "category": "Self-guided birding & wildlife",
+            "duration": "8 Days / 7 Nights",
+            "season": "May–October (peak spring & autumn migrations)",
+            "included": "Smart-device GPS navigation app with verified offline trails, curated nature spots, accommodations & Alutaguse bear hide night",
+            "desc": "An independent 8-day expedition combining 21st-century smart-device GPS navigation with prime wildlife habitats. Spot brown bears from hides in Alutaguse, hear elk rutting, and witness massive arctic crane migrations and woodpeckers across Estonia with full schedule flexibility.",
+            "url": "https://natourest.ee/trip/estonian-birds-and-mammals/"
+      },
+      {
+            "provider": "Sportland Kõrvemaa",
+            "title": "Ice Skating Tour on the Bog Lakes",
+            "region": "Northern Estonia",
+            "location": "Kõrvemaa bog lakes",
+            "cost": "€490 for up to 10; additional adult €36, child €21",
+            "costGroup": "Paid",
+            "category": "Ice skating",
+            "duration": "Up to 3 hours",
+            "included": "Ski boots, touring skates, poles and guided tour",
+            "season": "Winter",
+            "desc": "Guided skating tour across frozen bog pools, subject to suitable conditions.",
+            "url": "https://sportlandkorvemaa.ee/en/hiking/"
+      },
+      {
+            "provider": "RMK (State Forest Management Centre)",
+            "title": "RMK Long-Distance Hiking Routes (Endurance Trekking)",
+            "region": "Various locations",
+            "location": "Estonia-wide (North to South & West to East)",
+            "cost": "Free public access",
+            "costGroup": "Free",
+            "category": "Long-distance trekking",
+            "duration": "370 km to 820 km (sectional or multi-week)",
+            "season": "Spring to Autumn (hiking & bikepacking); winter skiing",
+            "included": "Nationwide marked routes (Oandu–Aegviidu–Ikla 370 km, Peraküla–Ähijärve 812 km, Penijõe–Kauksi 613 km), free campfire sites, rental huts & hiker passport",
+            "desc": "A connected cross-country network spanning border-to-border and sea-to-sea. Explore Estonia completely on foot or by bike across national parks, equipped with hundreds of free RMK campfire sites and wilderness shelters.",
+            "url": "https://rmk.ee/en/exploring-nature/hiking-route/",
+            "linkLabel": "Explore RMK hiking routes ↗"
+      },
+      {
+            "provider": "Soomaa.com",
+            "title": "Kickspark Trips",
+            "region": "Western Coast & Islands",
+            "location": "Teesoo bus stop or agreed location",
+            "cost": "€80/person (minimum 2); €105/person with Pärnu transfer",
+            "costGroup": "Paid",
+            "category": "Winter activity",
+            "duration": "2 hours",
+            "season": "December–March",
+            "included": "Guide and kicksled rental",
+            "desc": "Guided kicksledding on frozen Soomaa meadows or rivers when conditions allow.",
+            "url": "https://soomaa.com/kickspark-trips-2/"
+      },
+      {
+            "provider": "Natourest",
+            "title": "Spring Birding in Estonia",
+            "region": "Various locations",
+            "location": "Matsalu, Haapsalu & Western Estonia",
+            "cost": "€1,650–€1,850/person",
+            "costGroup": "Paid",
+            "category": "Birdwatching",
+            "duration": "8 Days / 7 Nights",
+            "season": "Late April–early May",
+            "included": "Expert birding guide, all ground transport, lodging, meals, spotting scopes, optics support",
+            "desc": "Prime spring migration expedition across Estonia. Witness calling Ural and Pygmy Owls, 8 species of drumming woodpeckers, lekking Capercaillies, and massive flocks of Arctic sea ducks, divers, and waders building energy reserves.",
+            "url": "https://natourest.ee/trip/spring-birding-in-estonia/"
+      },
+      {
+            "provider": "Sportland Kõrvemaa",
+            "title": "Combined Snowshoe and SUP Tour",
+            "region": "Northern Estonia",
+            "location": "Koitjärve Bog",
+            "cost": "€560 for up to 10; +€46 per additional participant",
+            "costGroup": "Paid",
+            "category": "Snowshoeing & SUP",
+            "duration": "4 hours",
+            "included": "Necessary equipment rental and guided tour",
+            "desc": "A guided route through Koitjärve bog using snowshoes to reach the pools, then SUP boards across them.",
+            "url": "https://sportlandkorvemaa.ee/en/hiking/"
+      },
+      {
+            "provider": "Soomaa.com",
+            "title": "Snowshoeing",
+            "region": "Western Coast & Islands",
+            "location": "Soomaa Holiday Village or Pärnu",
+            "cost": "€80/person (minimum 2); €105/person with Pärnu transfer",
+            "costGroup": "Paid",
+            "category": "Snowshoeing",
+            "duration": "2 hours",
+            "season": "December–March",
+            "included": "Guide and bogshoe rental",
+            "desc": "Guided winter snowshoe hikes through frozen bogs, forests and floodplains.",
+            "url": "https://soomaa.com/snowshoeing/"
+      },
+      {
+            "provider": "Natourest",
+            "title": "Lynx Tour (Scheduled)",
+            "region": "Various locations",
+            "location": "Lahemaa & Matsalu National Parks",
+            "cost": "€1,790/person",
+            "costGroup": "Paid",
+            "category": "Wildlife watching",
+            "duration": "7 Days / 6 Nights",
+            "season": "March (snow tracking) & Autumn (October/November)",
+            "included": "Expert wildlife trackers, thermal binoculars, all transport, accommodations & full board",
+            "desc": "Intensive tracking tour for the elusive Eurasian Lynx in Estonia’s premier predator strongholds. Early spring departures leverage snow tracking and mating calls, while autumn trips combine night sweeps with forest birding.",
+            "url": "https://natourest.ee/trip/lynx-tour-3/"
+      },
+      {
+            "provider": "Soomaa.com",
+            "title": "Mushrooming",
+            "region": "Western Coast & Islands",
+            "location": "Soomaa Holiday Village or Pärnu",
+            "cost": "€80/person (minimum 2); €105/person with Pärnu transfer",
+            "costGroup": "Paid",
+            "category": "Foraging",
+            "duration": "3–4 hours",
+            "season": "July–October",
+            "included": "Guide and a light mushroom meal",
+            "desc": "A guided forest mushrooming trip covering edible and inedible species and ways of preserving mushrooms.",
+            "url": "https://soomaa.com/mushrooming/"
+      },
+      {
+            "provider": "Natourest",
+            "title": "Brown Bears, Elks, Bird Migration and Ringed Seals in Estonia",
+            "region": "Various locations",
+            "location": "Alutaguse, Matsalu, Saaremaa & coastal reserves",
+            "cost": "€1,850/person",
+            "costGroup": "Paid",
+            "category": "Birdwatching & wildlife",
+            "duration": "8 Days / 7 Nights",
+            "season": "Spring (April/May) & Autumn (September/October)",
+            "included": "Biologist guide, private transport, accommodations, meals, boat safari for ringed seals & overnight bear hide stay",
+            "desc": "Flagship guided expedition combining overnight brown bear watching in Alutaguse, elk rutting observation, Baltic ringed seal boat safari, and massive arctic crane and waterfowl migrations in Matsalu National Park.",
+            "url": "https://natourest.ee/trip/estonian-birds-and-mammals-scheduled/"
+      },
+      {
+            "provider": "Soomaa.com",
+            "title": "Wilderness Day Trip",
+            "region": "Western Coast & Islands",
+            "location": "Soomaa Holiday Village or Pärnu",
+            "cost": "€110/person (minimum 2); €135/person with Pärnu transfer",
+            "costGroup": "Paid",
+            "category": "Canoeing & hiking",
+            "duration": "5–6 hours",
+            "season": "May–October",
+            "included": "Guide, bogshoeing and canoeing equipment, wilderness lunch",
+            "desc": "Guided day trip combining canoeing with bog walking in spring or bogshoeing later in the season.",
+            "url": "https://soomaa.com/wilderness-day-trip/"
+      },
+      {
+            "provider": "Natourest",
+            "title": "Lynx and Bear Tour (Scheduled)",
+            "region": "Various locations",
+            "cost": "€1,980 (listed rate)",
+            "costGroup": "Paid",
+            "category": "Wildlife watching",
+            "duration": "8 days–7 nights",
+            "season": "Autumn",
+            "desc": "A scheduled autumn wildlife tour focused on lynx, brown bears and grey wolves, with destinations in West Estonia, Lahemaa and Alutaguse.",
+            "url": "https://natourest.ee/trip/lynx-and-bear-tour-scheduled-2/"
+      },
+      {
+            "provider": "Natourest",
+            "title": "Lynx and the Flying Squirrel",
+            "region": "Various locations",
+            "location": "Alutaguse, Matsalu & Northeast Estonia",
+            "cost": "€2,150/person",
+            "costGroup": "Paid",
+            "category": "Wildlife watching",
+            "duration": "8 Days / 7 Nights",
+            "season": "Late May–early June (white night season)",
+            "included": "Expert trackers, thermal imaging binoculars, private transport, accommodations, meals, brown bear hide night & blooming orchid walks",
+            "desc": "Unique 8-day expedition taking advantage of long Nordic white nights when independent yearling lynx hunt actively and rare Siberian flying squirrels forage before sunset. Includes Alutaguse bear hide and blooming wild orchid pastures.",
+            "url": "https://natourest.ee/trip/lynx-and-flying-squirrel-tour/"
+      },
+      {
+            "provider": "Natourest",
+            "title": "Lynx Tour (Private)",
+            "region": "Various locations",
+            "costGroup": "Paid",
+            "category": "Wildlife watching",
+            "season": "September–March (provider stated)",
+            "desc": "Private lynx tours are listed for September–March. Contact Natourest to confirm dates and itinerary.",
+            "url": "https://natourest.ee/trip/lynx-tour-2/"
+      },
+      {
+            "provider": "Natourest",
+            "title": "Eurasian Lynx and Steller’s Eider",
+            "region": "Various locations",
+            "costGroup": "Paid",
+            "category": "Birdwatching & wildlife",
+            "desc": "A tour combining Eurasian lynx and Steller’s eider watching. Check the product page for trip details.",
+            "url": "https://natourest.ee/trip/lynx-and-stellers-eider/"
+      },
+      {
+            "provider": "Natourest",
+            "title": "Steller’s Eider Tour",
+            "region": "Northern Estonia",
+            "costGroup": "Paid",
+            "category": "Birdwatching",
+            "desc": "A birdwatching tour focused on Steller’s eiders. Check the product page for trip details.",
+            "url": "https://natourest.ee/trip/stellers-eider-tour-2/"
+      },
+      {
+            "provider": "Natourest",
+            "title": "Estonia Wildlife & Nature Tour",
+            "region": "Northern Estonia",
+            "costGroup": "Paid",
+            "category": "Wildlife & nature",
+            "duration": "3 days",
+            "desc": "A three-day tour combining bear watching, wildlife viewing, Lahemaa National Park and guided bog walking. No fixed departure is listed.",
+            "url": "https://natourest.ee/trip/estonia-wildlife-nature-tour-bears-moose-lahemaa-national-park-bog-walki/"
+      }
+];
 
-      { provider: "Soomaa.com", title: "Guided Canoe Trips", region: "Western Coast & Islands", location: "Soomaa Holiday Village or agreed location", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Canoeing", duration: "3 hours", season: "March–November", included: "Guide and canoe equipment", desc: "Guided canoe trips on Soomaa's rivers; single travelers may join scheduled trips when available.", url: "https://soomaa.com/guided-canoe-trips/" },
-      { provider: "Soomaa.com", title: "Self-Guided Canoe Trips", region: "Western Coast & Islands", location: "Soomaa Holiday Village or Pärnu", cost: "€30/person (minimum 2); €55/person with Pärnu transfer", costGroup: "Paid", category: "Canoeing", duration: "1–5 hours", season: "April–November; winter if rivers are ice-free", included: "Canoe equipment, route map, local transport and instructions", desc: "Paddle a 12 km river route in Soomaa, with optional forest and bog trails. Canoe equipment, a route map, instructions and local transport are included.", url: "https://soomaa.com/self-guided-canoe-trips/" },
-      { provider: "Soomaa.com", title: "Canoe Rental in Soomaa Holiday Village", region: "Western Coast & Islands", location: "Riisa, Soomaa Holiday Village", cost: "€40 for 1 hour to 1 day; transport not included", costGroup: "Paid", category: "Canoe rental", desc: "Use the canoe locally or take it to another river or lake; transport is not included.", url: "https://soomaa.com/canoe-rental/" },
-      { provider: "Soomaa.com", title: "Wilderness Day Trip", region: "Western Coast & Islands", location: "Soomaa Holiday Village or Pärnu", cost: "€110/person (minimum 2); €135/person with Pärnu transfer", costGroup: "Paid", category: "Canoeing & hiking", duration: "5–6 hours", season: "May–October", included: "Guide, bogshoeing and canoeing equipment, wilderness lunch", desc: "Guided day trip combining canoeing with bog walking in spring or bogshoeing later in the season.", url: "https://soomaa.com/wilderness-day-trip/" },
-      { provider: "Soomaa.com", title: "Night Canoe Trip", region: "Western Coast & Islands", location: "Soomaa Holiday Village or agreed location", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Canoeing", duration: "2–3 hours", season: "May–October", included: "Guide and canoe equipment", desc: "Guided evening canoe trip on a Soomaa river.", url: "https://soomaa.com/night-canoe-trip/" },
-      { provider: "Soomaa.com", title: "Multi-Day Canoe Camping Trips", region: "Western Coast & Islands", location: "Soomaa Holiday Village or agreed location", cost: "€30/person/day (minimum 2)", costGroup: "Paid", category: "Canoeing & camping", duration: "2–5 days", season: "April–November", included: "Canoe equipment rental and local transport", desc: "Multi-day paddling trips on the Navesti, Halliste, Raudna, Kõpu and Lemmjõgi rivers, with options for overnight wild camping at designated places.", url: "https://soomaa.com/multi-day-canoe-camping-trips/" },
-      { provider: "Soomaa.com", title: "SUP Trips", region: "Western Coast & Islands", location: "Soomaa Holiday Village or agreed location", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Stand-up paddleboarding", duration: "3 hours", season: "May–September", included: "Guide, SUP board, paddle and life jacket", desc: "A guided stand-up paddleboard trip on the Raudna and Halliste rivers.", url: "https://soomaa.com/sup-trips/" },
-      { provider: "Soomaa.com", title: "Bogshoeing", region: "Western Coast & Islands", location: "Soomaa Holiday Village or Pärnu", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Bog hiking", duration: "3 hours", included: "Guide and bogshoe rental", desc: "Explore Soomaa's bogs with a guide and rented bogshoes. During nesting season, routes use boardwalks and bog edges rather than going deeper into the bog.", url: "https://soomaa.com/bogshoeing/" },
-      { provider: "Soomaa.com", title: "Bogwalking", region: "Western Coast & Islands", location: "Soomaa Holiday Village or agreed location", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Hiking", duration: "2–3 hours", season: "Year-round", included: "Guide", desc: "Join a guided walk on Soomaa's trails and boardwalks; several route options are available.", url: "https://soomaa.com/bogwalking/" },
-      { provider: "Soomaa.com", title: "Kick Bike Trips", region: "Western Coast & Islands", location: "Ruunaraipe dunes", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Cycling", duration: "2 hours", included: "Guide, kick-bikes and helmets", desc: "A guided kick-bike trip on forest roads near Ruunaraipe dunes.", url: "https://soomaa.com/kick-bike-trips/" },
-      { provider: "Soomaa.com", title: "Kickspark Trips", region: "Western Coast & Islands", location: "Teesoo bus stop or agreed location", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Winter activity", duration: "2 hours", season: "December–March", included: "Guide and kicksled rental", desc: "Guided kicksledding on frozen Soomaa meadows or rivers when conditions allow.", url: "https://soomaa.com/kickspark-trips-2/" },
-      { provider: "Soomaa.com", title: "Snowshoeing", region: "Western Coast & Islands", location: "Soomaa Holiday Village or Pärnu", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Snowshoeing", duration: "2 hours", season: "December–March", included: "Guide and bogshoe rental", desc: "Guided winter snowshoe hikes through frozen bogs, forests and floodplains.", url: "https://soomaa.com/snowshoeing/" },
-      { provider: "Soomaa.com", title: "Mushrooming", region: "Western Coast & Islands", location: "Soomaa Holiday Village or Pärnu", cost: "€80/person (minimum 2); €105/person with Pärnu transfer", costGroup: "Paid", category: "Foraging", duration: "3–4 hours", season: "July–October", included: "Guide and a light mushroom meal", desc: "A guided forest mushrooming trip covering edible and inedible species and ways of preserving mushrooms.", url: "https://soomaa.com/mushrooming/" },
-      { provider: "Soomaa.com", title: "Kick Bike Rental", region: "Western Coast & Islands", location: "Soomaa Holiday Village", cost: "€25 per bike", costGroup: "Paid", category: "Kick-bike rental", duration: "1–4 hours", season: "April–October", included: "Kick bike, helmet, instructions and area map", desc: "Self-guided kick-bike rental for adults and children; the provider offers instruction before the ride.", url: "https://soomaa.com/kick-bike-rental/" },
-      { provider: "Soomaa.com", title: "Kicksled Rental", region: "Western Coast & Islands", location: "Tõramaa watching tower or agreed location", cost: "€25/person", costGroup: "Paid", category: "Winter activity rental", duration: "2 hours", season: "December–March", included: "Kicksled rental and instructions", desc: "Self-guided kicksled rental when winter weather and surface conditions are suitable.", url: "https://soomaa.com/kick-sled-rental/" },
-
-      { provider: "Natourest", title: "Brown Bear Watching", region: "Northern Estonia", location: "Alutaguse", cost: "€150/person", costGroup: "Paid", category: "Wildlife watching", duration: "1 day–1 night", desc: "Bear watching in Alutaguse, with 2027 departures listed. Hide details and conditions may vary; check current information before booking.", url: "https://natourest.ee/trip/brown-bear-watching/" },
-      { provider: "Natourest", title: "Bearwatching and Photography Comfort Hide", region: "Northern Estonia", location: "Western Alutaguse, near Sirtsi Bog", cost: "€150/person", costGroup: "Paid", category: "Wildlife photography", duration: "1 Day / 1 Night (overnight)", season: "April–October", included: "Private sleeping room per booking, observation windows with photo sleeves, WC, electricity, hot water", desc: "Overnight wildlife watching in Alutaguse, Estonia’s prime bear sanctuary. Offers observation windows, private bunk rooms, and electric night illumination.", url: "https://natourest.ee/trip/bearwatching-and-photography-comfort-hide/" },
-      { provider: "Natourest", title: "Bearwatching and Photography Premium Hide", region: "Northern Estonia", location: "Western Alutaguse, near Sirtsi Bog", cost: "Exclusive cabin booking (~€450–€690)", costGroup: "Paid", category: "Wildlife photography", duration: "1 Day / 1 Night (overnight)", season: "April–October", included: "Exclusive 25 m² 4-room cabin, kitchen, separate observation room, WC, electricity", desc: "Exclusive luxury hide reserved for a single private family or group. Separate observation and living areas allow quiet socialising without disturbing bears.", url: "https://natourest.ee/trip/bearwatching-and-photography-premium-hide-2/" },
-      { provider: "Natourest", title: "Bearwatching from the Luxury Hide", region: "Northern Estonia", location: "Western Alutaguse, near Sirtsi Bog", cost: "€690 (listed rate)", costGroup: "Paid", category: "Wildlife watching", duration: "1 day–1 night", desc: "Watch for bears from a luxury hide in western Alutaguse, near Sirtsi Bog. The listed rate is €690; check current departures and conditions before booking.", url: "https://natourest.ee/trip/bearwatching-from-luxury-hide/" },
-      { provider: "Natourest", title: "Lynx Tour (Scheduled)", region: "Various locations", location: "Lahemaa & Matsalu National Parks", cost: "€1,790/person", costGroup: "Paid", category: "Wildlife watching", duration: "7 Days / 6 Nights", season: "March (snow tracking) & Autumn (October/November)", included: "Expert wildlife trackers, thermal binoculars, all transport, accommodations & full board", desc: "Intensive tracking tour for the elusive Eurasian Lynx in Estonia’s premier predator strongholds. Early spring departures leverage snow tracking and mating calls, while autumn trips combine night sweeps with forest birding.", url: "https://natourest.ee/trip/lynx-tour-3/" },
-      { provider: "Natourest", title: "Lynx Tour (Private)", region: "Various locations", costGroup: "Paid", category: "Wildlife watching", season: "September–March (provider stated)", desc: "Private lynx tours are listed for September–March. Contact Natourest to confirm dates and itinerary.", url: "https://natourest.ee/trip/lynx-tour-2/" },
-      { provider: "Natourest", title: "Lynx and Bear Tour (Scheduled)", region: "Various locations", cost: "€1,980 (listed rate)", costGroup: "Paid", category: "Wildlife watching", duration: "8 days–7 nights", season: "Autumn", desc: "A scheduled autumn wildlife tour focused on lynx, brown bears and grey wolves, with destinations in West Estonia, Lahemaa and Alutaguse.", url: "https://natourest.ee/trip/lynx-and-bear-tour-scheduled-2/" },
-      { provider: "Natourest", title: "Brown Bears, Elks, Bird Migration and Ringed Seals in Estonia", region: "Various locations", location: "Alutaguse, Matsalu, Saaremaa & coastal reserves", cost: "€1,850/person", costGroup: "Paid", category: "Birdwatching & wildlife", duration: "8 Days / 7 Nights", season: "Spring (April/May) & Autumn (September/October)", included: "Biologist guide, private transport, accommodations, meals, boat safari for ringed seals & overnight bear hide stay", desc: "Flagship guided expedition combining overnight brown bear watching in Alutaguse, elk rutting observation, Baltic ringed seal boat safari, and massive arctic crane and waterfowl migrations in Matsalu National Park.", url: "https://natourest.ee/trip/estonian-birds-and-mammals-scheduled/" },
-      { provider: "Natourest", title: "Estonian Birds and Mammals (Self-Guided)", region: "Various locations", location: "Alutaguse, Matsalu & Western Estonia", cost: "From €690 (depending on group size)", costGroup: "Paid", category: "Self-guided birding & wildlife", duration: "8 Days / 7 Nights", season: "May–October (peak spring & autumn migrations)", included: "Smart-device GPS navigation app with verified offline trails, curated nature spots, accommodations & Alutaguse bear hide night", desc: "An independent 8-day expedition combining 21st-century smart-device GPS navigation with prime wildlife habitats. Spot brown bears from hides in Alutaguse, hear elk rutting, and witness massive arctic crane migrations and woodpeckers across Estonia with full schedule flexibility.", url: "https://natourest.ee/trip/estonian-birds-and-mammals/" },
-      { provider: "Natourest", title: "Eurasian Lynx and Steller’s Eider", region: "Various locations", costGroup: "Paid", category: "Birdwatching & wildlife", desc: "A tour combining Eurasian lynx and Steller’s eider watching. Check the product page for trip details.", url: "https://natourest.ee/trip/lynx-and-stellers-eider/" },
-      { provider: "Natourest", title: "Flying Squirrel Tour", region: "Northern Estonia", location: "Western Alutaguse / Northeast Estonia", cost: "From €290 (or €590 custom package)", costGroup: "Paid", category: "Wildlife watching", duration: "1 Evening / Day", season: "May–July (best visibility during white nights)", included: "Expert biologist guide with 30+ years flying squirrel research experience, spotting scopes & localized transport", desc: "A specialized twilight expedition to spot the elusive Siberian Flying Squirrel (Pteromys volans) in the ancient aspen forests of Northeast Estonia, one of its few remaining European habitats.", url: "https://natourest.ee/trip/flying-squirrel-tour/" },
-      { provider: "Natourest", title: "Lynx and the Flying Squirrel", region: "Various locations", location: "Alutaguse, Matsalu & Northeast Estonia", cost: "€2,150/person", costGroup: "Paid", category: "Wildlife watching", duration: "8 Days / 7 Nights", season: "Late May–early June (white night season)", included: "Expert trackers, thermal imaging binoculars, private transport, accommodations, meals, brown bear hide night & blooming orchid walks", desc: "Unique 8-day expedition taking advantage of long Nordic white nights when independent yearling lynx hunt actively and rare Siberian flying squirrels forage before sunset. Includes Alutaguse bear hide and blooming wild orchid pastures.", url: "https://natourest.ee/trip/lynx-and-flying-squirrel-tour/" },
-      { provider: "Natourest", title: "Golden and White-Tailed Eagle Photography in Winter Comfort Hide", region: "Northern Estonia", location: "Alutaguse (130 km from Tallinn)", cost: "€60/person (or €190 private premium hide)", costGroup: "Paid", category: "Wildlife photography", duration: "1 Day (daylight hours)", season: "Late December–early March", included: "Heated hide, 8 photo openings, warm running water, WC, electric kettle, bunk beds, and 300m walking trail from parking", desc: "Specialized heated winter hide in Alutaguse for photographing Golden Eagles, White-tailed Eagles, Ural and Pygmy Owls, Woodpeckers, and visiting carnivores. Accommodates up to 8 photographers comfortably.", url: "https://natourest.ee/trip/golden-and-white-tailed-eagle-photography-in-winter-comfort-hide/" },
-      { provider: "Natourest", title: "Golden Eagle Photography Hide", region: "Northern Estonia", location: "Alutaguse", cost: "€190 (listed rate)", costGroup: "Paid", category: "Wildlife photography", season: "Late December–early March", desc: "Photograph golden eagles from a hide in Alutaguse. Late-December 2026 departures are listed; check current availability.", url: "https://natourest.ee/trip/golden-eagle-photography-hide/" },
-      { provider: "Natourest", title: "Spring Birding in Estonia", region: "Various locations", location: "Matsalu, Haapsalu & Western Estonia", cost: "€1,650–€1,850/person", costGroup: "Paid", category: "Birdwatching", duration: "8 Days / 7 Nights", season: "Late April–early May", included: "Expert birding guide, all ground transport, lodging, meals, spotting scopes, optics support", desc: "Prime spring migration expedition across Estonia. Witness calling Ural and Pygmy Owls, 8 species of drumming woodpeckers, lekking Capercaillies, and massive flocks of Arctic sea ducks, divers, and waders building energy reserves.", url: "https://natourest.ee/trip/spring-birding-in-estonia/" },
-      { provider: "Natourest", title: "Steller’s Eider Tour", region: "Northern Estonia", costGroup: "Paid", category: "Birdwatching", desc: "A birdwatching tour focused on Steller’s eiders. Check the product page for trip details.", url: "https://natourest.ee/trip/stellers-eider-tour-2/" },
-      { provider: "Natourest", title: "Steller’s Eider Weekend – Smart-Guided Tour", region: "Western Coast & Islands", location: "Saaremaa coast & Harilaid", cost: "€590/person", costGroup: "Paid", category: "Smart-guided birdwatching", duration: "4 Days / 3 Nights", season: "Late December–early March", included: "Smart GPS navigation app with offline maps, detailed daily itinerary, curated coastal birding coordinates & accommodations", desc: "Winter coastal birding expedition targeting the 600–1,000 rare Steller’s Eiders wintering off Saaremaa, along with 7 woodpecker species, lekking capercaillies, and winter owls.", url: "https://natourest.ee/trip/stellers-eider-weekend-smart-guided-tour/" },
-      { provider: "Natourest", title: "Tailor-Made Smart-Guided Nature Tour", region: "Various locations", location: "Custom across Estonia", cost: "From €490 (custom quote based on itinerary)", costGroup: "Paid", category: "Custom nature tour", duration: "Flexible (3–10 days)", season: "Year-round (adapted to target species)", included: "Personalized GPS itinerary loaded onto smart device, offline navigation, curated hides, and booked accommodations", desc: "Customized independent nature tour tailored to your priority species (bears, lynx, flying squirrels, or rare birds). NaTourEst provides updated local intelligence, bookings, and turn-by-turn smart guidance.", url: "https://natourest.ee/trip/tailor-made-smart-guided-tour/" },
-      { provider: "Natourest", title: "Estonia Wildlife & Nature Tour", region: "Northern Estonia", costGroup: "Paid", category: "Wildlife & nature", duration: "3 days", desc: "A three-day tour combining bear watching, wildlife viewing, Lahemaa National Park and guided bog walking. No fixed departure is listed.", url: "https://natourest.ee/trip/estonia-wildlife-nature-tour-bears-moose-lahemaa-national-park-bog-walki/" },
-      { provider: "Natourest", title: "Snowshoe Tour on Wolf Tracks", region: "Northern Estonia", location: "Kõrvemaa & Alutaguse wilderness", cost: "€45–€65/person (group or private on request)", costGroup: "Paid", category: "Wildlife & snowshoeing", duration: "Approx. 4–5 hours (finishes after dark)", season: "Late January–March (wolf rutting season)", included: "Quality snowshoes, headlamps, tracking guide Bert Rähni, folklore & modern science insights, warm hot tea", desc: "Trek on snowshoes deep into the wolf pack territories during the peak winter rutting season (hundikuu). Follow fresh paw tracks on the snow and finish after dark for a rare chance to hear the haunting chorus of a howling wild wolf pack.", url: "https://natourest.ee/trip/snow-shoe-tour-on-the-wolf-tracks/" },
-
-      { provider: "Capture Estonia", title: "Lahemaa National Park Nature & Culture Day Tour", region: "Northern Estonia", location: "Viru Bog, Käsmu, Altja & Palmse Manor", cost: "€125/person (for 2); €240 (solo); +€90 extra person", costGroup: "Paid", category: "Nature & culture", duration: "6–8 hours (extended 9h available)", season: "Year-round (10% discount Nov 15–Mar 15)", included: "Comfortable roundtrip transport from Tallinn, personal guide, Viru Bog boardwalks, coastal cliffs & fishing village stops", desc: "Full-day immersive journey connecting wild northern nature and Baltic German history. Explore Viru Bog observation towers, rocky capes at Pärispea and Juminda, Altja fishing village, and grand Palmse/Sagadi estates.", url: "https://www.capture-estonia.ee/nature-culture-day-tour-in-lahemaa-national-park/" },
-      { provider: "Capture Estonia", title: "Bird Watching Tour Around Tallinn", region: "Tallinn & Harju", location: "Paljassaare, alvars & coastal Tallinn", cost: "€110–€135/person (for 2); €210–€260 (solo)", costGroup: "Paid", category: "Birdwatching", duration: "5–6 hours (extended 8h available)", season: "Year-round (peaks in spring & autumn)", included: "Expert birding guide, return transport from Tallinn, professional spotting scope & binoculars", desc: "Explore capital bird habitats including Paljassaare Nature Reserve and coastal alvars. Spot waterfowl, raptors, and passerines with optics provided.", url: "https://www.capture-estonia.ee/bird-wathing-tour-tallinn-area/" },
-      { provider: "Capture Estonia", title: "Bird Watching Tour: North & West Estonia", region: "Western Coast & Islands", location: "Matsalu National Park & Silma Reserve", cost: "€140–€170/person (for 2); €270–€320 (solo)", costGroup: "Paid", category: "Birdwatching", duration: "9–10 hours (full day)", season: "15 March–15 October", included: "Return transport from Tallinn, local lunch & hot drinks, optics & expert guide", desc: "Full-day expedition along the East Atlantic Flyway through Matsalu Bay and Silma lagoons to witness massive waterfowl migrations and rare coastal species.", url: "https://www.capture-estonia.ee/bird-watching-tour-to-west-estonia-day-tour/" },
-      { provider: "Capture Estonia", title: "Matsalu Nature Boat Trip & Wetland Experience", region: "Western Coast & Islands", location: "Matsalu Bay", costGroup: "Paid", category: "Boat trip & nature", desc: "An optional boat-trip add-on to the West Estonia birding tour; confirm availability and arrangements directly.", url: "https://www.capture-estonia.ee/bird-watching-tour-to-west-estonia-day-tour/" },
-      { provider: "Capture Estonia", title: "Seal & Seabird Watching Boat Safari", region: "Northern Estonia", location: "Kaberneeme harbour, Kolga Bay", cost: "€135/adult, €85/child (min group fee €395)", costGroup: "Paid", category: "Marine wildlife", duration: "Approx. 4 hours", season: "Spring to early autumn", included: "Specialised observation boat with silent electric motor, mirrored windows, marine guide", desc: "Small-group marine safari in Kolga Bay. Observe wild grey seals and coastal seabirds from a specialised observation boat designed for unobtrusive viewing.", url: "https://www.capture-estonia.ee/seal-seabird-watching-photography-boat-safari/" },
-      { provider: "Capture Estonia", title: "Nature Day Tour", region: "Various locations", location: "North-West Estonia, Kõrvemaa or Lahemaa", costGroup: "Paid", category: "Nature tour", duration: "About 6 hours", desc: "A guided nature outing with walks; the route varies by season and conditions.", url: "https://www.capture-estonia.ee/nature-day-tour/" },
-      { provider: "Capture Estonia", title: "Nature Photography Tour", region: "Various locations", location: "Tailored locations across Estonia", cost: "€125/person (for 2); €235 (solo); camera rent €40", costGroup: "Paid", category: "Photography", duration: "6 hours (extended 8h available)", season: "Year-round (10% discount Nov 15–Mar 15)", included: "Professional nature & wildlife photographer guidance, field tuition, animal tracking, transport, and optional camera/lens hire", desc: "Private field workshop led by an established Estonian wildlife photographer. Learn animal behavior, tracking signs, and capture rare forest species, raptors, and misty peatland dawns with pro gear support.", url: "https://www.capture-estonia.ee/nature-photography-tour/" },
-      { provider: "Capture Estonia", title: "Wildlife Watching Tour", region: "Western Coast & Islands", location: "Matsalu coastal meadows, forests & lookout towers", cost: "€125/person (for 2); €87 (for 3); €70 (for 4)", costGroup: "Paid", category: "Wildlife watching", duration: "6–8 hours", season: "Year-round (peaks in spring & autumn)", included: "Return transport from Tallinn, professional guide, spotting scopes, light snacks & hot drinks (5–7 km moderate trail walk)", desc: "Guided expedition from Tallinn to the premier wildlife corridors of Western Estonia. Search for Elk (Moose), Wild Boar, Beavers, Roe Deer, and carnivore tracks across varied coastal and woodland habitats.", url: "https://www.capture-estonia.ee/wildlife-watching/" },
-      { provider: "Capture Estonia", title: "Tallinn History & Photography Tour with Film Camera", region: "Tallinn & Harju", location: "Tallinn", costGroup: "Paid", category: "History & photography", duration: "About 3–3.5 hours", season: "All seasons (provider stated)", desc: "A guided Tallinn history and photography tour with a film camera, film development and scanning included.", url: "https://www.capture-estonia.ee/tallinn-history-film-camera-tour/" },
-      { provider: "Capture Estonia", title: "Photography Tour", region: "Various locations", costGroup: "Paid", category: "Photography", duration: "About 2–6 hours in nature or 2–4 hours in the city", desc: "Choose a nature or city photography tour and arrange the location with the provider.", url: "https://www.capture-estonia.ee/happy-snapper-photography-tour/" },
-
-      { provider: "Paasiku Dogs Manor", title: "Sledding with Siberian Huskies", region: "Tallinn & Harju", location: "Paasiku Dogs Manor", cost: "Inquire for quote (max 6 people per booking)", costGroup: "Paid", category: "Husky activity", duration: "1.5–2 hours (active sledding ~20–30 min)", season: "January–March (snow-dependent)", included: "Breed intro, dog harness prep, 3 km sled run with 6–8 huskies, meeting ponies & alpacas", desc: "Thrilling winter dogsledding through the countryside. 1 adult acts as standing musher guiding the team of 6–8 dogs while a passenger sits in the sled.", url: "https://paasiku.ee/en/sledding-in-with-siberian-huskies/" },
-      { provider: "Paasiku Dogs Manor", title: "Hiking with Siberian Huskies", region: "Tallinn & Harju", location: "Paasiku Dogs Manor", cost: "€45/person (group discounts available)", costGroup: "Paid", category: "Hiking with animals", duration: "Approx. 2.5–3 hours", included: "Breed history, individual dog meet & cuddle, special hiking harness & line, meeting ponies & alpacas", desc: "Active guided hike around Paasiku manor paired with a personal Siberian husky using hands-free pulling harnesses. Suitable for ages 10+.", url: "https://paasiku.ee/en/hiking-with-siberian-huskies/" },
-      { provider: "Paasiku Dogs Manor", title: "Kicksledding / Kickbike Tour", region: "Tallinn & Harju", location: "Paasiku Dogs Manor", cost: "€40/person, excluding tax", costGroup: "Paid", category: "Outdoor activity", duration: "About 1.5–2 hours", included: "Introduction to the dogs and other animals, instruction, 3 km track and guide", desc: "No dogs accompany the ride. The provider chooses a kicksled or kickbike according to the weather; the activity includes instruction, a guide, a 3 km track and an introduction to the dogs and other animals.", url: "https://paasiku.ee/en/kicksledding/" },
-      { provider: "Paasiku Dogs Manor", title: "Photoshoot with Siberian Huskies", region: "Tallinn & Harju", location: "Paasiku Dogs Manor", cost: "€250, excluding tax", costGroup: "Paid", category: "Photography", duration: "Up to 45 minutes", included: "3–5 locations and about 40 edited photos", desc: "A husky photoshoot for small groups, families or couples.", url: "https://paasiku.ee/en/photoshoots/" },
-      { provider: "Paasiku Dogs Manor", title: "Children’s Activity Packages", region: "Tallinn & Harju", location: "Paasiku Dogs Manor", costGroup: "Paid", category: "Family activity", desc: "Children's party packages include a manor visit, hiking or a picnic. Check the provider page for package details and current availability.", url: "https://paasiku.ee/en/packages-for-kids/" },
-      { provider: "Paasiku Dogs Manor", title: "Tour in Paasiku Dogs Manor", region: "Tallinn & Harju", location: "Paasiku Dogs Manor", cost: "€25/adult; €20/child; private tour €150 (excluding tax)", costGroup: "Paid", category: "Dogs & manor tour", duration: "About 1.5 hours", included: "Siberian husky introduction, meet the dogs, ponies and an alpaca", desc: "Meet the Siberian huskies, ponies and an alpaca on a manor tour. Groups can include up to 70 people, with a discount listed from 10 people; the private-tour rate covers up to 2 adults and 2 children.", url: "https://paasiku.ee/en/tour-in-paasiku-dogs-manor/" },
-      { provider: "Paasiku Dogs Manor", title: "Party in a Glamping Tent", region: "Tallinn & Harju", location: "Paasiku Dogs Manor", cost: "€190 for 6 people; +€30 per additional guest (excluding tax)", costGroup: "Paid", category: "Picnic & celebration", included: "Welcome drink, snacks, manor tour and decorated glamping tent for picnics", desc: "Celebrate a birthday or gather with friends in a decorated glamping tent. The package includes a welcome drink, snacks and a manor tour; optional add-ons are available, and catering can be arranged by agreement.", url: "https://paasiku.ee/en/glamping-party-package/" },
-      { provider: "Paasiku Dogs Manor", title: "Romantic Glamping Picnic for Two", region: "Tallinn & Harju", location: "Paasiku Dogs Manor", cost: "€99 for two (excluding tax)", costGroup: "Paid", category: "Picnic & glamping", included: "Manor tour, picnic basket and a picnic in a decorated glamping tent", desc: "A picnic for two in a decorated glamping tent, with a manor tour and picnic basket. Check the provider page for arrangements and optional add-ons.", url: "https://paasiku.ee/en/romantic-glamping/" },
-
-      { provider: "Tallinn Adventure Parks", title: "Pirita Adventure Park", region: "Tallinn & Harju", location: "Merivälja tee 5A, Tallinn", cost: "Adults €28, Youth €20–€22, Kids €10", costGroup: "Paid", category: "Adventure park", duration: "2–3 hours", season: "April–October", included: "Safety harness, helmet, safety briefing and access to all 6 high adventure trails", desc: "Adventure park in Pirita pine forest by the sea with 6 high adventure tracks, long beach ziplines, and a dedicated kids park.", url: "https://piritaseikluspark.ee/en/", linkLabel: "Official information ↗" },
-      { provider: "Tallinn Adventure Parks", title: "Nõmme Adventure Park", region: "Tallinn & Harju", location: "Külmallika 15a, Tallinn", cost: "Adults €28, Youth €20–€22, Kids €10", costGroup: "Paid", category: "Adventure park", duration: "2–3 hours", season: "April–October", included: "Safety harness, helmet, briefing, 7 adventure trails and speed zipline", desc: "Adventure park nestled in the scenic forest terrain of Nõmme with 7 adventure trails and a thrilling speed zipline.", url: "https://piritaseikluspark.ee/en/", linkLabel: "Official information ↗" },
-      { provider: "Tallinn Adventure Parks", title: "Adventure Park Group Visits and Events", region: "Tallinn & Harju", costGroup: "Unknown", category: "Climbing & group activity", season: "2026 season ended; parks reopen spring 2027", desc: "Options include birthday visits, team or group visits using the team course, and school-group packages. Contact the park to arrange a visit and confirm 2027 availability.", url: "https://piritaseikluspark.ee/en/", linkLabel: "Official information ↗" },
-
-      { provider: "Saaremaa Museum", title: "Kuressaare Castle Museum", region: "Western Coast & Islands", location: "Lossihoov 1/1, Kuressaare", cost: "€13/adult (2026 museum ticket)", costGroup: "Paid", category: "Museum & heritage", season: "Winter: Wed–Sun; summer: daily (2026 hours)", desc: "Explore the Saaremaa Museum at Kuressaare Castle. Check visitor information for current admission, seasonal hours and access details.", url: "https://linnus.samu.ee/en/visitors-info/", linkLabel: "Official information ↗" },
-      { provider: "Saaremaa Museum", title: "Aavik’s House Museum", region: "Western Coast & Islands", location: "Vallimaa 7, Kuressaare", cost: "€6/adult; guided tour €60", costGroup: "Paid", category: "Museum & heritage", duration: "Guided tour: 1 hour", desc: "Visit Aavik’s House Museum; the visitor page lists admission and guided-tour rates.", url: "https://aavikud.samu.ee/en/visitor-info/", linkLabel: "Official information ↗" },
-      { provider: "Saaremaa Museum", title: "Mihkli Farm Museum", region: "Western Coast & Islands", location: "Viki village, Saaremaa", cost: "Adult €8, Concession €6, Family €17 (Museum Card accepted)", costGroup: "Paid", category: "Museum & heritage", duration: "1–2 hours", season: "Regular open May–September (other times by arrangement)", included: "Full access to historic 18th-century farmyard, thatched buildings, and permanent exhibits", desc: "An authentic, exceptionally preserved 18th-century West Saaremaa farm complex with thatched roofs, windmills, and original household items.", url: "https://mihkli.samu.ee/en/visitor-info", linkLabel: "Official information ↗" },
-
-      { provider: "RMK (State Forest Management Centre)", title: "Viru Bog Nature Trail", region: "Northern Estonia", location: "Lahemaa National Park", cost: "Free public access", costGroup: "Free", category: "Self-guided nature trail", duration: "3.5 km; 5.5 km loop option", desc: "Follow a marked route through forest and Viru bog to an observation tower and information boards; a 5.5 km loop option is available. Stay on the boardwalk to protect the bog.", url: "https://rmk.ee/en/exploring-nature/where-to-go/viru-bog-nature-trail-3-5-km/", linkLabel: "Official trail details ↗" },
-      { provider: "RMK (State Forest Management Centre)", title: "Kakerdaja Nature Trail", region: "Northern Estonia", location: "Aegviidu–Kõrvemaa Recreation Area (Noku / Kalajärve)", cost: "Free public access", costGroup: "Free", category: "Self-guided nature trail", duration: "7 km (2–3 hours)", season: "Year-round (swimming in summer, bogshoeing in winter)", included: "4 km bog boardwalk across Kakerdi peat lake, 16 educational info stands, Noku & Kalajärve campfire sites with fire pits, parking & dry toilets", desc: "Classic 7 km loop through the primeval Kõrvemaa peatlands. Features 4 km of boardwalk passing deep bog pools and Lake Kakerdi, ancient sacred island Hiiesaar, diverse esker forests around Lake Suur-Kalajärv, and equipped RMK campfire sites with firewood.", url: "https://rmk.ee/en/exploring-nature/where-to-go/kakerdaja-nature-trail-7-km/", linkLabel: "Official trail details ↗" },
-      { provider: "RMK (State Forest Management Centre)", title: "Oandu Old-Growth Forest Nature Trail", region: "Northern Estonia", location: "Lahemaa National Park", cost: "Free public access", costGroup: "Free", category: "Self-guided forest trail", duration: "4.7 km", desc: "Follow a marked route through old-growth and other forest types, with information boards. RMK recommends visiting the forest exhibition at Oandu Visitor Centre before the walk.", url: "https://rmk.ee/en/exploring-nature/where-to-go/oandu-old-growth-forest-nature-trail-4-7-km/", linkLabel: "Official trail details ↗" },
-      { provider: "RMK (State Forest Management Centre)", title: "Riisa Study Trail", region: "Western Coast & Islands", location: "Soomaa National Park", cost: "Free public access", costGroup: "Free", category: "Self-guided bog trail", duration: "4.8 km", desc: "Follow a route through Riisa bog and forest beside the Navesti River, with an observation tower and rest areas. The first 1,220 metres of boardwalk, up to the first bog pool, is described as wheelchair- and stroller-accessible.", url: "https://rmk.ee/en/exploring-nature/where-to-go/riisa-study-trail-4-8-km/", linkLabel: "Official trail details ↗" },
-      { provider: "RMK (State Forest Management Centre)", title: "Rannametsa–Tolkuse Nature Study Trail", region: "Western Coast & Islands", location: "Luitemaa Nature Reserve, Pärnu County", cost: "Free public access", costGroup: "Free", category: "Self-guided bog trail", duration: "2.2 km circular route", desc: "A boardwalk route over coastal dunes to Tolkuse bog and an observation tower. The section from the parking area to the bog pool is described as suitable for wheelchairs and strollers.", url: "https://rmk.ee/en/exploring-nature/where-to-go/rannametsa-tolkuse-nature-study-trail-2-2-km/", linkLabel: "Official trail details ↗" },
-      { provider: "RMK (State Forest Management Centre)", title: "Rõuge Primeval Valley Hiking Trail", region: "Tartu & Southern Estonia", location: "Haanja Nature Park, Võru County", cost: "Free public access", costGroup: "Free", category: "Self-guided hiking trail", duration: "10 km", desc: "A route past the Rõuge lakes and Hinni canyon. RMK notes that part of the trail crosses private land, free-roaming dogs may be present, and the route has changed; follow current trail signs and RMK's updated route information.", url: "https://rmk.ee/en/exploring-nature/where-to-go/rouge-primeval-valley-hiking-trail-10-km/", linkLabel: "Official trail details ↗" },
-      { provider: "RMK Sagadi Manor", title: "Snowshoe Hike in Lahemaa", region: "Northern Estonia", location: "Lahemaa", costGroup: "Paid", category: "Guided snowshoeing", duration: "About 2.5 hours", season: "Winter", included: "Guide; introduction to snowshoeing", desc: "A guided 2.5-hour snowshoe hike in Lahemaa for groups of up to 10. Request a group offer from the provider.", url: "https://rmk.ee/en/sagadi-manor/additional-services/nature-tours/", linkLabel: "Official tour details ↗" },
-      { provider: "RMK Sagadi Manor", title: "Night Trip to the Old-Growth Forest", region: "Northern Estonia", cost: "€105 in Estonian; €120 in English or Finnish (group price)", costGroup: "Paid", category: "Guided wildlife & forest tour", duration: "1.5 hours", included: "Guide and gear; transport from Sagadi Manor is not included", desc: "An evening or pre-dawn guided outing in Oandu primeval forest or Altja forests, listening for nocturnal activity and looking for wildlife signs. Groups are listed for 10–20 people.", url: "https://rmk.ee/en/sagadi-manor/additional-services/nature-tours/", linkLabel: "Official tour details ↗" },
-      { provider: "RMK Sagadi Manor", title: "Guided Nature Exploration in Lahemaa", region: "Northern Estonia", location: "Lahemaa forests", costGroup: "Paid", category: "Guided forest hike", duration: "1.5–2 hours", desc: "A guided forest walk with nature guide Peeter Hussar for groups of 10–20. Finnish and Russian versions are also available; request a group offer.", url: "https://rmk.ee/en/sagadi-manor/additional-services/nature-tours/", linkLabel: "Official tour details ↗" },
-      { provider: "EstFish", title: "Guided Sea Trout Fishing Trip", region: "Various locations", location: "Estonian coastal waters", cost: "€250", costGroup: "Paid", category: "Guided fishing", included: "Guided wade fishing, fishing licence for the day, lunch and warm drink; gear rental available separately", desc: "Wade fish for sea trout with a guide, with a day licence, lunch and a warm drink included. Gear rental is available separately; contact EstFish to arrange the trip.", url: "https://www.estfish.ee/en/e-shop/products/sea-trout-fishing-with-fish", linkLabel: "Official trip details ↗" },
-      { provider: "EstFish", title: "Guided Sea Trout Fishing Trip for Two", region: "Various locations", location: "Estonian coastal waters", cost: "€300", costGroup: "Paid", category: "Guided fishing", duration: "6 hours", included: "Guide, wade-fishing instruction, lunch and warm drink; fishing rights for the day", desc: "A six-hour guided sea trout fishing trip for two, including wade-fishing instruction, lunch, a warm drink and fishing rights for the day. Wading and fishing equipment can be rented separately.", url: "https://www.estfish.ee/en/e-shop/products/guided-sea-trout-sishing-trip-for-two-puuk-kahele-koos-kalastusgiidiga", linkLabel: "Official trip details ↗" },
-      { provider: "EstFish", title: "Boat Fishing Trip", region: "Various locations", location: "Estonian coastal waters", cost: "€450", costGroup: "Paid", category: "Boat fishing", duration: "6 hours", included: "Boat and guide, fishing equipment, fuel, safety equipment, lunch and fishing licence for the day", desc: "Take a six-hour guided motorboat fishing trip for up to three people. Possible catches listed include sea trout, pike, zander and garfish.", url: "https://www.estfish.ee/en/e-shop/products/boat-fishing-trips-sea-trout-pike-ja-garfish", linkLabel: "Official trip details ↗" },
-      { provider: "EstFish", title: "Seal Watching Trip to the Malusi Islands", region: "Northern Estonia", location: "Malusi Islands, Kolga Bay", cost: "€300", costGroup: "Paid", category: "Wildlife boat tour", duration: "Up to 3 hours", season: "16 July–31 October 2027 (provider-listed dates)", included: "Boat ride, life jackets, light snacks and drinks", desc: "A boat-based seal-watching trip to the Malusi Islands for groups of up to four. Stay aboard to avoid disturbing the seals.", url: "https://www.estfish.ee/en/e-shop/products/hulgevaatlusretk", linkLabel: "Official trip details ↗" },
-      { provider: "EstFish", title: "Ice Fishing Trip", region: "Various locations", location: "Pärnu Bay or Lake Peipus", cost: "€175 per person", costGroup: "Paid", category: "Ice fishing", season: "Winter", included: "Fishing and safety equipment", desc: "Try winter perch fishing on an introductory trip suitable for adults and children. Fishing and safety equipment are included; larger groups should enquire.", url: "https://www.estfish.ee/en/e-shop/products/jaapuuk", linkLabel: "Official trip details ↗" },
-      { provider: "EstFish", title: "Fishing Equipment Rental", region: "Various locations", location: "Available with an EstFish fishing package", cost: "€30", costGroup: "Paid", category: "Fishing equipment rental", included: "Rod, reel, line, lures, wading trousers and boots", desc: "Equipment rental for one person, available only with an EstFish fishing package.", url: "https://www.estfish.ee/en/e-shop/products/fishing-equipment-rental", linkLabel: "Official rental details ↗" },
-      { provider: "Fishing Trips Estonia", title: "Guided Salmon Fishing", region: "Various locations", location: "Estonian salmon waters (specific location arranged with the guide)", costGroup: "Unknown", category: "Salmon fishing", included: "Waders and boots, specialist spinning set and lures, polarized sunglasses, required licences", desc: "Fish for salmon with a guide; waders, boots, specialist spinning gear, lures, polarized sunglasses and required licences are included. The location is arranged with the guide; contact them for pricing and trip details.", url: "https://fishingtrips.ee/en/services/salmon-fishing/", linkLabel: "Official trip details ↗" },
-      { provider: "Fishing Trips Estonia", title: "Guided Fly Fishing", region: "Various locations", location: "Estonian rivers", costGroup: "Unknown", category: "Fly fishing", desc: "Guided fly fishing on Estonian rivers for wild brown trout and sea trout; spring creeks are among the waters used. Contact the guide for pricing and arrangements.", url: "https://fishingtrips.ee/en/services/fly-fishing/", linkLabel: "Official trip details ↗" },
-      { provider: "Fishing Trips Estonia", title: "Guided Shore Angling", region: "Various locations", location: "Estonian lakes and shore waters", costGroup: "Unknown", category: "Angling", desc: "Learn shore angling with a guide, using a simple pole rod or a reel rod. The provider lists the trip as suitable for beginners, children and families; contact the guide for pricing and arrangements.", url: "https://fishingtrips.ee/en/services/angling/", linkLabel: "Official trip details ↗" },
-      { provider: "Fishing Trips Estonia", title: "Crayfishing in Estonia", region: "Various locations", location: "Location arranged with the provider", costGroup: "Unknown", category: "Crayfishing", season: "August only (per provider)", desc: "An evening group activity using crayfish traps, with camping and a campfire among the described options. The listing says crayfishing is permitted only in August; verify current rules and availability with the provider before booking.", url: "https://fishingtrips.ee/en/services/crayfishing/", linkLabel: "Official trip details ↗" },
-      { provider: "Fishing Trips Estonia", title: "Guided Boat Fishing on Estonian Lakes and Rivers", region: "Various locations", location: "Võrtsjärv, Lake Peipus, Lake Saadjärv or the Suur-Emajõgi River; provider-arranged", costGroup: "Unknown", category: "Boat fishing", desc: "Guided boat fishing, with locations and target species varying by season. Listed waters include Võrtsjärv, Lake Peipus, Lake Saadjärv and the Suur-Emajõgi; listed species include sea trout, pike, garfish, zander and perch. Contact the guide for pricing and arrangements.", url: "https://fishingtrips.ee/en/services/boat-fishing/", linkLabel: "Official trip details ↗" },
-      { provider: "Fishing Trips Estonia", title: "Guided Ice Fishing in Vooremaa", region: "Various locations", location: "Vooremaa lakes", costGroup: "Unknown", category: "Ice fishing", season: "Winter", desc: "Guided winter ice fishing on Vooremaa's lakes, listed as suitable for children and available for team events. Contact the guide to confirm ice conditions, pricing and availability.", url: "https://fishingtrips.ee/en/services/icefishing/", linkLabel: "Official trip details ↗" },
-      { provider: "Fishing Trips Estonia", title: "Fishing Team-Building Events", region: "Various locations", location: "Vooremaa, Võrtsjärv, Emajõgi and other partner-arranged locations", costGroup: "Unknown", category: "Fishing team-building", desc: "Custom team events can include boat fishing or ice fishing. Catering, accommodation or seminars may be arranged through local partners; contact the provider for pricing and details.", url: "https://fishingtrips.ee/en/services/team-building-events/", linkLabel: "Official event details ↗" },
-      { provider: "Fishing Trips Estonia", title: "Wild Catering", region: "Various locations", location: "Arranged with the provider", costGroup: "Unknown", category: "Wild catering", desc: "Outdoor catering featuring food from the forest and water, with fish or meat prepared in front of guests. Contact the provider for pricing and arrangements.", url: "https://fishingtrips.ee/en/services/wild-catering/", linkLabel: "Official service details ↗" },
-      { provider: "360 KRAADI", title: "Guided Sea Kayak Tours", region: "Western Coast & Islands", location: "Estonia’s western coast and islands", costGroup: "Paid", category: "Sea kayaking", duration: "2–4 hours", season: "Year-round, weather permitting", desc: "Approach islands off Estonia’s western coast by sea kayak, with short nature walks and cultural heritage. Listed group size is 10–50, and the minimum age is 14; ask about scheduled tours or arranging a group.", url: "https://360.ee/en/matkad/kayak-tours/", linkLabel: "Official tour details ↗" },
-      { provider: "360 KRAADI", title: "Canoeing on the Keila River", region: "Tallinn & Harju", location: "Keila to Keila-Joa", cost: "€39 + VAT per participant; minimum 12", costGroup: "Paid", category: "Canoeing", duration: "About 2–3.5 hours; 8–14 km", included: "Canoe, paddles, dry bags, life vests and guide", desc: "Paddle downstream on an easy, beginner-friendly guided route from Keila toward Keila-Joa bridge (8–14 km). The provider arranges car transfers to the finish.", url: "https://360.ee/en/matkad/kayak-tours/canoeing-on-the-keila-river/", linkLabel: "Official tour details ↗" },
-      { provider: "360 KRAADI", title: "Fifth-Season Canoe Trip in Soomaa", region: "Western Coast & Islands", location: "Near Riisa in Soomaa; meeting point varies with water level", costGroup: "Paid", category: "Canoeing", duration: "2–3 hours", season: "March–April, depending on weather and water", desc: "Canoe through Soomaa’s high-water landscape, including floodwater areas and river meadows near the Karuskose, Raudna and Halliste rivers. The meeting point can change with water levels and is confirmed with participants.", url: "https://360.ee/en/matkad/kayak-tours/fifth-season-in-soomaa/", linkLabel: "Official tour details ↗" },
-      { provider: "360 KRAADI", title: "Canoe Trip and Bogshoe Hike in Seli Bog", region: "Northern Estonia", location: "Jägala River at Simisalu Bridge and Seli Bog", costGroup: "Paid", category: "Canoeing & hiking", duration: "About 4–5 hours; 8 km by canoe and 4 km on foot", included: "Canoe, paddle, life jacket, snowshoes, guide, waterproof bags and lunch", desc: "Paddle about 8 km along the Jägala River, then walk about 4 km in Seli Bog with a guide. The trip is described as requiring no prior canoeing or snowshoe experience.", url: "https://360.ee/en/matkad/nature-walk-and-bogshoeing/canoe-trip-along-the-river-to-a-bogshoe-hike-in-the-bog/", linkLabel: "Official tour details ↗" },
-      { provider: "360 KRAADI", title: "Canoe and Snowshoe Trip in Põhja-Kõrvemaa", region: "Northern Estonia", location: "Soodla River and Koitjärve Bog", costGroup: "Paid", category: "Canoeing & snowshoeing", duration: "One day; about 10 km by canoe and 3 km on foot", included: "Canoe, paddle, life jacket, snowshoes, guide, waterproof bags and picnic lunch", desc: "Paddle about 10 km on the Soodla River, then snowshoe about 3 km in Koitjärve Bog. The trip is described as easy, with no prior canoeing or snowshoe experience required.", url: "https://360.ee/en/matkad/kayak-tours/combined-canoe-and-snowshoe-trip-in-pohja-korvemaa-nature-reserve/", linkLabel: "Official tour details ↗" },
-      { provider: "Matkajuht", title: "Ahja River Canoe, Kayak or Raft Trip", region: "Tartu & Southern Estonia", location: "Ahja River, Põlva County", cost: "€30/adult; €20/child (provider-listed)", costGroup: "Paid", category: "Canoeing & kayaking", duration: "Route options: 7–24 km; about 1.5–6 hours", included: "Canoe, kayak or raft, life vest, pre-trip instruction and transport logistics", desc: "Choose a short, half-day or full-day route on the Ahja River, including Kiidjärve–Taevaskoja and Koorvere–Kiidjärve. Canoe, kayak and raft options are available; confirm the route and arrangements with Matkajuht.", url: "https://www.matkajuht.ee/matkad/kanuumatkad-ahja-j%C3%B5el/", linkLabel: "Official trip details ↗" },
-      { provider: "Matkajuht", title: "Võhandu River Canoe, Kayak or Raft Trip", region: "Tartu & Southern Estonia", location: "Võhandu River, Leevi–Reo area", cost: "€30/adult; €20/child (provider-listed)", costGroup: "Paid", category: "Canoeing & kayaking", duration: "2–6 hours; 9–24 km", season: "Spring–autumn", desc: "Paddle the Võhandu by canoe, kayak or raft on a guided trip. Scheduled trips use the Leevi–Reo section; custom trips can be arranged on other sections of the river.", url: "https://www.matkajuht.ee/matkad/p%C3%A4evane-kanuumatk-s%C3%BCstamatk-parvematk-v%C3%B5handu/", linkLabel: "Official trip details ↗" },
-      { provider: "RMK (State Forest Management Centre)", title: "RMK Nature Trails and Outdoor Destinations", region: "Various locations", cost: "Free public access", costGroup: "Free", category: "Public trail network", desc: "RMK's official nature portal links to hundreds of marked trails, forest huts, observation towers, and campfire sites across Estonia.", url: "https://rmk.ee/en/exploring-nature/", linkLabel: "RMK nature portal ↗" },
-      { provider: "RMK (State Forest Management Centre)", title: "Taevaskoja-Otteni Hiking Trail", region: "Tartu & Southern Estonia", location: "Ahja River Valley Landscape Reserve, Põlvamaa", cost: "Free public access", costGroup: "Free", category: "Self-guided nature trail", duration: "3.8 km circular (or 6.8 km full loop)", season: "Year-round (swimming, foliage & winter snow walks)", included: "Marked Ahja river trail, Suur Taevaskoda sandstone cliffs, Otteni historic arched bridge, watermill ruins, campfire sites & parking", desc: "Estonia's most famous river valley walk along the primeval Ahja River. Gaze up at the dramatic 24-meter red Devonian sandstone outcrops of Suur and Väike Taevaskoda, historical movie filming locations, and Otteni bridge.", url: "https://rmk.ee/en/exploring-nature/where-to-go/taevaskoja-otteni-taevaskoja-hiking-trail-38-km/", linkLabel: "Official trail details ↗" },
-      { provider: "RMK (State Forest Management Centre)", title: "Meenikunno Bog Hiking Trail", region: "Tartu & Southern Estonia", location: "Meenikunno Landscape Reserve, Põlvamaa", cost: "Free public access", costGroup: "Free", category: "Self-guided nature trail", duration: "5.8 km (2.4 km boardwalk + 3.4 km forest)", season: "Year-round (wheelchair-friendly section, berry picking)", included: "2.4 km bog boardwalk across hollows & pools, Suur Suujärv swimming lake, Liipsaare observation tower, forest hut & campfire sites", desc: "Spectacular peatland trail passing mirror-smooth bog lakes and vibrant moss carpets. Features Liipsaare lookout tower, refreshing bog lake swimming in Suur Suujärv, 13 educational stops, and an overnight RMK forest hut.", url: "https://rmk.ee/en/exploring-nature/where-to-go/meenikunno-hiking-trail-5-8-km/", linkLabel: "Official trail details ↗" },
-      { provider: "RMK (State Forest Management Centre)", title: "Mukri Bog Nature Trail", region: "Western Coast & Islands", location: "Mukri Nature Reserve, Rapla County", cost: "Free public access", costGroup: "Free", category: "Self-guided nature trail", duration: "2.5 km", season: "Year-round (swimming in summer, bog-walking)", included: "Boardwalk through pristine peatland, wooden observation tower, Lake Eidapere swimming, picnic shelter, campfire site with wood & parking", desc: "One of Estonia's oldest and most accessible raised bogs, dating back nearly 10,000 years. Climb the tall wooden observation tower for panoramic views over countless bog pools, and swim in Lake Mukri/Eidapere.", url: "https://rmk.ee/en/exploring-nature/where-to-go/mukri-nature-trail-2-5-km/", linkLabel: "Official trail details ↗" },
-      { provider: "RMK (State Forest Management Centre)", title: "Ingatsi Study Trail & Kuresoo Bog Slope", region: "Western Coast & Islands", location: "Soomaa National Park, Sandra village", cost: "Free public access", costGroup: "Free", category: "Self-guided nature trail", duration: "4.3 km circular", season: "Year-round (Fifth-Season high waters & swimming)", included: "Boardwalk climbing Europe's highest bog slope (8m peat wall), bog observation tower, swimming ladder at peat pools, 5 rest sites & firewood", desc: "Climb up the steep 8-meter peat wall of Kuresoo—the highest bog slope in Europe. The boardwalk meanders through flooded swamp forests directly to the top of Kuresoo bog massif with an observation tower and swimming ladders.", url: "https://rmk.ee/en/exploring-nature/where-to-go/ingatsi-study-trail-4-3-km/", linkLabel: "Official trail details ↗" },
-      { provider: "RMK (State Forest Management Centre)", title: "RMK Long-Distance Hiking Routes (Endurance Trekking)", region: "Various locations", location: "Estonia-wide (North to South & West to East)", cost: "Free public access", costGroup: "Free", category: "Long-distance trekking", duration: "370 km to 820 km (sectional or multi-week)", season: "Spring to Autumn (hiking & bikepacking); winter skiing", included: "Nationwide marked routes (Oandu–Aegviidu–Ikla 370 km, Peraküla–Ähijärve 812 km, Penijõe–Kauksi 613 km), free campfire sites, rental huts & hiker passport", desc: "A connected cross-country network spanning border-to-border and sea-to-sea. Explore Estonia completely on foot or by bike across national parks, equipped with hundreds of free RMK campfire sites and wilderness shelters.", url: "https://rmk.ee/en/exploring-nature/hiking-route/", linkLabel: "Explore RMK hiking routes ↗" },
-      { provider: "Mooska Farm", title: "UNESCO Smoke Sauna Experience at Mooska Farm", region: "Tartu & Southern Estonia", location: "Haanja uplands, Võru County", cost: "From €250 (private group session up to 8 people)", costGroup: "Paid", category: "Traditional smoke sauna", duration: "3–4 hours", season: "Year-round (ice pond dipping in winter)", included: "Certified sauna master guidance, birch whisks (viht), sauna honey, herbal tea, towel & dip in natural pond", desc: "Experience the UNESCO-inscribed intangible cultural heritage of Old Võromaa. An authentic 3-hour smoke sauna ritual led by local masters featuring rich wood aromas, gentle smoke-cured meat notes, birch whisking, and cold pond dips.", url: "https://visitestonia.com/en/sauna-session-in-a-traditional-old-voromaa-smoke-sauna-at-mooska", linkLabel: "Official booking ↗" },
-      { provider: "Angla Windmill Park", title: "Angla Heritage Culture Centre Craft Workshops", region: "Western Coast & Islands", location: "Angla village, Saaremaa", cost: "€8–€15/person (plus windmill park entry)", costGroup: "Paid", category: "Traditional craft workshop", duration: "1.5 hours", season: "Year-round (extended hours May–August)", included: "Master craftsman instruction, raw materials, finished handmade souvenir & access to historic windmill hill", desc: "Hands-on heritage masterclasses inside Saaremaa's iconic windmill park. Learn traditional island techniques under master artisans across 5 workshops: blacksmithing & jewellery, pottery sculpting, wool spinning, felt work, and rye bread baking.", url: "https://visitestonia.com/en/angla-heritage-culture-centre-workshops", linkLabel: "Official workshop details ↗" },
-      { provider: "Taevaskoja Matkad", title: "Guided Fatbike & E-Fatbike Tour in Taevaskoja", region: "Tartu & Southern Estonia", location: "Ahja River Valley, Taevaskoja", cost: "€25–€35/person (regular or e-fatbike)", costGroup: "Paid", category: "Fatbike & cycling", duration: "2–2.5 hours", season: "Year-round (forest trails in summer, frozen lake riding in winter)", included: "Quality fatbike / e-fatbike, cycling helmet, experienced trail guide & scenic stops with storytelling", desc: "Ride wide-tire fatbikes through the primeval Ahja River valley. Traverse undulating pine eskers, pass Suur Taevaskoda sandstone cliffs, Neitsikoobas Cave, and Kiidjärve watermill, riding forest singletracks and winter river ice.", url: "https://visitestonia.com/en/fatbike-tours-in-taevaskoda", linkLabel: "Official tour details ↗" },
-      { provider: "Wittenstein Activity Museum", title: "19th-Century Master Leatherworker Workshop", region: "Various locations", location: "Paide, Central Estonia (Järva County)", cost: "€12–€25/person (depending on crafted item)", costGroup: "Paid", category: "Maker workshop", duration: "1–1.5 hours", season: "Year-round (indoor historical workshop)", included: "Natural leather hides, specialized leatherworking tools, master artisan guidance & crafted leather souvenir to keep", desc: "Step back into a genuine 19th-century workshop in central Paide. Under the hands-on guidance of a master leather artisan, learn traditional leathercrafting, cutting, embossing, and stitching to create your own belt, card wallet, or bracelet.", url: "https://www.visitestonia.com/en/leatherworkers-workshop-at-the-wittenstein-activity-museum", linkLabel: "Official workshop details ↗" }
-    ];
     const activeTours = baseTours;
     const activityPhotos = {
       bike: {
@@ -1119,37 +2492,483 @@
     }
 
     const mappedLocations = [
-      { name: "Tallinn (city area)", lat: 59.4372420, lon: 24.7572693, approximate: true, titles: ["Bird Watching Tour Around Tallinn", "Tallinn History & Photography Tour with Film Camera"] },
-      { name: "Lahemaa National Park", lat: 59.5830010, lon: 26.0011770, approximate: true, titles: ["Lahemaa National Park Nature & Culture Day Tour"] },
-      { name: "Kõnnu Suursoo", lat: 59.4038133, lon: 25.7124492, approximate: true, titles: ["Bog Snowshoe Hike"] },
-      { name: "Koitjärve area", lat: 59.3677830, lon: 25.7403872, approximate: true, titles: ["Combined Snowshoe and SUP Tour", "Bog Snowshoe Hike", "Canoe and Snowshoe Trip in Põhja-Kõrvemaa"] },
-      { name: "Soodla Reservoir area", lat: 59.3870795, lon: 25.4804470, approximate: true, titles: ["Canoe and Snowshoe Trip in Põhja-Kõrvemaa"] },
-      { name: "Kaberneeme Harbour", lat: 59.5201783, lon: 25.2769515, approximate: false, titles: ["Seal & Seabird Watching Boat Safari"] },
-      { name: "Soomaa Holiday Village, Riisa", lat: 58.4666715, lon: 24.9870203, approximate: false, titles: ["Guided Canoe Trips", "Self-Guided Canoe Trips", "Canoe Rental in Soomaa Holiday Village", "Wilderness Day Trip", "Night Canoe Trip", "Multi-Day Canoe Camping Trips", "SUP Trips", "Bogshoeing", "Bogwalking", "Kick Bike Trips", "Kick Bike Rental", "Kickspark Trips", "Snowshoeing", "Mushrooming"] },
-      { name: "Riisa village, Soomaa (fifth-season tour area)", lat: 58.4607790, lon: 24.9756586, approximate: true, titles: ["Fifth-Season Canoe Trip in Soomaa"] },
-      { name: "Keila (canoe route start area)", lat: 59.3110918, lon: 24.4209070, approximate: true, titles: ["Canoeing on the Keila River"] },
-      { name: "Keila-Joa (canoe route finish area)", lat: 59.3955072, lon: 24.2992911, approximate: true, titles: ["Canoeing on the Keila River"] },
-      { name: "Simisalu Bridge, Jägala River (tour area)", lat: 59.1043323, lon: 25.5673699, approximate: true, titles: ["Canoe Trip and Bogshoe Hike in Seli Bog"] },
-      { name: "Seli Bog", lat: 59.0760895, lon: 25.5171727, approximate: true, titles: ["Canoe Trip and Bogshoe Hike in Seli Bog"] },
-      { name: "Riisa Study Trail, Soomaa National Park", lat: 58.488544, lon: 24.981708, approximate: false, titles: ["Riisa Study Trail"] },
-      { name: "Paasiku Dogs Manor", lat: 59.3504453, lon: 25.3019363, approximate: false, titles: ["Sledding with Siberian Huskies", "Hiking with Siberian Huskies", "Kicksledding / Kickbike Tour", "Photoshoot with Siberian Huskies", "Children’s Activity Packages", "Tour in Paasiku Dogs Manor", "Party in a Glamping Tent", "Romantic Glamping Picnic for Two"] },
-      { name: "Viru Bog Nature Trail", lat: 59.464375, lon: 25.638328, approximate: false, titles: ["Viru Bog Nature Trail"] },
-      { name: "Oandu Visitor Centre", lat: 59.565661, lon: 26.099849, approximate: false, titles: ["Oandu Old-Growth Forest Nature Trail"] },
-      { name: "Kakerdaja Nature Trail", lat: 59.18869, lon: 25.51021, approximate: false, titles: ["Kakerdaja Nature Trail"] },
-      { name: "Rannametsa–Tolkuse Nature Study Trail", lat: 58.13457, lon: 24.511862, approximate: false, titles: ["Rannametsa–Tolkuse Nature Study Trail"] },
-      { name: "Rõuge Ööbikuorg Visitor Centre", lat: 57.72783, lon: 26.9345, approximate: false, titles: ["Rõuge Primeval Valley Hiking Trail"] },
-      { name: "Kuressaare Castle", lat: 58.2469041, lon: 22.4795742, approximate: false, titles: ["Kuressaare Castle Museum"] },
-      { name: "Aavik’s House Museum, Kuressaare", lat: 58.2576675, lon: 22.4843145, approximate: false, titles: ["Aavik’s House Museum"] },
-      { name: "Mihkli Farm Museum, Viki", lat: 58.3499499, lon: 22.0804707, approximate: false, titles: ["Mihkli Farm Museum"] },
-      { name: "Pirita Adventure Park, Tallinn", lat: 59.4714838, lon: 24.8340656, approximate: false, titles: ["Pirita Adventure Park"] },
-      { name: "Koorvere, Ahja River route area", lat: 58.1273222, lon: 26.9605221, approximate: true, titles: ["Ahja River Canoe, Kayak or Raft Trip"] },
-      { name: "Leevi, Võhandu River route area", lat: 57.9399911, lon: 27.2189114, approximate: true, titles: ["Võhandu River Canoe, Kayak or Raft Trip"] },
-      { name: "Pärnu Bay (ice-fishing area)", lat: 58.3038788, lon: 24.3907185, approximate: true, titles: ["Ice Fishing Trip"] },
-      { name: "Lake Peipus (ice-fishing area)", lat: 58.4281515, lon: 27.4760543, approximate: true, titles: ["Ice Fishing Trip", "Guided Boat Fishing on Estonian Lakes and Rivers"] },
-      { name: "Võrtsjärv (fishing area)", lat: 58.2516118, lon: 26.0521868, approximate: true, titles: ["Guided Boat Fishing on Estonian Lakes and Rivers", "Fishing Team-Building Events"] },
-      { name: "Saadjärv (fishing area)", lat: 58.5408054, lon: 26.6528599, approximate: true, titles: ["Guided Boat Fishing on Estonian Lakes and Rivers"] },
-      { name: "Suur Emajõgi (fishing area)", lat: 58.4310568, lon: 26.6619043, approximate: true, titles: ["Guided Boat Fishing on Estonian Lakes and Rivers", "Fishing Team-Building Events"] }
-    ];
+      {
+            "name": "Tallinn (city & starting area)",
+            "lat": 59.437242,
+            "lon": 24.7572693,
+            "approximate": true,
+            "titles": [
+                  "Bird Watching Tour Around Tallinn",
+                  "Tallinn History & Photography Tour with Film Camera",
+                  "Nature Day Tour",
+                  "Nature Photography Tour",
+                  "Photography Tour",
+                  "Fishing Equipment Rental",
+                  "Guided Salmon Fishing",
+                  "Guided Sea Trout Fishing Trip",
+                  "Guided Sea Trout Fishing Trip for Two",
+                  "Guided Shore Angling",
+                  "Guided Fly Fishing",
+                  "Boat Fishing Trip",
+                  "Wild Catering"
+            ]
+      },
+      {
+            "name": "Pirita Adventure Park, Tallinn",
+            "lat": 59.4714838,
+            "lon": 24.8340656,
+            "approximate": false,
+            "titles": [
+                  "Pirita Adventure Park",
+                  "Adventure Park Group Visits and Events"
+            ]
+      },
+      {
+            "name": "Nõmme Adventure Park, Tallinn",
+            "lat": 59.388611,
+            "lon": 24.651944,
+            "approximate": false,
+            "titles": [
+                  "Nõmme Adventure Park",
+                  "Adventure Park Group Visits and Events"
+            ]
+      },
+      {
+            "name": "Lahemaa National Park",
+            "lat": 59.583001,
+            "lon": 26.001177,
+            "approximate": true,
+            "titles": [
+                  "Lahemaa National Park Nature & Culture Day Tour"
+            ]
+      },
+      {
+            "name": "RMK Sagadi Manor, Lahemaa",
+            "lat": 59.535556,
+            "lon": 26.0825,
+            "approximate": false,
+            "titles": [
+                  "Night Trip to the Old-Growth Forest",
+                  "Snowshoe Hike in Lahemaa",
+                  "Guided Nature Exploration in Lahemaa"
+            ]
+      },
+      {
+            "name": "Viru Bog Nature Trail, Lahemaa",
+            "lat": 59.464375,
+            "lon": 25.638328,
+            "approximate": false,
+            "titles": [
+                  "Viru Bog Nature Trail"
+            ]
+      },
+      {
+            "name": "Oandu Visitor Centre, Lahemaa",
+            "lat": 59.565661,
+            "lon": 26.099849,
+            "approximate": false,
+            "titles": [
+                  "Oandu Old-Growth Forest Nature Trail",
+                  "RMK Long-Distance Hiking Routes (Endurance Trekking)"
+            ]
+      },
+      {
+            "name": "Aegviidu Nature Centre (RMK Trail Crossroads)",
+            "lat": 59.286944,
+            "lon": 25.613056,
+            "approximate": false,
+            "titles": [
+                  "RMK Long-Distance Hiking Routes (Endurance Trekking)",
+                  "RMK Nature Trails and Outdoor Destinations"
+            ]
+      },
+      {
+            "name": "Sportland Kõrvemaa Hike & Ski Resort",
+            "lat": 59.301667,
+            "lon": 25.5675,
+            "approximate": false,
+            "titles": [
+                  "Electric FATbike Tour",
+                  "SUP Tour",
+                  "Bike Tour",
+                  "Sunrise or Sunset Hike",
+                  "Walking Hike",
+                  "Mushroom Foraging Tour",
+                  "Off-Road Touring Ski Adventure",
+                  "Winter Snowshoe Hike",
+                  "Kick-Sled Tour",
+                  "Ice Skating Tour on the Bog Lakes"
+            ]
+      },
+      {
+            "name": "Kõnnu Suursoo, Põhja-Kõrvemaa",
+            "lat": 59.4038133,
+            "lon": 25.7124492,
+            "approximate": true,
+            "titles": [
+                  "Bog Snowshoe Hike"
+            ]
+      },
+      {
+            "name": "Koitjärve Bog area, Põhja-Kõrvemaa",
+            "lat": 59.367783,
+            "lon": 25.7403872,
+            "approximate": true,
+            "titles": [
+                  "Combined Snowshoe and SUP Tour",
+                  "Bog Snowshoe Hike",
+                  "Canoe and Snowshoe Trip in Põhja-Kõrvemaa"
+            ]
+      },
+      {
+            "name": "Soodla Reservoir area, Põhja-Kõrvemaa",
+            "lat": 59.3870795,
+            "lon": 25.480447,
+            "approximate": true,
+            "titles": [
+                  "Canoe and Snowshoe Trip in Põhja-Kõrvemaa"
+            ]
+      },
+      {
+            "name": "Kakerdaja Nature Trail",
+            "lat": 59.18869,
+            "lon": 25.51021,
+            "approximate": false,
+            "titles": [
+                  "Kakerdaja Nature Trail"
+            ]
+      },
+      {
+            "name": "Simisalu Bridge, Jägala River (tour area)",
+            "lat": 59.1043323,
+            "lon": 25.5673699,
+            "approximate": true,
+            "titles": [
+                  "Canoe Trip and Bogshoe Hike in Seli Bog"
+            ]
+      },
+      {
+            "name": "Seli Bog, Kõrvemaa",
+            "lat": 59.0760895,
+            "lon": 25.5171727,
+            "approximate": true,
+            "titles": [
+                  "Canoe Trip and Bogshoe Hike in Seli Bog"
+            ]
+      },
+      {
+            "name": "Paasiku Dogs Manor",
+            "lat": 59.3504453,
+            "lon": 25.3019363,
+            "approximate": false,
+            "titles": [
+                  "Sledding with Siberian Huskies",
+                  "Hiking with Siberian Huskies",
+                  "Kicksledding / Kickbike Tour",
+                  "Photoshoot with Siberian Huskies",
+                  "Children’s Activity Packages",
+                  "Tour in Paasiku Dogs Manor",
+                  "Party in a Glamping Tent",
+                  "Romantic Glamping Picnic for Two"
+            ]
+      },
+      {
+            "name": "Kaberneeme Harbour & Kolga Bay (Malusi Islands)",
+            "lat": 59.5201783,
+            "lon": 25.2769515,
+            "approximate": false,
+            "titles": [
+                  "Seal & Seabird Watching Boat Safari",
+                  "Seal Watching Trip to the Malusi Islands",
+                  "Guided Sea Kayak Tours"
+            ]
+      },
+      {
+            "name": "Keila (canoe route start area)",
+            "lat": 59.3110918,
+            "lon": 24.420907,
+            "approximate": true,
+            "titles": [
+                  "Canoeing on the Keila River"
+            ]
+      },
+      {
+            "name": "Keila-Joa (canoe route finish area)",
+            "lat": 59.3955072,
+            "lon": 24.2992911,
+            "approximate": true,
+            "titles": [
+                  "Canoeing on the Keila River"
+            ]
+      },
+      {
+            "name": "Wittenstein Activity Museum, Paide",
+            "lat": 58.888611,
+            "lon": 25.570278,
+            "approximate": false,
+            "titles": [
+                  "19th-Century Master Leatherworker Workshop"
+            ]
+      },
+      {
+            "name": "Mukri Bog Nature Trail, Raplamaa",
+            "lat": 58.738889,
+            "lon": 25.025833,
+            "approximate": false,
+            "titles": [
+                  "Mukri Bog Nature Trail"
+            ]
+      },
+      {
+            "name": "Alutaguse Bear & Wildlife Hides, Ida-Virumaa",
+            "lat": 59.152222,
+            "lon": 27.185278,
+            "approximate": true,
+            "titles": [
+                  "Brown Bear Watching",
+                  "Bearwatching and Photography Comfort Hide",
+                  "Bearwatching and Photography Premium Hide",
+                  "Bearwatching from the Luxury Hide",
+                  "Flying Squirrel Tour",
+                  "Golden Eagle Photography Hide",
+                  "Golden and White-Tailed Eagle Photography in Winter Comfort Hide",
+                  "Snowshoe Tour on Wolf Tracks",
+                  "Estonian Birds and Mammals (Self-Guided)",
+                  "Tailor-Made Smart-Guided Nature Tour",
+                  "Brown Bears, Elks, Bird Migration and Ringed Seals in Estonia",
+                  "Lynx and Bear Tour (Scheduled)",
+                  "Lynx and the Flying Squirrel",
+                  "Lynx Tour (Scheduled)",
+                  "Lynx Tour (Private)",
+                  "Estonia Wildlife & Nature Tour"
+            ]
+      },
+      {
+            "name": "Matsalu National Park & Haapsalu Bay",
+            "lat": 58.758611,
+            "lon": 23.638333,
+            "approximate": true,
+            "titles": [
+                  "Matsalu Nature Boat Trip & Wetland Experience",
+                  "Wildlife Watching Tour",
+                  "Bird Watching Tour: North & West Estonia",
+                  "Spring Birding in Estonia",
+                  "Eurasian Lynx and Steller’s Eider",
+                  "Brown Bears, Elks, Bird Migration and Ringed Seals in Estonia"
+            ]
+      },
+      {
+            "name": "Soomaa Holiday Village, Riisa",
+            "lat": 58.4666715,
+            "lon": 24.9870203,
+            "approximate": false,
+            "titles": [
+                  "Guided Canoe Trips",
+                  "Self-Guided Canoe Trips",
+                  "Canoe Rental in Soomaa Holiday Village",
+                  "Wilderness Day Trip",
+                  "Night Canoe Trip",
+                  "Multi-Day Canoe Camping Trips",
+                  "SUP Trips",
+                  "Bogshoeing",
+                  "Bogwalking",
+                  "Kick Bike Trips",
+                  "Kick Bike Rental",
+                  "Kickspark Trips",
+                  "Kicksled Rental",
+                  "Snowshoeing",
+                  "Mushrooming"
+            ]
+      },
+      {
+            "name": "Riisa village, Soomaa (fifth-season tour area)",
+            "lat": 58.460779,
+            "lon": 24.9756586,
+            "approximate": true,
+            "titles": [
+                  "Fifth-Season Canoe Trip in Soomaa"
+            ]
+      },
+      {
+            "name": "Riisa Study Trail, Soomaa National Park",
+            "lat": 58.488544,
+            "lon": 24.981708,
+            "approximate": false,
+            "titles": [
+                  "Riisa Study Trail"
+            ]
+      },
+      {
+            "name": "Ingatsi Study Trail & Kuresoo Bog, Soomaa",
+            "lat": 58.474167,
+            "lon": 25.091944,
+            "approximate": false,
+            "titles": [
+                  "Ingatsi Study Trail & Kuresoo Bog Slope"
+            ]
+      },
+      {
+            "name": "Rannametsa–Tolkuse Nature Study Trail, Pärnumaa",
+            "lat": 58.13457,
+            "lon": 24.511862,
+            "approximate": false,
+            "titles": [
+                  "Rannametsa–Tolkuse Nature Study Trail"
+            ]
+      },
+      {
+            "name": "Pärnu Bay (ice-fishing area)",
+            "lat": 58.3038788,
+            "lon": 24.3907185,
+            "approximate": true,
+            "titles": [
+                  "Ice Fishing Trip"
+            ]
+      },
+      {
+            "name": "Angla Windmill Park & Heritage Centre, Saaremaa",
+            "lat": 58.525556,
+            "lon": 22.700833,
+            "approximate": false,
+            "titles": [
+                  "Angla Heritage Culture Centre Craft Workshops"
+            ]
+      },
+      {
+            "name": "Kuressaare Castle, Saaremaa",
+            "lat": 58.2469041,
+            "lon": 22.4795742,
+            "approximate": false,
+            "titles": [
+                  "Kuressaare Castle Museum"
+            ]
+      },
+      {
+            "name": "Aavik’s House Museum, Kuressaare",
+            "lat": 58.2576675,
+            "lon": 22.4843145,
+            "approximate": false,
+            "titles": [
+                  "Aavik’s House Museum"
+            ]
+      },
+      {
+            "name": "Mihkli Farm Museum, Viki (Saaremaa)",
+            "lat": 58.3499499,
+            "lon": 22.0804707,
+            "approximate": false,
+            "titles": [
+                  "Mihkli Farm Museum"
+            ]
+      },
+      {
+            "name": "Harilaid Peninsula & Tagamõisa, Saaremaa",
+            "lat": 58.481389,
+            "lon": 21.856944,
+            "approximate": true,
+            "titles": [
+                  "Steller’s Eider Weekend – Smart-Guided Tour",
+                  "Steller’s Eider Tour",
+                  "Eurasian Lynx and Steller’s Eider"
+            ]
+      },
+      {
+            "name": "Taevaskoja Sandstone Cliffs & Otteni Trail, Põlvamaa",
+            "lat": 58.111667,
+            "lon": 27.046667,
+            "approximate": false,
+            "titles": [
+                  "Taevaskoja-Otteni Hiking Trail",
+                  "Guided Fatbike & E-Fatbike Tour in Taevaskoja"
+            ]
+      },
+      {
+            "name": "Koorvere, Ahja River route area",
+            "lat": 58.1273222,
+            "lon": 26.9605221,
+            "approximate": true,
+            "titles": [
+                  "Ahja River Canoe, Kayak or Raft Trip"
+            ]
+      },
+      {
+            "name": "Meenikunno Bog Hiking Trail, Põlvamaa",
+            "lat": 57.939722,
+            "lon": 27.321111,
+            "approximate": false,
+            "titles": [
+                  "Meenikunno Bog Hiking Trail"
+            ]
+      },
+      {
+            "name": "Leevi, Võhandu River route area",
+            "lat": 57.9399911,
+            "lon": 27.2189114,
+            "approximate": true,
+            "titles": [
+                  "Võhandu River Canoe, Kayak or Raft Trip"
+            ]
+      },
+      {
+            "name": "Mooska Smoke Sauna Farm, Haanja (Võrumaa)",
+            "lat": 57.721944,
+            "lon": 27.042778,
+            "approximate": false,
+            "titles": [
+                  "UNESCO Smoke Sauna Experience at Mooska Farm"
+            ]
+      },
+      {
+            "name": "Rõuge Ööbikuorg Visitor Centre, Võrumaa",
+            "lat": 57.72783,
+            "lon": 26.9345,
+            "approximate": false,
+            "titles": [
+                  "Rõuge Primeval Valley Hiking Trail"
+            ]
+      },
+      {
+            "name": "Vooremaa & Saadjärv Lakes (fishing area)",
+            "lat": 58.5408054,
+            "lon": 26.6528599,
+            "approximate": true,
+            "titles": [
+                  "Guided Boat Fishing on Estonian Lakes and Rivers",
+                  "Guided Ice Fishing in Vooremaa",
+                  "Crayfishing in Estonia"
+            ]
+      },
+      {
+            "name": "Lake Peipus (ice-fishing & boating area)",
+            "lat": 58.4281515,
+            "lon": 27.4760543,
+            "approximate": true,
+            "titles": [
+                  "Ice Fishing Trip",
+                  "Guided Boat Fishing on Estonian Lakes and Rivers"
+            ]
+      },
+      {
+            "name": "Võrtsjärv (fishing area)",
+            "lat": 58.2516118,
+            "lon": 26.0521868,
+            "approximate": true,
+            "titles": [
+                  "Guided Boat Fishing on Estonian Lakes and Rivers",
+                  "Fishing Team-Building Events"
+            ]
+      },
+      {
+            "name": "Suur Emajõgi River (fishing area)",
+            "lat": 58.4310568,
+            "lon": 26.6619043,
+            "approximate": true,
+            "titles": [
+                  "Guided Boat Fishing on Estonian Lakes and Rivers",
+                  "Fishing Team-Building Events"
+            ]
+      }
+];
     let activityMap;
     let activityMarkerLayer;
 
@@ -1193,11 +3012,42 @@
       locations.forEach(location => {
         const listItems = location.activities.map(item => {
           const index = activeTours.indexOf(item);
-          return `<li><a href="#activity-${index}">${item.title}</a></li>`;
+          const costTag = item.cost ? `<span class="map-popup-cost">(${item.cost})</span>` : '';
+          return `<li><a href="#activity-${index}">${item.title}</a>${costTag}</li>`;
         }).join('');
         const approximateLabel = location.approximate ? ' <span>(approximate area)</span>' : '';
         const popup = `<div class="map-popup-title">${location.name}${approximateLabel}</div><ul class="map-popup-list">${listItems}</ul>`;
-        L.marker([location.lat, location.lon]).bindPopup(popup).addTo(activityMarkerLayer);
+
+        const count = location.activities.length;
+        const previewTitles = location.activities.slice(0, 3).map(item => `• ${item.title}`).join('<br>');
+        const moreText = count > 3 ? `<br><em>+${count - 3} more…</em>` : '';
+        const tooltipHtml = `
+          <div class="map-tooltip-name">${location.name}</div>
+          <div class="map-tooltip-count">${count} ${count === 1 ? 'activity' : 'activities'} here</div>
+          <div class="map-tooltip-preview">${previewTitles}${moreText}</div>
+          <div class="map-tooltip-hint">Click pin for clickable links & prices</div>
+        `;
+
+        const marker = L.marker([location.lat, location.lon])
+          .bindPopup(popup)
+          .bindTooltip(tooltipHtml, {
+            direction: 'top',
+            offset: [0, -14],
+            className: 'map-hover-tooltip',
+            opacity: 0.97
+          });
+
+        marker.on('mouseover', function () {
+          if (!this.isPopupOpen()) {
+            this.openTooltip();
+          }
+        });
+        marker.on('click', function () {
+          this.closeTooltip();
+          this.openPopup();
+        });
+
+        marker.addTo(activityMarkerLayer);
       });
       if (locations.length) {
         activityMap.fitBounds(L.latLngBounds(locations.map(location => [location.lat, location.lon])).pad(0.12), { maxZoom: 8 });
